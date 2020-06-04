@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/manager/manager.iml" filepath="$PROJECT_DIR$/manager/manager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/manager/manager-controller/manager-controller.iml" filepath="$PROJECT_DIR$/manager/manager-controller/manager-controller.iml" />
+      <module fileurl="file://$PROJECT_DIR$/manager/manager-dao/manager-dao.iml" filepath="$PROJECT_DIR$/manager/manager-dao/manager-dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/manager/manager-service/manager-service.iml" filepath="$PROJECT_DIR$/manager/manager-service/manager-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/petApp.iml" filepath="$PROJECT_DIR$/petApp.iml" />
+    </modules>
+  </component>
+</project>
