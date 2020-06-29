@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6dac8919-6508-43f6-8212-e278cb76002e" name="Default" comment="" />
+    <list default="true" id="6dac8919-6508-43f6-8212-e278cb76002e" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="$PROJECT_DIR$/manager/target/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/common/target/" />
@@ -19,7 +21,18 @@
     <option name="MAKE_PROJECT_ON_SAVE" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
+      <file leaf-file-name="ConfigurationFilter.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/manager/manager-controller/src/main/java/com/example/managercontroller/config/ConfigurationFilter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="296">
+              <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -99,13 +112,13 @@
         <option value="$PROJECT_DIR$/manager/manager-service/src/main/java/com/example/managerService/wechat/impl/WxServiceImpl.java" />
         <option value="$PROJECT_DIR$/manager/manager-controller/pom.xml" />
         <option value="$PROJECT_DIR$/manager/manager-controller/src/main/java/com/example/managercontroller/user/PUserController.java" />
-        <option value="$PROJECT_DIR$/manager/manager-controller/src/main/java/com/example/managercontroller/config/ConfigurationFilter.java" />
         <option value="$PROJECT_DIR$/manager/manager-controller/src/main/resources/application.properties" />
         <option value="$PROJECT_DIR$/common/src/main/java/com/example/common/generation/CodeGenerator.java" />
         <option value="$PROJECT_DIR$/manager/manager-service/src/main/java/com/example/managerService/user/impl/IAccountInfoService.java" />
         <option value="$PROJECT_DIR$/manager/manager-service/src/main/java/com/example/managerService/user/IAccountInfoService.java" />
         <option value="$PROJECT_DIR$/manager/manager-service/src/main/java/com/example/managerService/user/impl/AccountInfoServiceImpl.java" />
         <option value="$PROJECT_DIR$/manager/manager-controller/src/main/java/com/example/managercontroller/user/AccountInfoController.java" />
+        <option value="$PROJECT_DIR$/manager/manager-controller/src/main/java/com/example/managercontroller/config/ConfigurationFilter.java" />
       </list>
     </option>
   </component>
@@ -147,6 +160,92 @@
             <path>
               <item name="exemptionManager" type="b2602c69:ProjectViewProjectNode" />
               <item name="exemptionManager" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="exemptionManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="exemptionManager" type="462c0819:PsiDirectoryNode" />
+              <item name="manager" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="exemptionManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="exemptionManager" type="462c0819:PsiDirectoryNode" />
+              <item name="manager" type="462c0819:PsiDirectoryNode" />
+              <item name="manager-controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="exemptionManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="exemptionManager" type="462c0819:PsiDirectoryNode" />
+              <item name="manager" type="462c0819:PsiDirectoryNode" />
+              <item name="manager-controller" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="exemptionManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="exemptionManager" type="462c0819:PsiDirectoryNode" />
+              <item name="manager" type="462c0819:PsiDirectoryNode" />
+              <item name="manager-controller" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="exemptionManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="exemptionManager" type="462c0819:PsiDirectoryNode" />
+              <item name="manager" type="462c0819:PsiDirectoryNode" />
+              <item name="manager-controller" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="exemptionManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="exemptionManager" type="462c0819:PsiDirectoryNode" />
+              <item name="manager" type="462c0819:PsiDirectoryNode" />
+              <item name="manager-controller" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="managercontroller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="exemptionManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="exemptionManager" type="462c0819:PsiDirectoryNode" />
+              <item name="manager" type="462c0819:PsiDirectoryNode" />
+              <item name="manager-controller" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="managercontroller" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="exemptionManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="exemptionManager" type="462c0819:PsiDirectoryNode" />
+              <item name="manager" type="462c0819:PsiDirectoryNode" />
+              <item name="manager-dao" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="exemptionManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="exemptionManager" type="462c0819:PsiDirectoryNode" />
+              <item name="manager" type="462c0819:PsiDirectoryNode" />
+              <item name="manager-dao" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="exemptionManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="exemptionManager" type="462c0819:PsiDirectoryNode" />
+              <item name="manager" type="462c0819:PsiDirectoryNode" />
+              <item name="manager-dao" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="exemptionManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="exemptionManager" type="462c0819:PsiDirectoryNode" />
+              <item name="manager" type="462c0819:PsiDirectoryNode" />
+              <item name="manager-dao" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -381,7 +480,7 @@
       <workItem from="1591235480723" duration="5516000" />
       <workItem from="1593395086748" duration="173000" />
       <workItem from="1593395476916" duration="907000" />
-      <workItem from="1593396413177" duration="12636000" />
+      <workItem from="1593396413177" duration="13744000" />
     </task>
     <task id="LOCAL-00001" summary="初始化代码">
       <created>1591239490799</created>
@@ -397,7 +496,14 @@
       <option name="project" value="LOCAL" />
       <updated>1593420461709</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="初始化代码">
+      <created>1593423945607</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1593423945607</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -433,7 +539,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="127211000" />
+    <option name="totallyTimeSpent" value="128319000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1098" extended-state="6" />
@@ -787,16 +893,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/manager/manager-controller/src/main/java/com/example/managercontroller/config/ConfigurationFilter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="17" column="9" lean-forward="false" selection-start-line="17" selection-start-column="9" selection-end-line="17" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/manager/manager-dao/src/main/java/com/example/managerDao/user/mapper/PUserMapper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="301">
@@ -949,6 +1045,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="222">
           <caret line="69" column="0" lean-forward="true" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manager/manager-controller/src/main/java/com/example/managercontroller/config/ConfigurationFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
           <folding />
         </state>
       </provider>
