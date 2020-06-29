@@ -23,7 +23,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("宠物api文档")
+                .title("免呗api文档")
                 .description("接口文档")
                 .termsOfServiceUrl("http://blog.csdn.net/saytime")
                 .version("1.0")

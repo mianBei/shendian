@@ -15,11 +15,11 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="common" target="1.8" />
+      <module name="exemptionManager" target="1.8" />
       <module name="manager" target="1.8" />
       <module name="manager-controller" target="1.8" />
       <module name="manager-dao" target="1.8" />
       <module name="manager-service" target="1.8" />
-      <module name="petApp" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

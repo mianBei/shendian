@@ -6,7 +6,7 @@
 	<packaging>war</packaging>
 	<parent>
 		<groupId>com.example</groupId>
-		<artifactId>petApp</artifactId>
+		<artifactId>exemptionManager</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 	<name>manager-controller</name>
@@ -17,6 +17,12 @@
 	</properties>
 
 	<dependencies>
+		<!-- actuator监控器 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>com.example</groupId>
 			<artifactId>manager-service</artifactId>
