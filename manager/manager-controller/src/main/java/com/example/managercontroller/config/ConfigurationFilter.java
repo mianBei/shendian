@@ -17,7 +17,7 @@ import java.util.HashMap;
 public class ConfigurationFilter {
     @Bean
     public FilterRegistrationBean filterRegistration(){
-
+        //zenmhuishi
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setFilter(new AppFilter());
         //拦截规则
