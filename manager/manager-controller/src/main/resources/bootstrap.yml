@@ -1,0 +1,9 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: service
+  cloud:
+    config:
+      profile: client
+      uri: http://localhost:8008/
