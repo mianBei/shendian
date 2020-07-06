@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.common.bean.Constants;
 import com.example.common.util.JSONUtils;
 import com.example.common.wxutil.CommonUtil;
+import com.example.managerDao.user.entity.AccountInfo;
+import com.example.managerDao.user.mapper.AccountInfoMapper;
 import com.example.managerDao.wxUser.entity.OpenIdKey;
 import com.example.managerDao.wxUser.entity.PlatformAppConfig;
 import com.example.managerDao.wxUser.entity.PlatformBasicInfo;
@@ -34,6 +36,8 @@ public class PlatformAppConfigServiceImpl extends ServiceImpl<PlatformAppConfigM
     PlatformBasicInfoMapper platformBasicInfoMapper;
     @Autowired
     OpenIdKeyMapper openIdKeyMapper;
+    @Autowired
+    AccountInfoMapper accountInfoMapper;
     /**
      * 微信授权
      * 获取appid和appSecret
@@ -59,38 +63,50 @@ public class PlatformAppConfigServiceImpl extends ServiceImpl<PlatformAppConfigM
         CommonUtil.getSessionKey(map);
 
         HashMap<String,Object> resultMap = new HashMap<>();
+
+        String isUser = verificationUser(map);
+        PlatformBasicInfo platformBasicInfo = platformBasicInfoMapper.selectOne(new LambdaQueryWrapper<PlatformBasicInfo>()
+                .eq(PlatformBasicInfo::getPlatformId,platformAppConfig.getPlatformId())
+        );
+        resultMap.put("isUser",isUser);
+        resultMap.put("openid",map.get("openid"));
+        resultMap.put("platformName",platformBasicInfo.getPlatformName());
+        resultMap.put("platformLogo",platformBasicInfo.getPlatformLogo());
+        resultMap.put("platformTel",platformBasicInfo.getPlatformTel());
+        return resultMap;
+    }
+
+    /**
+     * 验证信息
+     */
+    public String verificationUser(HashMap<String,Object> map){
         String openid = map.get("openid").toString();
         //判断openID是否有用户存在,没有则添加
         OpenIdKey openIdKey = openIdKeyMapper.selectOne(new LambdaQueryWrapper<OpenIdKey>()
                 .eq(OpenIdKey::getOpenId,openid)
         );
         OpenIdKey openIdKey1 = new OpenIdKey();
+        String isUser = Constants.userYes;
+        String session_key = map.get("session_key").toString();
         if (openIdKey==null){
             openIdKey1.setOpenId(openid);
             openIdKey1.setAppType(Constants.APPTYPE);
+            openIdKey1.setSessionKey(session_key);
             openIdKeyMapper.insert(openIdKey1);
-            resultMap.put("isUser",Constants.userNo);
+            isUser=Constants.userNo;
         }
         //如果userId等于空那么更新openIdKey里面的sessionKey
         String userId = openIdKey.getUserId();
-        if (userId!=null&&userId!=""){
+        if (userId==null&&userId==""){
             openIdKey1=new OpenIdKey();
-            openIdKey1.setSessionKey("");
+            openIdKey1.setSessionKey(session_key);
             openIdKeyMapper.update(openIdKey1,new LambdaQueryWrapper<OpenIdKey>()
                     .eq(OpenIdKey::getAppType,Constants.APPTYPE)
                     .eq(OpenIdKey::getOpenId,openid)
             );
-            resultMap.put("isUser",Constants.userYes);
+            isUser=Constants.userNo;
         }
 
-        PlatformBasicInfo platformBasicInfo = platformBasicInfoMapper.selectOne(new LambdaQueryWrapper<PlatformBasicInfo>()
-                .eq(PlatformBasicInfo::getPlatformId,platformAppConfig.getPlatformId())
-        );
-
-        resultMap.put("openid",openid);
-        resultMap.put("platformName",platformBasicInfo.getPlatformName());
-        resultMap.put("platformLogo",platformBasicInfo.getPlatformLogo());
-        resultMap.put("platformTel",platformBasicInfo.getPlatformTel());
-        return resultMap;
+        return isUser;
     }
 }
