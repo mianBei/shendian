@@ -16,5 +16,6 @@
 		<module>manager-controller</module>
 		<module>manager-dao</module>
 		<module>manager-api</module>
+		<module>config</module>
 	</modules>
 </project>

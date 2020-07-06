@@ -79,8 +79,21 @@ public class CommonUtil {
 		}
 		return null;
 	}
-	
 
+	public static void getSessionKey(HashMap<String,Object> map){
+		String access_token = WxConfig.MINI_OATH_URL+ map.get("appId")+"&secret="+ map.get("appSecret")+"&js_code="+ map.get("code")+"&grant_type=authorization_code";
+		String result = CommonUtil.httpsRequest(access_token,"GET",null);
+		JSONObject jsonObject = JSONObject.fromObject(result);
+		String session_key = jsonObject.get("session_key").toString();
+		String openid = (String) jsonObject.get("openid");
+		map.put("openid",openid);
+		map.put("session_key",session_key);
+		if (jsonObject.containsKey("unionid")){
+			if (jsonObject.get("unionid")!=null){
+				map.put("union_id",jsonObject.getString("unionid"));
+			}
+		}
+	}
 	
 	public static String urlEncodeUTF8(String source){
 		String result = source;

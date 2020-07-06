@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CodeGenerator {
-    private final static String DATABASE="mianbei";
+    private final static String DATABASE="exemption";
     private final static String USERNAME="root";
-    private final static String PASSWORD="songyiwei520";
+    private final static String PASSWORD="mianbei*999";
 
     private final static String MODULAR="com.example.managerDao";
     /**
@@ -55,7 +55,7 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://localhost:3306/"+DATABASE+"?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT");
+        dsc.setUrl("jdbc:mysql://119.45.43.151:3306/"+DATABASE+"?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername(USERNAME);

@@ -6,13 +6,13 @@ public class WxConfig {
 	/**
 	 * 服务号相关信息
 	 */
-	public final static String APP_ID="wx9902715a98592b8b";//
-	public final static String APP_SECRET = "162a928bf280dbf71e41fb5a66f1c66d";//公众号SECRET密码
-	 public final static String APP_MINI_ID = "wx5d9a25d1c74a8181";//小程序APP_ID
+	public final static String APP_ID="";//
+	public final static String APP_SECRET = "";//公众号SECRET密码
+	 public final static String APP_MINI_ID = "";//小程序APP_ID
 
-	 public final static String APP_MINI_SECRET = "5fdf1aa6f04e531efae835406ce7bf76";//小程序SECRET密码
+	 public final static String APP_MINI_SECRET = "";//小程序SECRET密码
 
-	 public final static String MCH_ID = "1574435861";//商户号
+	 public final static String MCH_ID = "";//商户号
 
 	 public final static String SIGN_TYPE = "MD5";//签名加密方式
 
