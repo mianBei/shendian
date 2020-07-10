@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.common.bean.Constants;
 import com.example.common.util.JSONUtils;
 import com.example.common.wxutil.CommonUtil;
-import com.example.managerDao.user.entity.AccountInfo;
-import com.example.managerDao.user.mapper.AccountInfoMapper;
 import com.example.managerDao.wxUser.entity.OpenIdKey;
 import com.example.managerDao.wxUser.entity.PlatformAppConfig;
 import com.example.managerDao.wxUser.entity.PlatformBasicInfo;
@@ -36,8 +34,6 @@ public class PlatformAppConfigServiceImpl extends ServiceImpl<PlatformAppConfigM
     PlatformBasicInfoMapper platformBasicInfoMapper;
     @Autowired
     OpenIdKeyMapper openIdKeyMapper;
-    @Autowired
-    AccountInfoMapper accountInfoMapper;
     /**
      * 微信授权
      * 获取appid和appSecret
@@ -86,14 +82,14 @@ public class PlatformAppConfigServiceImpl extends ServiceImpl<PlatformAppConfigM
                 .eq(OpenIdKey::getOpenId,openid)
         );
         OpenIdKey openIdKey1 = new OpenIdKey();
-        String isUser = Constants.userYes;
+        String isUser = Constants.USERYES;
         String session_key = map.get("session_key").toString();
         if (openIdKey==null){
             openIdKey1.setOpenId(openid);
             openIdKey1.setAppType(Constants.APPTYPE);
             openIdKey1.setSessionKey(session_key);
             openIdKeyMapper.insert(openIdKey1);
-            isUser=Constants.userNo;
+            isUser=Constants.USERNO;
         }
         //如果userId等于空那么更新openIdKey里面的sessionKey
         String userId = openIdKey.getUserId();
@@ -104,7 +100,7 @@ public class PlatformAppConfigServiceImpl extends ServiceImpl<PlatformAppConfigM
                     .eq(OpenIdKey::getAppType,Constants.APPTYPE)
                     .eq(OpenIdKey::getOpenId,openid)
             );
-            isUser=Constants.userNo;
+            isUser=Constants.USERNO;
         }
 
         return isUser;
