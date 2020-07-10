@@ -1,23 +1,13 @@
 package com.example.managerapi.controller;
-
-import com.example.managerDao.user.entity.AccountInfo;
-import com.example.managerService.user.IAccountInfoService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/test")
@@ -44,10 +34,10 @@ public class testController {
 
     }
 /*    @RequestMapping("/getUser")
-    @Cacheable(value="user-key")
+    @Cacheable(value="platformUser-key")
     public User getUser() {
-        User user=new User("aa@126.com", "aa", "aa123456", "aa","123");
+        User platformUser=new User("aa@126.com", "aa", "aa123456", "aa","123");
         System.out.println("若下面没出现“无缓存的时候调用”字样且能打印出数据表示测试成功");
-        return user;
+        return platformUser;
     }*/
 }
