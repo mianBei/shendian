@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="/common/baseFile :: commonHeader('免呗后台管理系统')">
+</head>
+<style type="text/css">
+    .head-nav {
+        margin-bottom: 0;
+        height: 70px;
+        line-height: 70px;
+        background-color: #2f4050;
+    }
+
+    .navbar .nav-left {
+        margin-left: 40px;
+    }
+
+    .navbar .nav-left img {
+        width: 152px;
+        height: 40px;
+    }
+
+    .navbar .nav-left span {
+        margin-left: 5px;
+        color: #FFF;
+        font-family: Trebuchet, Arial, sans-serif;
+        font-weight: bold;
+        font-size: 24px;
+        font-style: italic;
+    }
+
+    .navbar .nav-right {
+        margin-right: 20px;
+        color: #FFF;
+    }
+
+    .navbar .nav-right span {
+        margin-right: 5px;
+    }
+
+    .navbar .nav-right span a {
+        color: #FFF;
+    }
+
+    .navbar .nav-right span a:hover {
+        color: #F1A417;
+    }
+</style>
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+<nav class="navbar navbar-static-top head-nav" role="navigation" style="">
+    <div class="nav-left" style="float:left;height: 70px;">
+        <span>免呗后台管理系统</span>
+    </div>
+    <div class="nav-right" style="float:right">
+        <span id="merchantUserName">操作人：<span th:text="${userSession.platformRole.roleName }"></span></span>
+        <span>|</span>
+        <span><a th:href="@{/loginOut.htm}"><i class="fa fa fa-sign-out"></i> 退出</a></span>
+    </div>
+</nav>
+<div id="wrapper">
+    <!--左侧导航开始-->
+    <nav class="navbar-default navbar-static-side" role="navigation" style="height:90%">
+        <div class="nav-close"><i class="fa fa-times-circle"></i>
+        </div>
+        <div class="sidebar-collapse">
+            <ul class="nav" id="side-menu">
+
+                <li th:each="rule,iterStat :${ruleList}" th:if="${rule.children==null || #strings.length(rule.children)==0 }">
+                    <a class="J_menuItem" th:href="${rule.url }">
+                        <i class="fa" th:classappend="${rule.className }?${rule.className }"></i>
+                        <span class="nav-label" th:text="${rule.name }"></span>
+                    </a>
+                </li>
+
+                <li th:each="rule,iterStat :${ruleList}" th:if="${rule.children!=null && #strings.length(rule.children)>0 }">
+                    <a href="#">
+                        <i class="fa" th:classappend="${rule.className }?${rule.className }"></i>
+                        <span class="nav-label" th:text="${rule.name }"></span>
+                        <span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level" >
+                        <li th:each="item,iterStat2:${rule.children}" th:if="${item.children!=null && #strings.length(item.children)>0 }">
+                            <a href="#" th:text="${item.name }"><span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level" th:each="thirdItem,iterStat3:${item.children}">
+                                <li><a class="J_menuItem" th:href="${thirdItem.url}" th:text="${thirdItem.name}"></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li th:each="item,iterStat2:${rule.children}" th:if="${item.children==null || #strings.length(item.children)==0 }">
+                            <a th:if="${item.parameter!=null&&item.parameter!=''}" class="J_menuItem"
+                               th:href="${item.url}?${item.parameter}&r_id=${item.id}" th:text="${item.name }"></a>
+                            <a th:unless="${item.parameter!=null&&item.parameter!=''}" class="J_menuItem"
+                               th:href="${item.url}?r_id=${item.id}" th:text="${item.name }"></a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!--左侧导航结束-->
+    <!--右侧部分开始-->
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row content-tabs">
+            <button class="roll-nav roll-left J_tabLeft"><i class="fa fa-backward"></i>
+            </button>
+            <nav class="page-tabs J_menuTabs">
+                <div class="page-tabs-content">
+                    <a href="javascript:;" class="active J_menuTab"
+                       data-id="${pageContext.request.contextPath}/shouye.htm">首页</a>
+                </div>
+            </nav>
+            <button class="roll-nav roll-right J_tabRight" style="right:78px;"><i class="fa fa-forward"></i>
+            </button>
+            <div class="btn-group roll-nav roll-right" style="right: 3px;">
+                <button class="dropdown J_tabClose" data-toggle="dropdown">关闭操作<span class="caret"></span></button>
+                <ul role="menu" class="dropdown-menu dropdown-menu-right">
+                    <li class="J_tabShowActive"><a>定位当前选项卡</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li class="J_tabCloseAll"><a>关闭全部选项卡</a>
+                    </li>
+                    <li class="J_tabCloseOther"><a>关闭其他选项卡</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row J_mainContent" id="content-main">
+            <iframe class="J_iframe" name="iframe0" width="100%" height="100%"
+                    th:src="@{/shouye.htm}" frameborder="0"
+                    data-id="${pageContext.request.contextPath}/shouye.htm" seamless></iframe>
+        </div>
+    </div>
+    <!--右侧部分结束-->
+</div>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/js/plugins/layer/layer.min.js}"></script>
+
+<!-- 自定义js -->
+<script th:src="@{/js/hplus.js?v=4.1.0}"></script>
+
+<!-- 第三方插件 -->
+<script th:src="@{/js/plugins/pace/pace.min.js}"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common/baseFile :: commonHeader('免呗-登录')">
+</head>
+<script>
+    if (window.top !== window.self) {
+        window.top.location = window.location;
+    }
+</script>
+<style type="text/css">
+    .div-code{
+        position: relative;
+    }
+    .obj{
+        color:black !important;
+    }
+</style>
+<body class="signin">
+    <div class="signinpanel">
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="signin-info">
+                    <div class="logopanel m-b">
+                        <h1 style="font-style:italic">家政系统<br>后台管理</h1>
+                    </div>
+                    <div class="m-b"></div>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <form id="loginForm">
+                    <h4 class="no-margins">登录：</h4>
+                    <input type="text" id="code" class="form-control obj" placeholder="请输入账号"/>
+                    <div class="div-code">
+                        <input type="text" id="password" class="form-control obj" placeholder="请输入登录密码"/>
+                    </div>
+
+                    <button type="button" onclick="doLogin();" class="btn btn-success btn-block">登录</button>
+                </form>
+            </div>
+        </div>
+        <div class="signup-footer">
+            <div class="pull-left">
+                &copy; All Rights Reserved
+            </div>
+        </div>
+    </div>
+	<script type="text/javascript">
+		 
+		 function doLogin(){
+			 var code=$("#code").val();
+			 var password=$("#password").val();
+			 if(code==""){
+                 layer.alert("<span style='color:black'>请输入账号！<span>", {icon: 4});
+                 return;
+             }
+             if(password==""){
+                 layer.alert("<span style='color:black'>请输入登录密码！<span>", {icon: 4});
+                 return;
+             }
+             $.post(baseurl+"doLogin.htm",{code:code,password:password},function(res){
+                 if(res.status==1){
+                     location.href=baseurl+"main.htm";
+                 }else{
+                     layer.alert("<span style='color:black'>手机号或密码错误！<span>", {icon: 5});
+                     return false;
+                 }
+             });
+		 }
+	</script>
+</body>
+
+</html>

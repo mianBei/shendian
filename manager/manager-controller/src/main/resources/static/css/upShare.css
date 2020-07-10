@@ -1,0 +1,46 @@
+.button-div{
+    width:100%;
+    background-color:#e0e0e0;
+    margin-top:10px;
+    text-align:center;
+    padding:15px 0px;
+}
+.main-div{
+    text-align:center;
+    font-size:13px;
+    overflow:hidden;
+}
+.main-div div{
+    margin-top:10px;
+}
+.button-div{
+    position: absolute;
+    bottom:0;
+}
+label{
+    display: inline-block;
+    min-width: 100px;
+}
+/*全屏显示大图*/
+.opacityBottom{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background:rgba(0,0,0,0.8);
+    z-index:1000;
+    top: 0;
+    left: 0
+}
+.none-scroll{
+    overflow: hidden;
+    height: 80%;
+}
+.bigImg{
+    width:80%;
+    height: 80%;
+    left:10%;
+    top:10%;
+    position:fixed;
+    z-index: 10001;
+
+}
