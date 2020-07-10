@@ -1,0 +1,11 @@
+path=location.href;
+pathname=location.pathname;
+baseurl=path.substring(0,path.indexOf(pathname))+"/";
+pet_type="pet_type";//宠物种类
+state=1;//查询未删除的数据
+complaint_type="complaint_type";//投诉类别
+postion="postion";//来源
+appointment_type="type";//预约类型
+examine="examine";//审核状态
+plan="plan";//预约状态
+indications="indications";//科室类型
