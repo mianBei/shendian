@@ -33,7 +33,7 @@ public class WxConfig {
 	 //公众号授权接口(GET)
 	 public final static String OAUTH2_URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=";
 	 //公众号获取union_id
-	public final static String UNION_ID_URL = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=";
+	public final static String UNION_ID_URL = "https://api.weixin.qq.com/cgi-bin/platformUser/info?access_token=";
 	 //小程序授权接口
 	public final static String MINI_OATH_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=";
 	 //刷新access_token接口（GET）

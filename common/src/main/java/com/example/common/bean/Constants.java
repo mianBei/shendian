@@ -51,6 +51,19 @@ public interface Constants {
      *  0没有
      *  1有
      */
-    String userNo="0";
-    String userYes="1";
+    String USERNO="0";
+    String USERYES="1";
+
+    /**
+     * 主菜单为0
+     */
+    String ISMUNE = "0";
+
+    String NAME="_name";
+    String URL="_url";
+
+    /**
+     * 菜单主要类
+     */
+    String PARENTID = "0";
 }
