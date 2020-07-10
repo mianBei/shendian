@@ -1,50 +1,89 @@
 package com.example.managercontroller.config;
 
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.example.common.bean.Constants;
+import com.example.managerDao.user.entity.PlatformAccount;
+import com.example.managerDao.user.entity.PlatformRules;
+import com.example.managerDao.user.entity.PlatformUserRole;
+import com.example.managerDao.user.mapper.*;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class Realm extends AuthorizingRealm {
+    @Autowired
+    PlatformAccountMapper platformAccountMapper;
+    @Autowired
+    PlatformRoleRulesMapper platformRoleRulesMapper;
     @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        System.out.println("权限配置-->MyShiroRealm.doGetAuthorizationInfo()");
-        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        /*UserInfo userInfo  = (UserInfo)principals.getPrimaryPrincipal();
-        for(SysRole role:userInfo.getRoleList()){
-            authorizationInfo.addRole(role.getRole());
-            for(SysPermission p:role.getPermissions()){
-                authorizationInfo.addStringPermission(p.getPermission());
-            }
-        }*/
-        return authorizationInfo;
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String userCode = (String) principals.getPrimaryPrincipal();
+        PlatformAccount platformAccount = platformAccountMapper.selectOne(new LambdaQueryWrapper<PlatformAccount>()
+            .eq(PlatformAccount::getPlatformAccountCode,userCode)
+        );
+        HashMap<String,Object> userMap = new HashMap<>();
+        // 根据身份信息获取权限信息
+        List<String> permissions = new ArrayList<>();
+        userMap.put("parentId",request.getParameter("parentId"));
+        userMap.put("isMenu",Constants.ISMUNE);
+        userMap.put("roleId",platformAccount.getRoleId());
+        List<HashMap<String,String>> roleRuleList = platformRoleRulesMapper.getRoleRulesList(userMap);
+        HashMap<String,Object> resultMap = new HashMap<>();
+        for (HashMap<String,String> permissionMap:roleRuleList) {
+            String function_name = permissionMap.get("functionName");
+            permissions.add(userCode+":"+function_name);// 用户的创建
+            distinguishData(permissionMap,resultMap);
+        }
+        // 查到权限数据，返回授权信息(要包括 上边的permissions)
+        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+        // 将上边查询到授权信息填充到simpleAuthorizationInfo对象中
+        simpleAuthorizationInfo.addStringPermissions(permissions);
+        request.setAttribute("rule",roleRuleList);
+        request.setAttribute("permissionMap",resultMap);
+        return simpleAuthorizationInfo;
+    }
+    /**
+     * 区分数据库中的链接
+     */
+    public HashMap<String,Object> distinguishData(HashMap<String,String> map,HashMap<String,Object> resultMap){
+
+        String function_name = map.get("functionName");
+        String name = map.get("name");
+        String url = map.get("url");
+        resultMap.put(function_name+Constants.NAME,name);
+        resultMap.put(function_name+Constants.URL,url);
+        return resultMap;
     }
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         System.out.println("MyShiroRealm.doGetAuthenticationInfo()");
-        //获取用户的输入的账号.
-        /*String username = (String)token.getPrincipal();
-        System.out.println(token.getCredentials());
-        //通过username从数据库中查找 User对象，如果找到，没找到.
-        //实际项目中，这里可以根据实际情况做缓存，如果不做，Shiro自己也是有时间间隔机制，2分钟内不会重复执行该方法
-        UserInfo userInfo = userInfoService.findByUsername(username);
-        System.out.println("----->>userInfo="+userInfo);
-        if(userInfo == null){
-            return null;
+        String username = (String)token.getPrincipal();
+        PlatformAccount platformAccount = platformAccountMapper.selectOne(new LambdaQueryWrapper<PlatformAccount>()
+            .eq(PlatformAccount::getPlatformAccountCode,username)
+        );
+        if(platformAccount == null){
+            throw new UnknownAccountException("用户不存在");
         }
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                userInfo, //用户名
-                userInfo.getPassword(), //密码
-                ByteSource.Util.bytes(userInfo.getCredentialsSalt()),//salt=username+salt
-                getName()  //realm name
-        );*/
-        //return authenticationInfo;
-        return null;
+            SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
+                    username, //用户名
+                    platformAccount.getPlatformAccountPassword(), //密码
+                    ByteSource.Util.bytes(username),//salt=username+salt
+                    getName()  //realm name
+            );
+
+        return authenticationInfo;
     }
 }
