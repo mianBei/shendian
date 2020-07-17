@@ -342,7 +342,7 @@
 		 */
 		strings			: false,
 		/**
-		 * determines what happens when a platformUser tries to modify the structure of the tree
+		 * determines what happens when a jurisdiction tries to modify the structure of the tree
 		 * If left as `false` all operations like create, rename, delete, move or copy are prevented.
 		 * You can set this to `true` to allow all interactions or use a function to have better control.
 		 *
@@ -423,7 +423,7 @@
 			responsive		: false
 		},
 		/**
-		 * if left as `true` all parents of all selected nodes will be opened once the tree loads (so that all selected nodes are visible to the platformUser)
+		 * if left as `true` all parents of all selected nodes will be opened once the tree loads (so that all selected nodes are visible to the jurisdiction)
 		 * @name $.jstree.defaults.core.expand_selected_onload
 		 */
 		expand_selected_onload : true,
@@ -2941,7 +2941,7 @@
 			return ids;
 		},
 		/**
-		 * called when a node is selected by the platformUser. Used internally.
+		 * called when a node is selected by the jurisdiction. Used internally.
 		 * @private
 		 * @name activate_node(obj, e)
 		 * @param {mixed} obj the node
@@ -3005,7 +3005,7 @@
 				}
 			}
 			/**
-			 * triggered when an node is clicked or intercated with by the platformUser
+			 * triggered when an node is clicked or intercated with by the jurisdiction
 			 * @event
 			 * @name activate_node.jstree
 			 * @param {Object} node
@@ -3014,7 +3014,7 @@
 			this.trigger('activate_node', { 'node' : this.get_node(obj), 'event' : e });
 		},
 		/**
-		 * applies the hover state on a node, called when a node is hovered by the platformUser. Used internally.
+		 * applies the hover state on a node, called when a node is hovered by the jurisdiction. Used internally.
 		 * @private
 		 * @name hover_node(obj)
 		 * @param {mixed} obj
@@ -3039,7 +3039,7 @@
 			setTimeout(function () { t.attr('aria-activedescendant', obj[0].id); }, 0);
 		},
 		/**
-		 * removes the hover state from a nodecalled when a node is no longer hovered by the platformUser. Used internally.
+		 * removes the hover state from a nodecalled when a node is no longer hovered by the jurisdiction. Used internally.
 		 * @private
 		 * @name dehover_node(obj)
 		 * @param {mixed} obj
@@ -4269,7 +4269,7 @@
 		 * @name edit(obj [, default_text, callback])
 		 * @param  {mixed} obj
 		 * @param  {String} default_text the text to populate the input with (if omitted or set to a non-string value the node's text value is used)
-		 * @param  {Function} callback a function to be called once the text box is blurred, it is called in the instance's scope and receives the node, a status parameter (true if the rename is successful, false otherwise) and a boolean indicating if the platformUser cancelled the edit. You can access the node's title using .text
+		 * @param  {Function} callback a function to be called once the text box is blurred, it is called in the instance's scope and receives the node, a status parameter (true if the rename is successful, false otherwise) and a boolean indicating if the jurisdiction cancelled the edit. You can access the node's title using .text
 		 */
 		edit : function (obj, default_text, callback) {
 			var rtl, w, a, s, t, h1, h2, fn, tmp, cancel = false;
@@ -5505,7 +5505,7 @@
 /**
  * ### Conditionalselect plugin
  *
- * This plugin allows defining a callback to allow or deny node selection by platformUser input (activate node method).
+ * This plugin allows defining a callback to allow or deny node selection by jurisdiction input (activate node method).
  */
 
 	/**
@@ -6170,7 +6170,7 @@
 		 */
 		is_draggable : true,
 		/**
-		 * a boolean indicating if checks should constantly be made while the platformUser is dragging the node (as opposed to checking only on drop), default is `true`
+		 * a boolean indicating if checks should constantly be made while the jurisdiction is dragging the node (as opposed to checking only on drop), default is `true`
 		 * @name $.jstree.defaults.dnd.check_while_dragging
 		 * @plugin dnd
 		 */
@@ -6200,7 +6200,7 @@
 		 */
 		touch : true,
 		/**
-		 * controls whether items can be dropped anywhere on the node, not just on the anchor, by default only the node anchor is a valid drop target. Works best with the wholerow plugin. If enabled on mobile depending on the interface it might be hard for the platformUser to cancel the drop, since the whole tree container will be a valid drop target.
+		 * controls whether items can be dropped anywhere on the node, not just on the anchor, by default only the node anchor is a valid drop target. Works best with the wholerow plugin. If enabled on mobile depending on the interface it might be hard for the jurisdiction to cancel the drop, since the whole tree container will be a valid drop target.
 		 * @name $.jstree.defaults.dnd.large_drop_target
 		 * @plugin dnd
 		 */
@@ -7237,7 +7237,7 @@
 /**
  * ### State plugin
  *
- * Saves the state of the tree (selected nodes, opened nodes) on the platformUser's computer using available options (localStorage, cookies, etc)
+ * Saves the state of the tree (selected nodes, opened nodes) on the jurisdiction's computer using available options (localStorage, cookies, etc)
  */
 
 	var to = false;
@@ -7304,7 +7304,7 @@
 			$.vakata.storage.set(this.settings.state.key, JSON.stringify(st));
 		};
 		/**
-		 * restore the state from the platformUser's computer
+		 * restore the state from the jurisdiction's computer
 		 * @name restore_state()
 		 * @plugin state
 		 */
@@ -7322,7 +7322,7 @@
 			return false;
 		};
 		/**
-		 * clear the state on the platformUser's computer
+		 * clear the state on the jurisdiction's computer
 		 * @name clear_state()
 		 * @plugin state
 		 */

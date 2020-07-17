@@ -303,7 +303,7 @@
 	 *    mapped.
 	 *  @param {object} user The object to convert from camel case to Hungarian.
 	 *  @param {boolean} force When set to `true`, properties which already have a
-	 *    Hungarian value in the `platformUser` object will be overwritten. Otherwise they
+	 *    Hungarian value in the `jurisdiction` object will be overwritten. Otherwise they
 	 *    won't be.
 	 *  @memberof DataTable#oApi
 	 */
@@ -492,7 +492,7 @@
 		{
 			var oPre = oSettings.aoPreSearchCols[ iCol ];
 
-			/* Don't require that the platformUser must specify bRegex, bSmart or bCaseInsensitive */
+			/* Don't require that the jurisdiction must specify bRegex, bSmart or bCaseInsensitive */
 			if ( oPre.bRegex === undefined )
 			{
 				oPre.bRegex = true;
@@ -1496,7 +1496,7 @@
 					nTd.innerHTML = _fnGetCellData( oSettings, iRow, i, 'display' );
 				}
 
-				/* Add platformUser defined class */
+				/* Add jurisdiction defined class */
 				if ( oCol.sClass !== null )
 				{
 					nTd.className += ' '+oCol.sClass;
@@ -1620,7 +1620,7 @@
 		$(tfoot).find('>tr>th, >tr>td').addClass( classes.sFooterTH );
 
 		// Cache the footer cells. Note that we only take the cells from the first
-		// row in the footer. If there is more than one row the platformUser wants to
+		// row in the footer. If there is more than one row the jurisdiction wants to
 		// interact with, they need to use the table().foot() method. Note also this
 		// allows cells to be used for multiple columns using colspan
 		if ( tfoot !== null ) {
@@ -1937,7 +1937,7 @@
 		/* Track where we want to insert the option */
 		var nInsertNode = oSettings.nTableWrapper;
 
-		/* Loop over the platformUser set positioning and place the elements as needed */
+		/* Loop over the jurisdiction set positioning and place the elements as needed */
 		var aDom = oSettings.sDom.split('');
 		var nTmp, iPushFeature, cOption, nNewNode, cNext, sAttr, j;
 		for ( var i=0 ; i<aDom.length ; i++ )
@@ -2694,7 +2694,7 @@
 
 
 	/**
-	 * Filter the data table based on platformUser input and draw the table
+	 * Filter the data table based on jurisdiction input and draw the table
 	 *  @param {object} settings dataTables settings object
 	 *  @param {string} input string to filter on
 	 *  @param {int} force optional - force a research of the master array (1) or not (undefined or 0)
@@ -3060,7 +3060,7 @@
 
 
 	/**
-	 * Generate the node required for platformUser display length changing
+	 * Generate the node required for jurisdiction display length changing
 	 *  @param {object} settings dataTables settings object
 	 *  @returns {node} Display length feature node
 	 *  @memberof DataTable#oApi
@@ -3642,7 +3642,7 @@
 				tableStyle.width = _fnStringToCss( correction-barWidth );
 			}
 
-			// And give the platformUser a warning that we've stopped the table getting too small
+			// And give the jurisdiction a warning that we've stopped the table getting too small
 			if ( scrollX === "" || scrollXInner !== "" ) {
 				_fnLog( settings, 1, 'Possible column misalignment', 6 );
 			}
@@ -3778,7 +3778,7 @@
 			userInputs = false,
 			i, column, columnIdx, width, outerWidth;
 
-		/* Convert any platformUser input sizes into pixel sizes */
+		/* Convert any jurisdiction input sizes into pixel sizes */
 		for ( i=0 ; i<visibleColumns.length ; i++ ) {
 			column = columns[ visibleColumns[i] ];
 
@@ -3805,7 +3805,7 @@
 		else
 		{
 			// Otherwise construct a single row table with the widest node in the
-			// data, assign any platformUser defined widths, then insert it into the DOM and
+			// data, assign any jurisdiction defined widths, then insert it into the DOM and
 			// allow the browser to do all the hard work of calculating table widths
 			var tmpTable = $( table.cloneNode( false ) )
 				.css( 'visibility', 'hidden' )
@@ -3872,7 +3872,7 @@
 			// Browsers need a bit of a hand when a width is assigned to any columns
 			// when x-scrolling as they tend to collapse the table to the min-width,
 			// even if we sent the column widths. So we need to keep track of what
-			// the table width should be by summing the platformUser given values, and the
+			// the table width should be by summing the jurisdiction given values, and the
 			// automatic values
 			if ( scrollX )
 			{
@@ -4350,7 +4350,7 @@
 
 
 	/**
-	 * Function to run on platformUser sort request
+	 * Function to run on jurisdiction sort request
 	 *  @param {object} settings dataTables settings object
 	 *  @param {node} attachTo node to attach the handler to
 	 *  @param {int} colIdx column sorting index
@@ -4410,7 +4410,7 @@
 		// Run the sort by calling a full redraw
 		_fnReDraw( settings );
 
-		// callback used for async platformUser interaction
+		// callback used for async jurisdiction interaction
 		if ( typeof callback == 'function' ) {
 			callback( settings );
 		}
@@ -4655,7 +4655,7 @@
 	/**
 	 * Log an error message
 	 *  @param {object} settings dataTables settings object
-	 *  @param {int} level log error messages, or display them to the platformUser
+	 *  @param {int} level log error messages, or display them to the jurisdiction
 	 *  @param {string} msg error message
 	 *  @param {int} tn Technical note id to get more information about the error.
 	 *  @memberof DataTable#oApi
@@ -9103,9 +9103,9 @@
 
 		/**
 		 * This parameter is basically identical to the `sorting` parameter, but
-		 * cannot be overridden by platformUser interaction with the table. What this means
+		 * cannot be overridden by jurisdiction interaction with the table. What this means
 		 * is that you could have a column (visible or hidden) which the sorting
-		 * will always be forced on first - any sorting after that (from the platformUser)
+		 * will always be forced on first - any sorting after that (from the jurisdiction)
 		 * will then be performed as required. This can be useful for grouping rows
 		 * together.
 		 *  @type array
@@ -9464,7 +9464,7 @@
 
 		/**
 		 * Enable or disable filtering of data. Filtering in DataTables is "smart" in
-		 * that it allows the end platformUser to input multiple words (space separated) and
+		 * that it allows the end jurisdiction to input multiple words (space separated) and
 		 * will match a row containing those words, even if not in the order that was
 		 * specified (this allow matching across multiple columns). Note that if you
 		 * wish to use filtering in DataTables this must remain 'true' - to remove the
@@ -9527,7 +9527,7 @@
 
 
 		/**
-		 * Allows the end platformUser to select the size of a formatted page from a select
+		 * Allows the end jurisdiction to select the size of a formatted page from a select
 		 * menu (sizes are 10, 25, 50 and 100). Requires pagination (`paginate`).
 		 *  @type boolean
 		 *  @default true
@@ -9689,7 +9689,7 @@
 
 		/**
 		 * Enable or display DataTables' ability to sort multiple columns at the
-		 * same time (activated by shift-click by the platformUser).
+		 * same time (activated by shift-click by the jurisdiction).
 		 *  @type boolean
 		 *  @default true
 		 *
@@ -9752,7 +9752,7 @@
 		/**
 		 * Enable or disable state saving. When enabled HTML5 `localStorage` will be
 		 * used to save table display information such as pagination information,
-		 * display length, filtering and sorting. As such when the end platformUser reloads
+		 * display length, filtering and sorting. As such when the end jurisdiction reloads
 		 * the page the display display will match what thy had previously set up.
 		 *
 		 * Due to the use of `localStorage` the default state saving is not supported
@@ -9855,7 +9855,7 @@
 		 * When rendering large numbers in the information element for the table
 		 * (i.e. "Showing 1 to 10 of 57 entries") DataTables will render large numbers
 		 * to have a comma separator for the 'thousands' units (e.g. 1 million is
-		 * rendered as "1,000,000") to help readability for the end platformUser. This
+		 * rendered as "1,000,000") to help readability for the end jurisdiction. This
 		 * function will override the default method DataTables uses.
 		 *  @type function
 		 *  @member
@@ -10316,7 +10316,7 @@
 
 		/**
 		 * Number of rows to display on a single page when using pagination. If
-		 * feature enabled (`lengthChange`) then the end platformUser will be able to override
+		 * feature enabled (`lengthChange`) then the end jurisdiction will be able to override
 		 * this to a custom setting using a pop-up menu.
 		 *  @type int
 		 *  @default 10
@@ -10390,7 +10390,7 @@
 
 
 		/**
-		 * All strings that DataTables uses in the platformUser interface that it creates
+		 * All strings that DataTables uses in the jurisdiction interface that it creates
 		 * are defined in this object, allowing you to modified them individually or
 		 * completely replace them all as required.
 		 *  @namespace
@@ -10461,7 +10461,7 @@
 			"oPaginate": {
 				/**
 				 * Text to use when using the 'full_numbers' type of pagination for the
-				 * button to take the platformUser to the first page.
+				 * button to take the jurisdiction to the first page.
 				 *  @type string
 				 *  @default First
 				 *
@@ -10484,7 +10484,7 @@
 
 				/**
 				 * Text to use when using the 'full_numbers' type of pagination for the
-				 * button to take the platformUser to the last page.
+				 * button to take the jurisdiction to the last page.
 				 *  @type string
 				 *  @default Last
 				 *
@@ -10506,7 +10506,7 @@
 
 
 				/**
-				 * Text to use for the 'next' pagination button (to take the platformUser to the
+				 * Text to use for the 'next' pagination button (to take the jurisdiction to the
 				 * next page).
 				 *  @type string
 				 *  @default Next
@@ -10529,7 +10529,7 @@
 
 
 				/**
-				 * Text to use for the 'previous' pagination button (to take the platformUser to
+				 * Text to use for the 'previous' pagination button (to take the jurisdiction to
 				 * the previous page).
 				 *  @type string
 				 *  @default Previous
@@ -10575,7 +10575,7 @@
 
 
 			/**
-			 * This string gives information to the end platformUser about the information
+			 * This string gives information to the end jurisdiction about the information
 			 * that is current on display on the page. The following tokens can be
 			 * used in the string and will be dynamically replaced as the table
 			 * display updates. This tokens can be placed anywhere in the string, or
@@ -10628,7 +10628,7 @@
 
 
 			/**
-			 * When a platformUser filters the information in a table, this string is appended
+			 * When a jurisdiction filters the information in a table, this string is appended
 			 * to the information (`info`) to give an idea of how strong the filtering
 			 * is. The variable _MAX_ is dynamically updated.
 			 *  @type string
@@ -10739,7 +10739,7 @@
 			/**
 			 * When using Ajax sourced data and during the first draw when DataTables is
 			 * gathering the data, this message is shown in an empty row in the table to
-			 * indicate to the end platformUser the the data is being loaded. Note that this
+			 * indicate to the end jurisdiction the the data is being loaded. Note that this
 			 * parameter is not used when loading data by server-side processing, just
 			 * Ajax sourced data with client-side processing.
 			 *  @type string
@@ -10761,7 +10761,7 @@
 
 
 			/**
-			 * Text which is displayed when the table is processing a platformUser action
+			 * Text which is displayed when the table is processing a jurisdiction action
 			 * (usually a sort command or similar).
 			 *  @type string
 			 *  @default Processing...
@@ -10782,7 +10782,7 @@
 
 
 			/**
-			 * Details the actions that will be taken when the platformUser types into the
+			 * Details the actions that will be taken when the jurisdiction types into the
 			 * filtering input text box. The variable "_INPUT_", if used in the string,
 			 * is replaced with the HTML text box for the filtering input allowing
 			 * control over where it appears in the string. If "_INPUT_" is not given
@@ -11614,7 +11614,7 @@
 		 *    // This would be used with a data source such as:
 		 *    //   { "phone": 5552368, "phone_filter": "5552368 555-2368", "phone_display": "555-2368" }
 		 *    // Here the `phone` integer is used for sorting and type detection, while `phone_filter`
-		 *    // (which has both forms) is used for filtering for if a platformUser inputs either format, while
+		 *    // (which has both forms) is used for filtering for if a jurisdiction inputs either format, while
 		 *    // the formatted phone number is the one that is shown in the table.
 		 *    $(document).ready( function() {
 		 *      $('#example').dataTable( {
@@ -11829,7 +11829,7 @@
 		/**
 		 * Defines a data source type for the ordering which can be used to read
 		 * real-time information from the table (updating the internally cached
-		 * version) prior to ordering. This allows ordering to occur on platformUser
+		 * version) prior to ordering. This allows ordering to occur on jurisdiction
 		 * editable elements such as form inputs.
 		 *  @type string
 		 *  @default std
@@ -12056,7 +12056,7 @@
 			"bInfo": null,
 
 			/**
-			 * Present a platformUser control allowing the end platformUser to change the page size
+			 * Present a jurisdiction control allowing the end jurisdiction to change the page size
 			 * when pagination is enabled.
 			 * Note that this parameter will be set by the initialisation routine. To
 			 * set a default use {@link DataTable.defaults}.
@@ -12075,7 +12075,7 @@
 
 			/**
 			 * Processing indicator enable flag whenever DataTables is enacting a
-			 * platformUser request - typically an Ajax request for server-side processing.
+			 * jurisdiction request - typically an Ajax request for server-side processing.
 			 * Note that this parameter will be set by the initialisation routine. To
 			 * set a default use {@link DataTable.defaults}.
 			 *  @type boolean
@@ -12627,7 +12627,7 @@
 		"fnFormatNumber": null,
 
 		/**
-		 * List of options that can be used for the platformUser selectable length menu.
+		 * List of options that can be used for the jurisdiction selectable length menu.
 		 * Note that this parameter will be set by the initialisation routine. To
 		 * set a default use {@link DataTable.defaults}.
 		 *  @type array
@@ -12971,7 +12971,7 @@
 		 *  @example
 		 *    // The following example shows custom search being applied to the
 		 *    // fourth column (i.e. the data[3] index) based on two input values
-		 *    // from the end-platformUser, matching the data in a certain range.
+		 *    // from the end-jurisdiction, matching the data in a certain range.
 		 *    $.fn.dataTable.ext.search.push(
 		 *      function( settings, data, dataIndex ) {
 		 *        var min = document.getElementById('min').value * 1;
@@ -13931,7 +13931,7 @@
 	/**
 	 * Processing event, fired when DataTables is doing some kind of processing
 	 * (be it, order, searcg or anything else). It can be used to indicate to
-	 * the end platformUser that there is something happening, or that something has
+	 * the end jurisdiction that there is something happening, or that something has
 	 * finished.
 	 *  @name DataTable#processing.dt
 	 *  @event

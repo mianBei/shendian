@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="/common/baseFile :: commonHeader('')"></head>
+<body class="bg-gray"  style="height:296px;overflow:hidden;" >
+<input type="hidden" id="platformId" th:value="${basicInfo.platformId }">
+<div class="bg-white main-div" valign="top">
+    <div>
+        <label>平台名称：</label>
+        <input type="text" id="name" name="name" class="normal-input" th:value="${basicInfo.name }"/>
+    </div>
+    <div>
+        <label>平台LOGO：</label>
+        <input type="text" id="logo" name="logo" class="normal-input" th:value="${basicInfo.logo }"/>
+    </div>
+    <div>
+        <label>平台联系电话：</label>
+        <input type="text" id="tel" name="tel" class="normal-input" th:value="${basicInfo.tel }"/>
+    </div>
+    <div>
+        <label>平台收益百分比：</label>
+        <input type="text" id="earningsPercent" name="earningsPercent" class="normal-input" th:value="${basicInfo.earningsPercent }"/>
+    </div>
+    <div>
+        <label>验证码位数：</label>
+        <input id="verificationCode" type="text" name="verificationCode" class="normal-input" th:value="${basicInfo.verificationCode }"/>
+    </div>
+        <label>验证码有效期：</label>
+        <input id="verificationCodeTime" type="text" name="verificationCodeTime" class="normal-input" th:value="${basicInfo.verificationCodeTime }"/>
+    <div>
+        <label>商户提现百分比：</label>
+        <input id="shopWithdrawBatio" type="text" name="shopWithdrawBatio" class="normal-input" th:value="${basicInfo.shopWithdrawBatio }"/>
+    </div>
+    <div>
+        <label>手续费百分比：</label>
+        <input id="wxAppWithdrawBatio" type="text" name="wxAppWithdrawBatio" class="normal-input" th:value="${basicInfo.wxAppWithdrawBatio }"/>
+    </div>
+    <div>
+        <label>代理提现百分比：</label>
+        <input id="agentWithdrawBatio" type="text" name="agentWithdrawBatio" class="normal-input" th:value="${basicInfo.agentWithdrawBatio }"/>
+    </div>
+</div>
+<div class="button-div">
+    <button onclick="saveData();" class="btn btn-info">保存</button>
+    <button onclick="cancelSave();" style="margin-left:10px;" class="btn btn-default">取消</button>
+</div>
+<script type="text/javascript">
+    function cancelSave(){
+        parent.cancelSave();
+    }
+    function saveData(){
+        var param={
+            platformId:$("#platformId").val(),
+            name:$("#name").val(),
+            url:$("#url").val(),
+            parentId:$("#parentId").val(),
+            isMenu:$("#isMenu").val(),
+            orderValue:$("#orderValue").val(),
+            className:$("#className").val(),
+            parameter:$("#parameter").val(),
+            functionName:$("#functionName").val()
+        };
+        if (param["name"]== "") {
+            layer.tips('请输入权限名称', '#name');
+            return false;
+        }
+        if (param["url"]== "") {
+            layer.tips('请输入权限链接', '#url');
+            return false;
+        }
+        if (param["parentId"]== "") {
+            layer.tips('请输入父类地址', '#parentId');
+            return false;
+        }
+        if (param["isMenu"]== "") {
+            layer.tips('请选择菜单属性', '#isMenu');
+            return false;
+        }
+        if (param["orderValue"]== "") {
+            layer.tips('请输入排序', '#orderValue');
+            return false;
+        }
+        $.post(baseurl+"rule/upRule.htm",param,function(data){
+            parent.saveCallBack(data);
+        });
+    }
+</script>
+</body>
+</html>

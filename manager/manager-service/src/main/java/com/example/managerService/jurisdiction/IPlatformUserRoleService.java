@@ -1,4 +1,4 @@
-package com.example.managerService.platformUser;
+package com.example.managerService.jurisdiction;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.managerDao.user.entity.PlatformUserRole;

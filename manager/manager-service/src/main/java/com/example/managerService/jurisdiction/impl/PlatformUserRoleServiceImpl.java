@@ -1,9 +1,9 @@
-package com.example.managerService.platformUser.impl;
+package com.example.managerService.jurisdiction.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.managerDao.user.entity.PlatformUserRole;
 import com.example.managerDao.user.mapper.PlatformUserRoleMapper;
-import com.example.managerService.platformUser.IPlatformUserRoleService;
+import com.example.managerService.jurisdiction.IPlatformUserRoleService;
 import org.springframework.stereotype.Service;
 
 /**

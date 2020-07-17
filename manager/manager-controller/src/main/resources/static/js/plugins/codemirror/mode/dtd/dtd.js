@@ -36,7 +36,7 @@ CodeMirror.defineMode("dtd", function(config) {
     } else if (ch == "#" && stream.eatWhile(/[\w]/)) return ret("atom", "tag");
     else if (ch == "|") return ret("keyword", "seperator");
     else if (ch.match(/[\(\)\[\]\-\.,\+\?>]/)) return ret(null, ch);//if(ch === ">") return ret(null, "endtag"); else
-    else if (ch.match(/[\[\]]/)) return ret("rule", ch);
+    else if (ch.match(/[\[\]]/)) return ret("jurisdiction", ch);
     else if (ch == "\"" || ch == "'") {
       state.tokenize = tokenString(ch);
       return state.tokenize(stream, state);
@@ -102,9 +102,9 @@ CodeMirror.defineMode("dtd", function(config) {
       var style = state.tokenize(stream, state);
 
       var context = state.stack[state.stack.length-1];
-      if (stream.current() == "[" || type === "doindent" || type == "[") state.stack.push("rule");
+      if (stream.current() == "[" || type === "doindent" || type == "[") state.stack.push("jurisdiction");
       else if (type === "endtag") state.stack[state.stack.length-1] = "endtag";
-      else if (stream.current() == "]" || type == "]" || (type == ">" && context == "rule")) state.stack.pop();
+      else if (stream.current() == "]" || type == "]" || (type == ">" && context == "jurisdiction")) state.stack.pop();
       else if (type == "[") state.stack.push("[");
       return style;
     },
@@ -119,14 +119,14 @@ CodeMirror.defineMode("dtd", function(config) {
         else if( type == "doindent")n--;
         else if( type == ">" && textAfter.length > 1)n;
         else if( type == "tag" && textAfter !== ">")n;
-        else if( type == "tag" && state.stack[state.stack.length-1] == "rule")n--;
+        else if( type == "tag" && state.stack[state.stack.length-1] == "jurisdiction")n--;
         else if( type == "tag")n++;
-        else if( textAfter === ">" && state.stack[state.stack.length-1] == "rule" && type === ">")n--;
-        else if( textAfter === ">" && state.stack[state.stack.length-1] == "rule")n;
+        else if( textAfter === ">" && state.stack[state.stack.length-1] == "jurisdiction" && type === ">")n--;
+        else if( textAfter === ">" && state.stack[state.stack.length-1] == "jurisdiction")n;
         else if( textAfter.substr(0,1) !== "<" && textAfter.substr(0,1) === ">" )n=n-1;
         else if( textAfter === ">")n;
         else n=n-1;
-        //over rule them all
+        //over jurisdiction them all
         if(type == null || type == "]")n--;
       }
 

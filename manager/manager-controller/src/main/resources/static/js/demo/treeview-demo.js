@@ -171,7 +171,7 @@ $(function () {
         color: "#428bca",
         expandIcon: "glyphicon glyphicon-stop",
         collapseIcon: "glyphicon glyphicon-unchecked",
-        nodeIcon: "glyphicon glyphicon-platformUser",
+        nodeIcon: "glyphicon glyphicon-jurisdiction",
         showTags: true,
         data: defaultData
     });
@@ -185,7 +185,7 @@ $(function () {
     $('#treeview8').treeview({
         expandIcon: "glyphicon glyphicon-stop",
         collapseIcon: "glyphicon glyphicon-unchecked",
-        nodeIcon: "glyphicon glyphicon-platformUser",
+        nodeIcon: "glyphicon glyphicon-jurisdiction",
         color: "yellow",
         backColor: "purple",
         onhoverColor: "orange",
@@ -201,7 +201,7 @@ $(function () {
     $('#treeview9').treeview({
         expandIcon: "glyphicon glyphicon-stop",
         collapseIcon: "glyphicon glyphicon-unchecked",
-        nodeIcon: "glyphicon glyphicon-platformUser",
+        nodeIcon: "glyphicon glyphicon-jurisdiction",
         color: "yellow",
         backColor: "purple",
         onhoverColor: "orange",

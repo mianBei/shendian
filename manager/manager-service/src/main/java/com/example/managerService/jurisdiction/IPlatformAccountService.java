@@ -1,7 +1,9 @@
-package com.example.managerService.platformUser;
+package com.example.managerService.jurisdiction;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.managerDao.user.entity.PlatformAccount;
+
+import java.util.HashMap;
 
 /**
  * <p>
@@ -18,4 +20,11 @@ public interface IPlatformAccountService extends IService<PlatformAccount> {
      * @return
      */
     PlatformAccount getAccountByCode(String code);
+
+    /**
+     * 用户列表
+     * @param map
+     * @return
+     */
+    HashMap<String,Object> getAccountList(HashMap<String,Object> map);
 }

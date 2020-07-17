@@ -1,11 +1,11 @@
-package com.example.managercontroller.user;
+package com.example.managercontroller.login;
 
 import com.example.common.util.StringUtils;
 import com.example.managerDao.user.entity.PlatformAccount;
 import com.example.managerDao.user.entity.PlatformRole;
-import com.example.managerService.platformUser.IPlatformAccountService;
-import com.example.managerService.platformUser.IPlatformRoleRulesService;
-import com.example.managerService.platformUser.IPlatformRoleService;
+import com.example.managerService.jurisdiction.IPlatformAccountService;
+import com.example.managerService.jurisdiction.IPlatformRoleRuleService;
+import com.example.managerService.jurisdiction.IPlatformRoleService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -17,20 +17,19 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 
 @RestController
 @RequestMapping("/")
-public class mainController {
+public class MainController {
     @Autowired
     IPlatformRoleService platformRoleService;
     @Autowired
     IPlatformAccountService platformAccountService;
     @Autowired
-    IPlatformRoleRulesService platformRoleRulesService;
+    IPlatformRoleRuleService platformRoleRuleService;
     /**
      * 跳转登录页面
      * @return
@@ -39,6 +38,16 @@ public class mainController {
     public ModelAndView login(){
         ModelAndView mv = new ModelAndView();
         mv.setViewName("base/login");
+        return mv;
+    }
+    /**
+     * 跳转首页
+     * @return
+     */
+    @RequestMapping(value = "/shouye.htm",method = RequestMethod.GET)
+    public ModelAndView shouye(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("base/shouye");
         return mv;
     }
 
@@ -56,7 +65,7 @@ public class mainController {
             return mv;
         }
         int roleId = accountInfo.getRoleId();
-        List<HashMap<String,Object>>  ruleList = platformRoleRulesService.getRoleMenuRules(roleId);
+        List<HashMap<String,Object>>  ruleList = platformRoleRuleService.getRoleMenuRules(roleId);
         model.addAttribute("ruleList", ruleList);
         model.addAttribute("userSession", userBean);
         mv.setViewName("base/main");

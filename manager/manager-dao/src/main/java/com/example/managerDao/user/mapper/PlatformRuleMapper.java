@@ -1,6 +1,6 @@
 package com.example.managerDao.user.mapper;
 
-import com.example.managerDao.user.entity.PlatformRules;
+import com.example.managerDao.user.entity.PlatformRule;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author jobob
  * @since 2020-07-09
  */
-public interface PlatformRulesMapper extends BaseMapper<PlatformRules> {
+public interface PlatformRuleMapper extends BaseMapper<PlatformRule> {
 
 }

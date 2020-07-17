@@ -1790,7 +1790,7 @@
             // Fullscreen
             _on(player.buttons.fullscreen, 'click', _toggleFullscreen);
 
-            // Handle platformUser exiting fullscreen by escaping etc
+            // Handle jurisdiction exiting fullscreen by escaping etc
             if (fullscreen.supportsFullScreen) {
                 _on(document, fullscreen.fullScreenEventName, _toggleFullscreen);
             }
@@ -2047,7 +2047,7 @@
 
     // Expose setup function
     api.setup = function (options) {
-        // Extend the default options with platformUser specified
+        // Extend the default options with jurisdiction specified
         config = _extend(defaults, options);
 
         // Bail if disabled or no basic support

@@ -3,8 +3,6 @@ package com.example.managercontroller.config;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.common.bean.Constants;
 import com.example.managerDao.user.entity.PlatformAccount;
-import com.example.managerDao.user.entity.PlatformRules;
-import com.example.managerDao.user.entity.PlatformUserRole;
 import com.example.managerDao.user.mapper.*;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -25,7 +23,7 @@ public class Realm extends AuthorizingRealm {
     @Autowired
     PlatformAccountMapper platformAccountMapper;
     @Autowired
-    PlatformRoleRulesMapper platformRoleRulesMapper;
+    PlatformRoleRuleMapper platformRoleRuleMapper;
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -36,14 +34,14 @@ public class Realm extends AuthorizingRealm {
         HashMap<String,Object> userMap = new HashMap<>();
         // 根据身份信息获取权限信息
         List<String> permissions = new ArrayList<>();
-        userMap.put("parentId",request.getParameter("parentId"));
+        userMap.put("parentId",request.getParameter("r_id"));
         userMap.put("isMenu",Constants.ISMUNE);
         userMap.put("roleId",platformAccount.getRoleId());
-        List<HashMap<String,String>> roleRuleList = platformRoleRulesMapper.getRoleRulesList(userMap);
+        List<HashMap<String,String>> roleRuleList = platformRoleRuleMapper.getRoleRulesList(userMap);
         HashMap<String,Object> resultMap = new HashMap<>();
         for (HashMap<String,String> permissionMap:roleRuleList) {
             String function_name = permissionMap.get("functionName");
-            permissions.add(userCode+":"+function_name);// 用户的创建
+            permissions.add("user:"+function_name);// 用户的创建
             distinguishData(permissionMap,resultMap);
         }
         // 查到权限数据，返回授权信息(要包括 上边的permissions)

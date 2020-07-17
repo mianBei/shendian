@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro" >
+<head th:include="/common/baseFile :: commonHeader('')">
+
+</head>
+<style>
+    .role_group {
+        padding: 15px 0px;
+        clear: both;
+    }
+</style>
+<body>
+<div style="padding:15px;text-align: center;font-size: 16px;">
+   <label>角色名称：</label><span>管理员</span><label style="margin-left: 30px;">备注：</label><span>角色备注</span>
+</div>
+<div style="width:100%;text-align: left">
+    <div style="background-color: #e0e0e0;padding:10px 15px;">
+        <span style="width:98%;display:inline-block;text-align:left;">权限列表</span>
+    </div>
+    <input type="hidden" th:value="${roleId}" id="roleId">
+
+        <div class="role_group" th:each="roleOne:${data}">
+            <div class="col-sm-11">
+                <div class="col-sm-3">
+                    <input type="checkbox" th:id="${roleOne.ruleId}"
+                           th:attr ="checked=${roleRuleList.contains(roleOne.ruleId)?true:false}"
+
+                           title="全选" th:value="${roleOne.ruleId}"
+                           th:onclick="swapCheck([[${roleOne.ruleId}]])">
+                    &nbsp;&nbsp;
+                    <label th:text="${roleOne.name}"></label>
+                </div>
+            </div>
+            <div class="col-sm-11">
+
+                    <div class="col-sm-3" th:each="roleTwo:${roleOne.roleTwoList}">
+                        <input type="checkbox" th:class="${roleOne.ruleId}"
+                               th:id="${roleTwo.ruleId}" th:name="${roleOne.ruleId}"
+                               th:attr ="checked=${roleRuleList.contains(roleTwo.ruleId)?true:false}"
+
+                               th:value="${roleTwo.ruleId}"
+                               th:onclick="swapCheck_two([[${roleOne.ruleId}]],[[${roleTwo.ruleId}]]);"/>
+                        &nbsp;&nbsp;<label th:text="${roleTwo.name}"></label>
+
+                            <div th:each="roleThree:${roleTwo.roleThreeList}" th:if="${#lists.size(roleTwo.roleThreeList)>0 }">
+                                <input type="checkbox" th:class="${roleOne.ruleId}"
+                                       th:name="${roleTwo.ruleId}"
+                                       th:attr ="checked=${roleRuleList.contains(roleThree.ruleId)?true:false}"
+                                       th:value="|${roleThree.ruleId}+${roleTwo.ruleId}|"
+                                       th:onclick="swapCheck_three([[${roleOne.ruleId}]],[[${roleTwo.ruleId}]])">
+                                &nbsp;&nbsp;<label th:text="${roleThree.name}"></label>
+                            </div>
+                    </div>
+            </div>
+        </div>
+</div>
+<br style="clear: both">
+<div style="text-align: center;margin-top: 50px;">
+    <button id="saveBtn" class="btn btn-primary" onclick="saveRoleRules();">保存</button>
+    <button onclick="history.go(-1);" style="margin-left:30px;" type="button" class="btn btn-info">取消</button>
+</div>
+</div>
+<script type="text/javascript">
+    //checkbox 全选/取消全选
+    var isCheckAll = false;
+    function swapCheck(roleId) {
+        //当没有选中某个子复选框时，SelectAll取消选中
+        if (!$("#"+roleId).is(':checked')) {
+            $("#"+roleId).prop("checked", false);
+            $("input[type='checkbox'][class="+roleId+"]").prop("checked", false);
+        }else{
+            $("#"+roleId).prop("checked", true);
+            $("input[type='checkbox'][class="+roleId+"]").prop("checked", true);
+        }
+        var chsub = $("input[type='checkbox'][class="+roleId+"]").length; //获取subcheck的个数
+        var checkedsub = $("input[type='checkbox'][class="+roleId+"]:checked").length; //获取选中的subcheck的个数
+        if (checkedsub == chsub) {
+            $("#"+roleId).prop("checked", true);
+        }
+    }
+    function swapCheck_two(roleId,two_role){
+        var checkedsub = $("input[type='checkbox'][name="+roleId+"]:checked").length;
+        //如果等于一说明没有选中的了
+        if (checkedsub==0) {
+            $("#"+roleId).prop("checked", false);
+        }else{
+            $("#"+roleId).prop("checked", true);
+        }
+        if (!$("#"+two_role).is(':checked')) {
+            $("#"+two_role).prop("checked", false);
+            $("input[type='checkbox'][name="+two_role+"]").prop("checked", false);
+        }else{
+            $("#"+two_role).prop("checked", true);
+            $("input[type='checkbox'][name="+two_role+"]").prop("checked", true);
+        }
+    }
+    function swapCheck_three(roleId,two_role) {
+        var checkedsub = $("input[type='checkbox'][name="+two_role+"]:checked").length;
+        var checkedsub2 = $("input[type='checkbox'][name="+roleId+"]:checked").length;
+        //如果等于一说明没有选中的了
+        if (checkedsub==0) {
+            $("#"+two_role).prop("checked", false);
+            if (checkedsub2==0){
+                $("#"+roleId).prop("checked", false);
+            }else{
+                $("#"+roleId).prop("checked", true);
+            }
+        }else{
+            $("#"+two_role).prop("checked", true);
+
+            if (checkedsub2==0){
+                $("#"+roleId).prop("checked", false);
+            }else{
+                $("#"+roleId).prop("checked", true);
+            }
+        }
+    }
+    function saveRoleRules() {
+        var checkValue='';
+        $.each($('input:checkbox:checked'),function(){
+            checkValue+=$(this).val()+",";
+        });
+        var roleId = $("#roleId").val();
+        var param={"checkValue":checkValue,"roleId":roleId};
+        $.post(baseurl + "rule/saveRoleRules.htm", param, function (data) {
+            if(data.status==1){
+                layer.alert(data.info,{icon: 6},function(){
+                    history.go(-1);
+                });
+            }else{
+                layer.alert(data.info,{icon: 5});
+            }
+        });
+    }
+</script>
+</body>
+
+</html>

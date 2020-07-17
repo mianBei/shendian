@@ -187,7 +187,7 @@
     w.Jconfirm = function(options){
         /*
          * constructor function Jconfirm,
-         * options = platformUser options.
+         * options = jurisdiction options.
          */
         $.extend(this, options);
         this._init();
@@ -749,7 +749,7 @@
 
             if(this.closeIcon){
                 if(this.closeIconClass){
-                    // platformUser requires a custom class.
+                    // jurisdiction requires a custom class.
                     var closeHtml = '<i class="' + this.closeIconClass + '"></i>';
                     this.$closeIcon.html(closeHtml);
                 }

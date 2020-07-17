@@ -72,25 +72,20 @@
                     </a>
                 </li>
 
-                <li th:each="rule,iterStat :${ruleList}" th:if="${rule.children!=null && #strings.length(rule.children)>0 }">
+                <li th:each="rule :${ruleList}" th:if="${rule.children!=null && #strings.length(rule.children)>0 }">
                     <a href="#">
                         <i class="fa" th:classappend="${rule.className }?${rule.className }"></i>
                         <span class="nav-label" th:text="${rule.name }"></span>
                         <span class="fa arrow"></span>
                     </a>
                     <ul class="nav nav-second-level" >
-                        <li th:each="item,iterStat2:${rule.children}" th:if="${item.children!=null && #strings.length(item.children)>0 }">
-                            <a href="#" th:text="${item.name }"><span class="fa arrow"></span></a>
-                            <ul class="nav nav-third-level" th:each="thirdItem,iterStat3:${item.children}">
-                                <li><a class="J_menuItem" th:href="${thirdItem.url}" th:text="${thirdItem.name}"></a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li th:each="item,iterStat2:${rule.children}" th:if="${item.children==null || #strings.length(item.children)==0 }">
+
+                        <li th:each="item:${rule.children}" th:if="${item.children==null || #lists.size(item.children)==0 }">
+
                             <a th:if="${item.parameter!=null&&item.parameter!=''}" class="J_menuItem"
-                               th:href="${item.url}?${item.parameter}&r_id=${item.id}" th:text="${item.name }"></a>
+                               th:href="@{${item.url}+'?'+${item.parameter}+'&r_id='+${item.ruleId}}" th:text="${item.name }"></a>
                             <a th:unless="${item.parameter!=null&&item.parameter!=''}" class="J_menuItem"
-                               th:href="${item.url}?r_id=${item.id}" th:text="${item.name }"></a>
+                               th:href="@{${item.url}+'?r_id='+${item.ruleId}}" th:text="${item.name }"></a>
                         </li>
                     </ul>
                 </li>
@@ -106,7 +101,7 @@
             <nav class="page-tabs J_menuTabs">
                 <div class="page-tabs-content">
                     <a href="javascript:;" class="active J_menuTab"
-                       data-id="${pageContext.request.contextPath}/shouye.htm">首页</a>
+                       th:attr="data-id=@{/shouye.htm}">首页</a>
                 </div>
             </nav>
             <button class="roll-nav roll-right J_tabRight" style="right:78px;"><i class="fa fa-forward"></i>
@@ -127,7 +122,7 @@
         <div class="row J_mainContent" id="content-main">
             <iframe class="J_iframe" name="iframe0" width="100%" height="100%"
                     th:src="@{/shouye.htm}" frameborder="0"
-                    data-id="${pageContext.request.contextPath}/shouye.htm" seamless></iframe>
+                    th:attr="data-id=@{/shouye.htm}" seamless></iframe>
         </div>
     </div>
     <!--右侧部分结束-->
@@ -137,7 +132,7 @@
 <script th:src="@{/js/plugins/layer/layer.min.js}"></script>
 
 <!-- 自定义js -->
-<script th:src="@{/js/hplus.js?v=4.1.0}"></script>
+<script th:src="@{/js/hplus.js}"></script>
 
 <!-- 第三方插件 -->
 <script th:src="@{/js/plugins/pace/pace.min.js}"></script>

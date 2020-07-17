@@ -20,12 +20,12 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class PlatformRules implements Serializable {
+public class PlatformRule implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "rulesId", type = IdType.AUTO)
-    private Integer rulesId;
+    @TableId(value = "ruleId", type = IdType.AUTO)
+    private Integer ruleId;
 
     /**
      * 权限名称

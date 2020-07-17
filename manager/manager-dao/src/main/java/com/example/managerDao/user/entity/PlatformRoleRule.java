@@ -19,12 +19,12 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class PlatformRoleRules implements Serializable {
+public class PlatformRoleRule implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "roleRulesId", type = IdType.AUTO)
-    private Integer roleRulesId;
+    @TableId(value = "roleRuleId", type = IdType.AUTO)
+    private Integer roleRuleId;
 
     /**
      * 角色ID

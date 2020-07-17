@@ -2,7 +2,6 @@ package com.example.managerapi.wxUser;
 
 import com.example.common.bean.Constants;
 import com.example.common.util.Util;
-import com.example.managerDao.user.entity.PUser;
 import com.example.managerService.wxUser.IPlatformAppConfigService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

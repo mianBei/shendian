@@ -7,10 +7,8 @@ import com.example.common.util.JSONUtils;
 import com.example.common.wxutil.CommonUtil;
 import com.example.managerDao.wxUser.entity.OpenIdKey;
 import com.example.managerDao.wxUser.entity.PlatformAppConfig;
-import com.example.managerDao.wxUser.entity.PlatformBasicInfo;
 import com.example.managerDao.wxUser.mapper.OpenIdKeyMapper;
 import com.example.managerDao.wxUser.mapper.PlatformAppConfigMapper;
-import com.example.managerDao.wxUser.mapper.PlatformBasicInfoMapper;
 import com.example.managerService.wxUser.IPlatformAppConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,8 +28,8 @@ import java.util.Map;
 public class PlatformAppConfigServiceImpl extends ServiceImpl<PlatformAppConfigMapper, PlatformAppConfig> implements IPlatformAppConfigService {
     @Autowired
     PlatformAppConfigMapper platformAppConfigMapper;
-    @Autowired
-    PlatformBasicInfoMapper platformBasicInfoMapper;
+    /*@Autowired
+    PlatformBasicInfoMapper platformBasicInfoMapper;*/
     @Autowired
     OpenIdKeyMapper openIdKeyMapper;
     /**
@@ -61,14 +59,14 @@ public class PlatformAppConfigServiceImpl extends ServiceImpl<PlatformAppConfigM
         HashMap<String,Object> resultMap = new HashMap<>();
 
         String isUser = verificationUser(map);
-        PlatformBasicInfo platformBasicInfo = platformBasicInfoMapper.selectOne(new LambdaQueryWrapper<PlatformBasicInfo>()
+        /*PlatformBasicInfo platformBasicInfo = platformBasicInfoMapper.selectOne(new LambdaQueryWrapper<PlatformBasicInfo>()
                 .eq(PlatformBasicInfo::getPlatformId,platformAppConfig.getPlatformId())
-        );
+        );*/
         resultMap.put("isUser",isUser);
         resultMap.put("openid",map.get("openid"));
-        resultMap.put("platformName",platformBasicInfo.getPlatformName());
+        /*resultMap.put("platformName",platformBasicInfo.getPlatformName());
         resultMap.put("platformLogo",platformBasicInfo.getPlatformLogo());
-        resultMap.put("platformTel",platformBasicInfo.getPlatformTel());
+        resultMap.put("platformTel",platformBasicInfo.getPlatformTel());*/
         return resultMap;
     }
 
