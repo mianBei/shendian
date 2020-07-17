@@ -168,6 +168,9 @@ public class StringUtils{
 	public static boolean isEmpty(CharSequence cs){
 		return (cs == null) || (cs.length() == 0);
 	}
+	public static boolean isNotBlank(CharSequence cs) {
+		return !isBlank(cs);
+	}
 
 	public static boolean isBlank(CharSequence cs)
 	{

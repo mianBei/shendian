@@ -4,20 +4,20 @@ public interface Constants {
     /**
      * 成功返回参数
      */
-    int RESULT_SUCCESS=0;
+    int RESULT_SUCCESS=1;
     /**
      * 失败返回参数
      */
-    int RESULT_ERROR=1;
+    int RESULT_ERROR=0;
     /**
      * 成功返回描述
      */
-    String RESULT_SUCCESS_CON = "获取数据成功";
+    String RESULT_SUCCESS_CON = "成功!";
 
     /**
      * 失败返回描述
      */
-    String RESULT_ERROR_CON = "获取数据失败";
+    String RESULT_ERROR_CON = "失败!";
 
     /**
      * 用户初始信用分
@@ -58,6 +58,11 @@ public interface Constants {
      * 主菜单为0
      */
     String ISMUNE = "0";
+
+    /**
+     * 非主菜单
+     */
+    String ISNOTMUNE = "1";
 
     String NAME="_name";
     String URL="_url";
