@@ -2,7 +2,7 @@ package com.example.managerService.jurisdiction;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.managerDao.user.entity.PlatformRole;
+import com.example.managerDao.jurisdiction.entity.PlatformRole;
 
 import java.util.HashMap;
 

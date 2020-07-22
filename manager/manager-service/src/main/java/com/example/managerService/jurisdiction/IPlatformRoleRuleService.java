@@ -1,7 +1,7 @@
 package com.example.managerService.jurisdiction;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.managerDao.user.entity.PlatformRoleRule;
+import com.example.managerDao.jurisdiction.entity.PlatformRoleRule;
 
 import java.util.HashMap;
 import java.util.List;

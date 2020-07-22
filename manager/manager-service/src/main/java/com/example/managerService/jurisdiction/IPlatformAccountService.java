@@ -1,7 +1,7 @@
 package com.example.managerService.jurisdiction;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.managerDao.user.entity.PlatformAccount;
+import com.example.managerDao.jurisdiction.entity.PlatformAccount;
 
 import java.util.HashMap;
 

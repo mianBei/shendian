@@ -27,7 +27,12 @@ public interface IPlatformBasicInfoService extends IService<PlatformBasicInfo> {
      * @param map
      * @return
      */
-    PlatformBasicInfo getBasicInfoById(HashMap<String,Object> map);
+    HashMap<String,Object> getBasicInfoById(HashMap<String,Object> map);
 
+    /**
+     * 修改平台信息
+     * @param map
+     * @return
+     */
     int saveBasicInfo(HashMap<String,Object> map);
 }
