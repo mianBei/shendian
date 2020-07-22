@@ -148,14 +148,14 @@ public class FileUtil {
 	 * @param fileType  文件类型 img-图片 video-视频
 	 * @return
 	 */
-	public static Map<String,String> getFilePath(String to,String fileType) {
-		String basePath;
+	public static Map<String,String> getFilePath(String to,String fileType,String basePath,String urlPrefix) {
+
 		String filePath ="";
 		String requestPath="";
 		String currentTime=DateUtils.getDateForChar().replaceAll("-", "");
-		basePath=ConfigUtil.getString("pic.storage_path");
+		//basePath=ConfigUtil.getString("pic.storage_path");
 		filePath = basePath+"/"+currentTime;
-		requestPath=ConfigUtil.getString("pic.url_prefix")+currentTime+"/";
+		requestPath=urlPrefix+currentTime+"/";
 		File file = new File(filePath);
 		if(!file.exists()||!file.isDirectory()){
 			file.mkdirs();

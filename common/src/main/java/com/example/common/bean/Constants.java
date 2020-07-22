@@ -71,4 +71,15 @@ public interface Constants {
      * 菜单主要类
      */
     String PARENTID = "0";
+
+    /**
+     * 0未读1已读
+     */
+    int ISREAD = 0;
+    /**
+     * 0已删除1未删除
+     */
+    int ISDEL  = 1;
+
+    int ISDELYES=0;
 }

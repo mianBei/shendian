@@ -11,6 +11,7 @@ import java.util.*;
 
 public class Util {
 
+
 	//封装Httpservelt 访问参数
 	public static HashMap<String,Object> genHmParam(HttpServletRequest request){
 		HashMap<String,Object> requestMap = new HashMap<String,Object>();
@@ -128,7 +129,7 @@ public class Util {
 		}
 		return result.toString();
 	}
-	public static List<String> getWholePictureArrayPath(String pictures, String prefix, String split){
+	public static List<String> getWholePictureArrayPath(String pictures, String prefix, String split,String url_prefix){
 		List<String> picArrList = new ArrayList<>();
 		split= StringUtils.catchNull(split,",");
 		prefix= StringUtils.catchNull(prefix,"");
@@ -139,7 +140,7 @@ public class Util {
 					String rightPad=pic.substring(pic.lastIndexOf("/")+1,pic.length());
 					String leftPad=pic.substring(0,pic.lastIndexOf("/")+1);
 					//pic =Constants.IMG_PREFIX+leftPad+prefix+rightPad;
-					pic = ConfigUtil.getString("pic.url_prefix")+leftPad+prefix+rightPad;
+					pic = url_prefix+leftPad+prefix+rightPad;
 				}
 				picArrList.add(pic);
 			}
