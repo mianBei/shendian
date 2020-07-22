@@ -1,7 +1,8 @@
-package com.example.managerDao.user.mapper;
+package com.example.managerDao.jurisdiction.mapper;
 
-import com.example.managerDao.user.entity.PlatformAccount;
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.managerDao.jurisdiction.entity.PlatformAccount;
 
 /**
  * <p>

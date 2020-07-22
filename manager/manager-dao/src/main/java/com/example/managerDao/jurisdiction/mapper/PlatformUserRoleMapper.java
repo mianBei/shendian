@@ -1,11 +1,7 @@
-package com.example.managerDao.user.mapper;
+package com.example.managerDao.jurisdiction.mapper;
 
-import com.example.managerDao.user.entity.PlatformUserRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Select;
-
-import java.util.HashMap;
-import java.util.List;
+import com.example.managerDao.jurisdiction.entity.PlatformUserRole;
 
 /**
  * <p>

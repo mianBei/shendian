@@ -1,7 +1,7 @@
-package com.example.managerDao.user.mapper;
+package com.example.managerDao.jurisdiction.mapper;
 
-import com.example.managerDao.user.entity.PlatformRoleRule;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.managerDao.jurisdiction.entity.PlatformRoleRule;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.HashMap;
@@ -25,7 +25,7 @@ public interface PlatformRoleRuleMapper extends BaseMapper<PlatformRoleRule> {
             "FROM platform_role_rule r " +
             "INNER JOIN platform_rule ru ON ru.ruleId=r.ruleId " +
             "WHERE r.parentId=#{parentId} AND roleId=#{roleId} AND ru.isMenu=#{isMenu}")
-    List<HashMap<String,String>> getRoleRulesList(HashMap<String,Object> map);
+    List<HashMap<String,String>> getRoleRulesList(HashMap<String, Object> map);
 
     /**
      *  根据roleId查询权限表
@@ -36,5 +36,5 @@ public interface PlatformRoleRuleMapper extends BaseMapper<PlatformRoleRule> {
             "from platform_rule a " +
             "where a.isMenu=1 and a.parentId=#{parentId} and a.ruleId in " +
             "(select ruleId from platform_role_rule where roleId = #{roleId} )order by a.orderValue")
-    List<HashMap<String,Object>> getRoleMenuRules(HashMap<String,Object> map);
+    List<HashMap<String,Object>> getRoleMenuRules(HashMap<String, Object> map);
 }
