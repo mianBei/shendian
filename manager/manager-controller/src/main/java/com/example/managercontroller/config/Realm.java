@@ -2,7 +2,9 @@ package com.example.managercontroller.config;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.common.bean.Constants;
-import com.example.managerDao.user.entity.PlatformAccount;
+import com.example.managerDao.jurisdiction.entity.PlatformAccount;
+import com.example.managerDao.jurisdiction.mapper.PlatformAccountMapper;
+import com.example.managerDao.jurisdiction.mapper.PlatformRoleRuleMapper;
 import com.example.managerDao.user.mapper.*;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head th:include="/common/baseFile :: commonHeader('')"></head>
+<link th:href="@{/css/plugins/bootstrap-table/bootstrap-table.min.css}" rel="stylesheet">
+<link th:href="@{/css/jquery-confirm.css}" rel="stylesheet">
+<style>
+    th,td{
+        text-align:center;
+    }
+</style>
+<body>
+<div class="ibox-content" style="padding:10px">
+    <div style="padding:10px;">
+        <span>消息标题：<input id="messageTitle" class="normal-input"></span>
+        <button onclick="searchRole();" style="margin-left:30px" type="button" class="btn btn-primary">搜索</button>
+        <shiro:hasPermission name="user:messagePost_add">
+            <button onclick="addUpData(0);" style="margin-left:30px" type="button" class="btn btn-primary" th:text="${permissionMap.messagePost_add_name}"></button>
+        </shiro:hasPermission>
+    </div>
+    <table id="data-table"></table>
+</div>
+<script th:src="@{/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+<script th:src="@{/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+<script th:src="@{/js/jquery-confirm.js}"></script>
+<script>
+    $(document).ready(function () {
+        initTable();
+    });
+
+    function initTable(){
+        var url = baseurl+"platform/getMessagePostList.htm";
+        $('#data-table').bootstrapTable({
+            method:'GET',
+            dataType:'json',
+            contentType: "application/x-www-form-urlencoded",
+            cache: false,
+            striped: true,                              //是否显示行间隔色
+            sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+            url:url,
+            height: $(window).height() - 76,
+            width:$(window).width(),
+            showColumns:false,
+            pagination:true,
+            queryParams : queryParams,
+            pageNumber:1,                       //初始化加载第一页，默认第一页
+            pageSize: 10,                       //每页的记录行数（*）
+            pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+            uniqueId: "id",                     //每一行的唯一标识，一般为主键列
+            responseHandler: responseHandler,
+            columns: [
+                {
+                    field: 'index',
+                    title: '序号',
+                },
+                {
+                    field : 'messageTitle',
+                    title : '消息标题',
+                    align : 'center',
+                    valign : 'middle'
+                }, {
+                    field : 'messageAbout',
+                    title : '消息简洁',
+                    align : 'center',
+                    valign : 'middle'
+                }, {
+                    field : 'messageCoverImage',
+                    title : '消息封面图',
+                    align : 'center',
+                    valign : 'middle',
+                    formatter : function (value, row, index){
+                        return "<img style='width: 50px;height: 50px;' src="+[[row.messageCoverImage]]+" />";
+                    }
+                }, {
+                    field : 'messageTime',
+                    title : '消息发布时间',
+                    align : 'center',
+                    valign : 'middle'
+                }, {
+                    field : 'messageObject',
+                    title : '消息发布对象',
+                    align : 'center',
+                    valign : 'middle',
+                    formatter : function (value, row, index){
+                        if ([[row.messageObject]]==1){
+                            return "全平台";
+                        }else if([[row.messageObject]]==2){
+                            return "全用户";
+                        }else if([[row.messageObject]]==3){
+                            return "全商家";
+                        }else if([[row.messageObject]]==4){
+                            return "部分用户";
+                        }else if([[row.messageObject]]==5){
+                            return "部分商家";
+                        }else if([[row.messageObject]]==6){
+                            return "新用户";
+                        }else if([[row.messageObject]]==7){
+                            return "新商家";
+                        }else if([[row.messageObject]]==8){
+                            return "全代理";
+                        }else if([[row.messageObject]]==9){
+                            return "部分代理";
+                        }else if([[row.messageObject]]==10){
+                            return "新代理";
+                        }
+                    }
+                },{
+                    field : 'isDel',
+                    title : '是否删除',
+                    align : 'center',
+                    valign : 'middle',
+                    formatter : function (value, row, index){
+                        if ([[row.isDel]]==0){
+                            return "已删除";
+                        }else if([[row.isDel]]==1){
+                            return "未删除";
+                        }
+                    }
+                },{
+                    field : '',
+                    title : '操作',
+                    align : 'center',
+                    valign : 'middle',
+                    formatter : function (value, row, index){
+                        return "<shiro:hasPermission name='user:messagePost_select'><a href='javascript:;' onclick='select("+row.postMessageId+")'>[[${permissionMap.messagePost_select_name}]]</a>&nbsp;</shiro:hasPermission>" +
+                            "<shiro:hasPermission name='user:messagePost_del'><a href='javascript:;' onclick='del("+row.postMessageId+")'>[[${permissionMap.messagePost_del_name}]]</a>&nbsp;</shiro:hasPermission>";
+                    }
+                }]
+        });
+    }
+
+    function queryParams(params) {
+        var param = {
+            limit : this.limit, // 页面大小
+            offset : this.offset, // 页码
+            page : this.pageNumber,
+            rows : this.pageSize,
+            messageTitle:$("#messageTitle").val()
+        }
+        return param;
+    }
+
+    // 用于server 分页，表格数据量太大的话 不想一次查询所有数据，可以使用server分页查询，数据量小的话可以直接把sidePagination: "server"  改为 sidePagination: "client" ，同时去掉responseHandler: responseHandler就可以了，
+    function responseHandler(res) {
+        if (res) {
+            return {
+                "rows" : res.result,
+                "total" : res.totalCount
+            };
+        } else {
+            return {
+                "rows" : [],
+                "total" : 0
+            };
+        }
+    }
+
+    function searchRole(){
+        $('#data-table').bootstrapTable('refresh');    //刷新表格
+    }
+    var openIndex;
+    function select(id){
+        var title ="[[${permissionMap.messagePost_select_name}]]";
+        openIndex=layer.open({
+            title:title,
+            type: 2,
+            skin: 'layui-layer-demo', //样式类名
+            shift: 2,
+            shadeClose: true, //开启遮罩关闭
+            area: ['800px', '700px'],
+            content: baseurl+'[[${permissionMap.messagePost_select_url}]]?postMessageId='+id
+        });
+    }
+    //修改
+    function addUpData(id){
+        var title ="[[${permissionMap.messagePost_add_name}]]";
+        openIndex=layer.open({
+            title:title,
+            type: 2,
+            skin: 'layui-layer-demo', //样式类名
+            shift: 2,
+            shadeClose: true, //开启遮罩关闭
+            area: ['800px', '700px'],
+            content: baseurl+'[[${permissionMap.messagePost_add_url}]]'
+        });
+    }
+    //修改医生状态
+    function del(id) {
+        $.confirm(
+            {
+                title: '封号',
+                content: "确认删除",
+                type: 'green',
+                icon: 'glyphicon glyphicon-question-sign',
+                buttons: {
+                    confirm: {
+                        text: "确认",
+                        btnClass: 'btn-primary',
+                        keys: ['enter'],
+                        action: function () {
+                            var param={
+                                postMessageId:id
+                            };
+                            $.post(baseurl+"[[${permissionMap.messagePost_del_url}]]",param,function(data){
+                                if(data.status>=1){
+                                    layer.alert(data.info,{icon: 6},function(){
+                                        location.href=location.href;
+                                    });
+                                }else{
+                                    layer.alert(data.info, {
+                                        icon : 5
+                                    });
+                                }
+                            });
+                        }
+                    },
+                    cancel: {
+                        text: "取消",
+                        btnClass: 'btn-default',
+                        keys: ['esc'],
+                        action: function () {
+                        }
+                    }
+                }
+            }
+        );
+
+    }
+
+    function cancelSave(){
+        layer.close(openIndex);
+    }
+    function saveCallBack(data){
+        if (data.status == 1) {
+            layer.close(openIndex);
+            $('#data-table').bootstrapTable('refresh');    //刷新表格
+            layer.alert(data.info, {
+                icon : 6
+            });
+        } else {
+            layer.alert(data.info, {
+                icon : 5
+            });
+        }
+    }
+</script>
+
+</body>
+
+</html>

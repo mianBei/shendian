@@ -1,8 +1,8 @@
 package com.example.managercontroller.login;
 
 import com.example.common.util.StringUtils;
-import com.example.managerDao.user.entity.PlatformAccount;
-import com.example.managerDao.user.entity.PlatformRole;
+import com.example.managerDao.jurisdiction.entity.PlatformAccount;
+import com.example.managerDao.jurisdiction.entity.PlatformRole;
 import com.example.managerService.jurisdiction.IPlatformAccountService;
 import com.example.managerService.jurisdiction.IPlatformRoleRuleService;
 import com.example.managerService.jurisdiction.IPlatformRoleService;

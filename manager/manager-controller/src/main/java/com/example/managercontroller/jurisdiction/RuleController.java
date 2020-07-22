@@ -3,7 +3,6 @@ package com.example.managercontroller.jurisdiction;
 import com.example.common.bean.Constants;
 import com.example.common.superCon.SuperController;
 import com.example.common.util.Util;
-import com.example.managerDao.user.entity.PlatformRule;
 import com.example.managerService.jurisdiction.IPlatformRoleRuleService;
 import com.example.managerService.jurisdiction.IPlatformRoleService;
 import com.example.managerService.jurisdiction.IPlatformRuleService;

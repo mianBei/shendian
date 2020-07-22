@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="/common/baseFile :: commonHeader('')"></head>
+<link th:href="@{/css/uploadImg.css}" rel="stylesheet">
+<body class="bg-gray" style="height:296px;overflow:hidden;">
+<div class="bg-white main-div" valign="top">
+    <div>
+        <label>消息标题：</label>
+        <!--<input type="text" th:id="messageTitle" th:name="messageTitle" th:class="normal-input" th:value="${messagePost.messageTitle }"/>-->
+        <span th:text="${messagePost.messageTitle }"></span>
+        <label>消息简介：</label>
+        <span th:text="${messagePost.messageAbout }"></span>
+        <label>发布对象：</label>
+        <span th:if="${messagePost.messageObject==1 }">全平台</span>
+        <span th:if="${messagePost.messageObject==2 }">全用户</span>
+        <span th:if="${messagePost.messageObject==3 }">全商家</span>
+        <span th:if="${messagePost.messageObject==4 }">部分用户</span>
+        <span th:if="${messagePost.messageObject==5 }">部分商家</span>
+        <span th:if="${messagePost.messageObject==6 }">新用户</span>
+        <span th:if="${messagePost.messageObject==7 }">新商家</span>
+        <span th:if="${messagePost.messageObject==8 }">全代理</span>
+        <span th:if="${messagePost.messageObject==9 }">部分代理</span>
+        <span th:if="${messagePost.messageObject==10 }">新代理</span>
+    </div>
+    <div th:each="arr : ${arrList}">
+        <label>用户id</label>
+        <span th:text="${arr.userId }"></span>
+        <label>是否已读</label>
+        <span th:text="未读" th:if="${arr.isRead==0 }"></span>
+        <span th:text="已读" th:if="${arr.isRead==1 }"></span>
+        <label>是否删除</label>
+        <span th:text="已删除" th:if="${arr.isDel==0 }"></span>
+        <span th:text="未删除" th:if="${arr.isDel==1 }"></span>
+    </div>
+
+    <div>
+        <label>消息封面图：</label>
+        <div class="picDiv">
+            <div class='imageDiv' th:attr="nm=${picName}" th:if="${picName!=''&&picName!=null }" >
+                <img th:id="${picName }" th:src="${messagePost.messageCoverImage }"
+                     style="display: block;width: 160px;height: 130px;"/>
+                <div class='cover'><i class='delbtn'>删除</i></div>
+                <input type="hidden" class="picName" th:value="${messagePost.messageCoverImage }"/>
+            </div>
+            <div class="addImages">
+                <input type="file" class="file" id="uploadFilexxx" multiple="multiple"
+                       accept="image/png, image/jpeg, image/gif, image/jpg">
+                <div class="text-detail">
+                    <span>+</span>
+                    <p>点击上传</p>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="pictures" name="pictures" th:value="${picName }"/>
+    </div>
+    <div style="height:250px;">
+        <label>消息数据：</label>
+        <textarea th:name="editor" th:id="editor" th:text="${messagePost.messageData}"></textarea>
+    </div>
+</div>
+<div class="button-div">
+    <button th:onclick="saveData()" class="btn btn-info">保存</button>
+    <button th:onclick="cancelSave()" style="margin-left:10px;" class="btn btn-default">取消</button>
+</div>
+<script type="application/javascript">
+    window.CKEDITOR_BASEPATH = '../../js/ckeditor/'
+</script>
+<script th:src="@{/js/ckeditor/ckeditor.js}"></script>
+<script th:src="@{/js/uploadImg.js}"></script>
+<script type="text/javascript">
+    CKEDITOR.replace('editor');
+    function cancelSave() {
+        parent.cancelSave();
+    }
+
+    //显示相应的内容
+    function messageObject(){
+        var messagePostValue = $("select[name='messageObject']").find('option:selected').val();
+        $("#arr").empty();
+        //部分用户
+        var html="";
+        if (messagePostValue==4){
+            html = "<label>用户数组对象</label>";
+        }else if (messagePostValue==5){
+            html = "<label>商家数组对象</label>";
+        }else if (messagePostValue==9){
+            html = "<label>代理数组对象</label>";
+        }
+        var app ="<input type='text' id='arrObject' placeholder='请输入id,以逗号分隔' name='arrObject' class='normal-input'/>";
+        $("#arr").html(html).append(app);
+    }
+    function saveData() {
+        var param = {
+            postMessageId: $("#postMessageId").val(),
+            messageTitle: $("#messageTitle").val(),
+            messageCoverImage: $("#pictures").val(),
+            messageAbout: $("#messageAbout").val(),
+            messageObject: $("select[name='messageObject']").find('option:selected').val(),
+            arrObject: $("#arrObject").val(),
+            messageData: CKEDITOR.instances.editor.getData()
+        };
+        if (param["messageTitle"] == "") {
+            layer.tips('请输入消息标题', '#messageTitle');
+            return false;
+        }
+        if (param["messageCoverImage"] == "") {
+            layer.tips('请选择封面图', '#messageCoverImage');
+            return false;
+        }
+        if (param["messageObject"] == "") {
+            layer.tips('请选择发布对象', '#messageObject');
+            return false;
+        }
+        if (param["arrObject"] == "") {
+            layer.tips('请输入发布对象', '#arrObject');
+            return false;
+        }
+        if (param["messageData"] == "") {
+            layer.tips('请输入消息数据', '#messageData');
+            return false;
+        }
+        $.post(baseurl + "platform/saveMessagePost.htm", param, function (data) {
+            parent.saveCallBack(data);
+        });
+    }
+</script>
+</body>
+</html>

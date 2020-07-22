@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="/common/baseFile :: commonHeader('')"></head>
+<link th:href="@{/css/uploadImg.css}" rel="stylesheet">
+<body class="bg-gray" style="height:296px;overflow:hidden;">
+<input type="hidden" id="platformId" th:value="${basicInfo.platformId }">
+<div class="bg-white main-div" valign="top">
+    <div>
+        <label>平台名称：</label>
+        <input type="text" id="name" name="name" class="normal-input" th:value="${basicInfo.platformName }"/>
+        <label>平台联系电话：</label>
+        <input type="text" id="tel" name="tel" class="normal-input" th:value="${basicInfo.platformTel }"/>
+    </div>
+    <div>
+        <label>验证码位数：</label>
+        <input id="verificationCode" type="text" name="verificationCode" class="normal-input"
+               th:value="${basicInfo.verificationCode }"/>
+        <label>验证码有效期：</label>
+        <input id="verificationCodeTime" type="text" name="verificationCodeTime" class="normal-input"
+               th:value="${basicInfo.verificationCodeTime }"/>
+    </div>
+
+    <div>
+        <label>平台收益百分比：</label>
+        <input type="text" id="earningsPercent" name="earningsPercent" class="normal-input"
+               th:value="${basicInfo.platformEarningsPercent }"/>
+        <label>商户提现百分比：</label>
+        <input id="shopWithdrawBatio" type="text" name="shopWithdrawBatio" class="normal-input"
+               th:value="${basicInfo.shopWithdrawBatio }"/>
+    </div>
+    <div>
+        <label>手续费百分比：</label>
+        <input id="wxAppWithdrawBatio" type="text" name="wxAppWithdrawBatio" class="normal-input"
+               th:value="${basicInfo.wxAppWithdrawBatio }"/>
+        <label>代理提现百分比：</label>
+        <input id="agentWithdrawBatio" type="text" name="agentWithdrawBatio" class="normal-input"
+               th:value="${basicInfo.agentWithdrawBatio }"/>
+    </div>
+    <div>
+        <label>平台LOGO：</label>
+        <!--<input type="text" id="logo" name="logo" class="normal-input" th:value="${basicInfo.platformLogo }"/>-->
+        <div class="picDiv">
+            <div class='imageDiv' th:attr="nm=${picName}" >
+                <img th:id="${picName }" th:src="${basicInfo.platformLogo }"
+                     style="display: block;width: 160px;height: 130px;"/>
+                <div class='cover'><i class='delbtn'>删除</i></div>
+                <input type="hidden" class="picName" th:value="${basicInfo.platformName }"/>
+            </div>
+            <div class="addImages">
+                <input type="file" class="file" id="uploadFilexxx" multiple="multiple"
+                       accept="image/png, image/jpeg, image/gif, image/jpg">
+                <div class="text-detail">
+                    <span>+</span>
+                    <p>点击上传</p>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="pictures" name="pictures" th:value="${picName }"/>
+        <p><span style="color: red">注：每张照片大写不可超过4M，且最多可以传十张</span></p>
+    </div>
+</div>
+<div class="button-div">
+    <button th:onclick="saveData()" class="btn btn-info">保存</button>
+    <button th:onclick="cancelSave()" style="margin-left:10px;" class="btn btn-default">取消</button>
+</div>
+<script th:src="@{/js/uploadImg.js}"></script>
+<script type="text/javascript">
+    function cancelSave() {
+        parent.cancelSave();
+    }
+
+    function saveData() {
+        var param = {
+            platformId: $("#platformId").val(),
+            name: $("#name").val(),
+            logo: $("#pictures").val(),
+            tel: $("#tel").val(),
+            earningsPercent: $("#earningsPercent").val(),
+            verificationCode: $("#verificationCode").val(),
+            verificationCodeTime: $("#verificationCodeTime").val(),
+            shopWithdrawBatio: $("#shopWithdrawBatio").val(),
+            wxAppWithdrawBatio: $("#wxAppWithdrawBatio").val(),
+            agentWithdrawBatio: $("#agentWithdrawBatio").val()
+        };
+        if (param["name"] == "") {
+            layer.tips('请输入平台名称', '#name');
+            return false;
+        }
+        if (param["logo"] == "") {
+            layer.tips('请输入平台LOGO', '#logo');
+            return false;
+        }
+        if (param["tel"] == "") {
+            layer.tips('请输入平台联系电话', '#tel');
+            return false;
+        }
+        if (param["earningsPercent"] == "") {
+            layer.tips('请输入平台收益百分比', '#earningsPercent');
+            return false;
+        }
+        if (param["verificationCode"] == "") {
+            layer.tips('请输入验证码位数', '#verificationCode');
+            return false;
+        }
+        if (param["verificationCodeTime"] == "") {
+            layer.tips('请输入验证码有效期', '#verificationCodeTime');
+            return false;
+        }
+        if (param["shopWithdrawBatio"] == "") {
+            layer.tips('请输入商户提现百分比', '#shopWithdrawBatio');
+            return false;
+        }
+        if (param["wxAppWithdrawBatio"] == "") {
+            layer.tips('请输入手续费百分比', '#wxAppWithdrawBatio');
+            return false;
+        }
+        if (param["agentWithdrawBatio"] == "") {
+            layer.tips('请输入代理提现百分比', '#agentWithdrawBatio');
+            return false;
+        }
+        $.post(baseurl + "platform/saveBasicInfo.htm", param, function (data) {
+            parent.saveCallBack(data);
+        });
+    }
+</script>
+</body>
+</html>
