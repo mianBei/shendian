@@ -3,6 +3,8 @@ package com.example.managerService.user;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.managerDao.user.entity.UserAccountInfo;
 
+import java.util.HashMap;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +15,10 @@ import com.example.managerDao.user.entity.UserAccountInfo;
  */
 public interface IUserAccountInfoService extends IService<UserAccountInfo> {
 
+    /**
+     * 根据id查询与用户
+     * @param userId
+     * @return
+     */
+    UserAccountInfo getUserById(int userId);
 }

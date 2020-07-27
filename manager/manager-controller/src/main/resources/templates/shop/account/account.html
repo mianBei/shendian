@@ -4,7 +4,6 @@
 
 <head th:include="/common/baseFile :: commonHeader('')"></head>
 <link th:href="@{/css/plugins/bootstrap-table/bootstrap-table.min.css}" rel="stylesheet">
-
 <style>
     th,td{
         text-align:center;
@@ -13,23 +12,23 @@
 <body>
 <div class="ibox-content" style="padding:10px">
     <div style="padding:10px;">
-        <span>账单号：<input id="billCode" class="normal-input"></span>
-        <span>账单标题：<input id="billTitle" class="normal-input"></span>
+        <span>店铺账号：<input id="shopAccountCode" class="normal-input"></span>
         <button onclick="searchRole();" style="margin-left:30px" type="button" class="btn btn-primary">搜索</button>
-        <shiro:hasPermission name="user:bill_select"></shiro:hasPermission>
+        <!--<shiro:hasPermission name="user:baseInfo_add">
+            <button onclick="addUpData(0);" style="margin-left:30px" type="button" class="btn btn-primary" th:text="${permissionMap.baseInfo_add_name}"></button>
+        </shiro:hasPermission>-->
     </div>
     <table id="data-table"></table>
 </div>
 <script th:src="@{/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
 <script th:src="@{/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
-
 <script>
     $(document).ready(function () {
         initTable();
     });
 
     function initTable(){
-        var url = baseurl+"order/getBillList.htm";
+        var url = baseurl+"shop/getAccountList.htm";
         $('#data-table').bootstrapTable({
             method:'GET',
             dataType:'json',
@@ -52,73 +51,52 @@
                 {
                     field: 'index',
                     title: '序号',
-                },{
-                    field : 'billCode',
-                    title : '账单号',
-                    align : 'center',
-                    valign : 'middle'
                 },
                 {
-                    field : 'billTitle',
-                    title : '账单标题',
+                    field : 'shopAccountCode',
+                    title : '店铺账号',
                     align : 'center',
                     valign : 'middle'
                 }, {
-                    field : 'inOrOut',
-                    title : '消息简洁',
+                    field : 'shopAccountPassword',
+                    title : '店铺密码',
+                    align : 'center',
+                    valign : 'middle'
+                }, {
+                    field : 'shopAccountAuth',
+                    title : '账户身份',
                     align : 'center',
                     valign : 'middle',
                     formatter : function (value, row, index){
-                        if ([[row.inOrOut]]==1){
-                            return "收入";
-                        }else {
-                            return "支出";
+                        if([[row.shopAccountAuth]]==1){
+                            return "最大";
                         }
                     }
-                }, {
-                    field : 'billType',
-                    title : '账单类型',
-                    align : 'center',
-                    valign : 'middle'
-                }, {
-                    field : 'billAMT',
-                    title : '账单金额',
-                    align : 'center',
-                    valign : 'middle'
                 }, {
                     field : 'addTime',
-                    title : '交易时间',
+                    title : '创建时间',
                     align : 'center',
                     valign : 'middle'
-                },{
-                    field : 'dealState',
-                    title : '交易状态',
+                }, {
+                    field : 'isDel',
+                    title : '是否删除',
                     align : 'center',
                     valign : 'middle',
                     formatter : function (value, row, index){
-                        if ([[row.dealState]]==1){
-                            return "交易成功";
-                        }else if([[row.dealState]]==2){
-                            return "交易失败";
+                        if([[row.isDel]]==1){
+                            return "未删除";
+                        }else{
+                            return "已删除";
                         }
                     }
-                }, {
-                    field : 'paymentMode',
-                    title : '付款方式',
-                    align : 'center',
-                    valign : 'middle'
-                }, {
-                    field : 'paymentType',
-                    title : '付款类型',
-                    align : 'center',
-                    valign : 'middle'
                 },{
                     field : '',
                     title : '操作',
                     align : 'center',
                     valign : 'middle',
                     formatter : function (value, row, index){
-                        return "<shiro:hasPermission name='user:bill_select'><a href='javascript:;' onclick='select("+row.billId+")'>[[${permissionMap.bill_select_name}]]</a>&nbsp;</shiro:hasPermission>";
+                        return "<shiro:hasPermission name='user:account_select_user'><a href='javascript:;' onclick='select_user("+row.bindUserId+")'>[[${permissionMap.account_select_user_name}]]</a>&nbsp;</shiro:hasPermission>" +
+                            "<shiro:hasPermission name='user:account_select_balance'><a href='javascript:;' onclick='select_balance("+row.shopId+")'>[[${permissionMap.account_select_balance_name}]]</a>&nbsp;</shiro:hasPermission>";
                     }
                 }]
         });
@@ -129,9 +107,7 @@
             limit : this.limit, // 页面大小
             offset : this.offset, // 页码
             page : this.pageNumber,
-            rows : this.pageSize,
-            billTitle:$("#billTitle").val(),
-            billCode:$("#billCode").val()
+            rows : this.pageSize
         }
         return param;
     }
@@ -155,19 +131,32 @@
         $('#data-table').bootstrapTable('refresh');    //刷新表格
     }
     var openIndex;
-    function select(id){
-        var title ="[[${permissionMap.bill_select_name}]]";
+    //查询用户
+    function select_user(id){
+        var title ="对应用户";
         openIndex=layer.open({
             title:title,
             type: 2,
             skin: 'layui-layer-demo', //样式类名
             shift: 2,
             shadeClose: true, //开启遮罩关闭
-            area: ['800px', '700px'],
-            content: baseurl+'[[${permissionMap.bill_select_url}]]?billId='+id
+            area: ['800px', '600px'],
+            content: baseurl+'[[${permissionMap.account_select_user_url}]]?userId='+id
         });
     }
-
+    //查询余额
+    function select_balance(id){
+        var title ="查询余额";
+        openIndex=layer.open({
+            title:title,
+            type: 2,
+            skin: 'layui-layer-demo', //样式类名
+            shift: 2,
+            shadeClose: true, //开启遮罩关闭
+            area: ['800px', '600px'],
+            content: baseurl+'[[${permissionMap.account_select_balance_url}]]?shopId='+id
+        });
+    }
     function cancelSave(){
         layer.close(openIndex);
     }

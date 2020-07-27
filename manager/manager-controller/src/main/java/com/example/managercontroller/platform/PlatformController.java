@@ -6,8 +6,7 @@ import com.example.common.util.Util;
 import com.example.managerDao.jurisdiction.entity.PlatformAccount;
 import com.example.managerDao.platform.entity.PlatformBasicInfo;
 import com.example.managerDao.platform.entity.PlatformMessagePost;
-import com.example.managerService.platform.IPlatformBasicInfoService;
-import com.example.managerService.platform.IPlatformMessagePostService;
+import com.example.managerService.platform.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -29,6 +28,12 @@ public class PlatformController extends SuperController{
     IPlatformBasicInfoService basicInfoService;
     @Autowired
     IPlatformMessagePostService messagePostService;
+    @Autowired
+    IPlatformMessageSystemService messageSystemService;
+    @Autowired
+    IPlatformPaymentConfigService paymentConfigService;
+    @Autowired
+    IPlatformTaskService taskService;
     /**
      * 跳转平台信息管理
      * @return
@@ -178,5 +183,154 @@ public class PlatformController extends SuperController{
         request.setAttribute("picName",messagePost.get("picName"));
         request.setAttribute("arrList",messagePost.get("arrList"));
         return "platform/messagePost/selectMessagePost";
+    }
+
+    /**
+     * 跳转系统信息
+     * @return
+     */
+    @RequestMapping(value = "/messageSystem.htm" ,method = RequestMethod.GET)
+    public String messageSystem(){
+        return "platform/messageSystem/messageSystem";
+    }
+
+    /**
+     * 系统信息列表
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/getMessageSystemList.htm",method = RequestMethod.GET)
+    public void getMessageSystemList(HttpServletRequest request, HttpServletResponse response){
+        try {
+            HashMap<String,Object> hm = Util.genHmParam(request);
+            HashMap<String,Object> resultMap = messageSystemService.getMessageSystemList(hm);
+            outJsonForMap(resultMap,response);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 跳转付款设置
+     * @return
+     */
+    @RequestMapping(value = "/paymentConfig.htm" ,method = RequestMethod.GET)
+    public String paymentConfig(){
+        return "platform/payment/paymentConfig";
+    }
+    /**
+     * 付款配置列表
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/getPaymentCodeList.htm",method = RequestMethod.GET)
+    public void getPaymentCodeList(HttpServletRequest request, HttpServletResponse response){
+        try {
+            HashMap<String,Object> hm = Util.genHmParam(request);
+            HashMap<String,Object> resultMap = paymentConfigService.getPaymentConfigList(hm);
+            outJsonForMap(resultMap,response);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    /**
+     * 跳转付款设置
+     * @return
+     */
+    @RequestMapping(value = "/goSavePaymentConfig.htm" ,method = RequestMethod.GET)
+    public String savePaymentConfig(HttpServletRequest request){
+
+        request.setAttribute("paymentConfig",paymentConfigService.getPaymentConfig());
+        return "platform/payment/savePaymentConfig";
+    }
+
+    /**
+     * 修改付款配置
+     */
+    @RequestMapping(value = "savePaymentConfig.htm",method = RequestMethod.POST)
+    public void savePaymentConfig(HttpServletRequest request,HttpServletResponse response){
+        HashMap<String,Object> resultMap = new HashMap<>();
+        try{
+            HashMap<String,Object> hm = Util.genHmParam(request);
+            int result = paymentConfigService.savePaymentConfig(hm);
+            resultMap.put("status",result);
+            resultMap.put("info", Constants.RESULT_SUCCESS_CON);
+        }catch (Exception e){
+            e.printStackTrace();
+            resultMap.put("status",Constants.RESULT_ERROR);
+            resultMap.put("info", Constants.RESULT_ERROR_CON);
+        }
+        outJsonForMap(resultMap,response);
+    }
+
+    /**
+     * 跳转任务设置
+     * @return
+     */
+    @RequestMapping(value = "/task.htm" ,method = RequestMethod.GET)
+    public String task(){
+        return "platform/task/task";
+    }
+
+    /**
+     * 任务列表
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/getTaskList.htm",method = RequestMethod.GET)
+    public void getTaskList(HttpServletRequest request, HttpServletResponse response){
+        try {
+            HashMap<String,Object> hm = Util.genHmParam(request);
+            HashMap<String,Object> resultMap = taskService.getTaskList(hm);
+            outJsonForMap(resultMap,response);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 根据id查询任务
+     * @return
+     */
+    @RequestMapping(value = "/goSaveTask.htm" ,method = RequestMethod.GET)
+    public String goSaveTask(HttpServletRequest request){
+        request.setAttribute("task",taskService.getTaskById(Util.genHmParam(request)));
+        return "platform/task/saveTask";
+    }
+    /**
+     * 修改任务
+     */
+    @RequestMapping(value = "saveTask.htm",method = RequestMethod.POST)
+    public void saveTask(HttpServletRequest request,HttpServletResponse response){
+        HashMap<String,Object> resultMap = new HashMap<>();
+        try{
+            HashMap<String,Object> hm = Util.genHmParam(request);
+            int result = taskService.saveTask(hm);
+            resultMap.put("status",result);
+            resultMap.put("info", Constants.RESULT_SUCCESS_CON);
+        }catch (Exception e){
+            e.printStackTrace();
+            resultMap.put("status",Constants.RESULT_ERROR);
+            resultMap.put("info", Constants.RESULT_ERROR_CON);
+        }
+        outJsonForMap(resultMap,response);
+    }
+    /**
+     * 删除任务
+     */
+    @RequestMapping(value = "delTask.htm",method = RequestMethod.POST)
+    public void delTask(HttpServletRequest request,HttpServletResponse response){
+        HashMap<String,Object> resultMap = new HashMap<>();
+        try{
+            HashMap<String,Object> hm = Util.genHmParam(request);
+            int result = taskService.delTask(hm);
+            resultMap.put("status",result);
+            resultMap.put("info", Constants.RESULT_SUCCESS_CON);
+        }catch (Exception e){
+            e.printStackTrace();
+            resultMap.put("status",Constants.RESULT_ERROR);
+            resultMap.put("info", Constants.RESULT_ERROR_CON);
+        }
+        outJsonForMap(resultMap,response);
     }
 }

@@ -45,6 +45,16 @@
     .navbar .nav-right span a:hover {
         color: #F1A417;
     }
+    .dot {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color:red;
+        position: relative;
+        left: 25px;
+        bottom: 5px;
+    }
 </style>
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
 <nav class="navbar navbar-static-top head-nav" role="navigation" style="">
@@ -52,6 +62,10 @@
         <span>免呗后台管理系统</span>
     </div>
     <div class="nav-right" style="float:right">
+        <span th:class="dot" th:if="${systemCount!=0}"></span>
+        <span>
+            <a class="J_menuItem" th:href="@{/platform/messageSystem.htm}"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+        </span>
         <span id="merchantUserName">操作人：<span th:text="${userSession.platformRole.roleName }"></span></span>
         <span>|</span>
         <span><a th:href="@{/loginOut.htm}"><i class="fa fa fa-sign-out"></i> 退出</a></span>

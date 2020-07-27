@@ -13,10 +13,9 @@
 <body>
 <div class="ibox-content" style="padding:10px">
     <div style="padding:10px;">
-        <span>账单号：<input id="billCode" class="normal-input"></span>
-        <span>账单标题：<input id="billTitle" class="normal-input"></span>
+        <span>订单号：<input id="orderCode" class="normal-input"></span>
         <button onclick="searchRole();" style="margin-left:30px" type="button" class="btn btn-primary">搜索</button>
-        <shiro:hasPermission name="user:bill_select"></shiro:hasPermission>
+        <shiro:hasPermission name="user:order_select"></shiro:hasPermission>
     </div>
     <table id="data-table"></table>
 </div>
@@ -29,7 +28,7 @@
     });
 
     function initTable(){
-        var url = baseurl+"order/getBillList.htm";
+        var url = baseurl+"order/getOrderList.htm";
         $('#data-table').bootstrapTable({
             method:'GET',
             dataType:'json',
@@ -53,72 +52,72 @@
                     field: 'index',
                     title: '序号',
                 },{
-                    field : 'billCode',
-                    title : '账单号',
+                    field : 'orderCode',
+                    title : '订单号',
                     align : 'center',
                     valign : 'middle'
                 },
                 {
-                    field : 'billTitle',
-                    title : '账单标题',
+                    field : 'orderState',
+                    title : '订单状态',
                     align : 'center',
                     valign : 'middle'
                 }, {
-                    field : 'inOrOut',
-                    title : '消息简洁',
+                    field : 'orderStateNum',
+                    title : '是否取货',
                     align : 'center',
                     valign : 'middle',
                     formatter : function (value, row, index){
-                        if ([[row.inOrOut]]==1){
-                            return "收入";
+                        if ([[row.orderStateNum]]==1){
+                            return "已取货";
                         }else {
-                            return "支出";
+                            return "未取货";
                         }
                     }
                 }, {
-                    field : 'billType',
-                    title : '账单类型',
+                    field : 'orderTime',
+                    title : '下单时间',
                     align : 'center',
                     valign : 'middle'
                 }, {
-                    field : 'billAMT',
-                    title : '账单金额',
+                    field : 'orderAMT',
+                    title : '订单金额',
                     align : 'center',
                     valign : 'middle'
                 }, {
-                    field : 'addTime',
-                    title : '交易时间',
+                    field : 'discountsAMT',
+                    title : '优惠金额',
                     align : 'center',
                     valign : 'middle'
                 },{
-                    field : 'dealState',
-                    title : '交易状态',
+                    field : 'realityAMT',
+                    title : '实付金额',
                     align : 'center',
-                    valign : 'middle',
-                    formatter : function (value, row, index){
-                        if ([[row.dealState]]==1){
-                            return "交易成功";
-                        }else if([[row.dealState]]==2){
-                            return "交易失败";
-                        }
-                    }
+                    valign : 'middle'
                 }, {
                     field : 'paymentMode',
                     title : '付款方式',
                     align : 'center',
                     valign : 'middle'
                 }, {
-                    field : 'paymentType',
-                    title : '付款类型',
+                    field : 'QueueType',
+                    title : '退反类型',
                     align : 'center',
-                    valign : 'middle'
+                    valign : 'middle',
+                    formatter : function (value, row, index){
+                        if ([[row.QueueType]]==1){
+                            return "排队退反";
+                        }else {
+                            return "快速退反";
+                        }
+                    }
                 },{
                     field : '',
                     title : '操作',
                     align : 'center',
                     valign : 'middle',
                     formatter : function (value, row, index){
-                        return "<shiro:hasPermission name='user:bill_select'><a href='javascript:;' onclick='select("+row.billId+")'>[[${permissionMap.bill_select_name}]]</a>&nbsp;</shiro:hasPermission>";
+                        return "<shiro:hasPermission name='user:order_select'><a href='javascript:;' onclick='select("+row.orderId+")'>[[${permissionMap.order_select_name}]]</a>&nbsp;</shiro:hasPermission>";
                     }
                 }]
         });
@@ -130,8 +129,7 @@
             offset : this.offset, // 页码
             page : this.pageNumber,
             rows : this.pageSize,
-            billTitle:$("#billTitle").val(),
-            billCode:$("#billCode").val()
+            orderCode:$("#orderCode").val()
         }
         return param;
     }
@@ -156,7 +154,7 @@
     }
     var openIndex;
     function select(id){
-        var title ="[[${permissionMap.bill_select_name}]]";
+        var title ="[[${permissionMap.order_select_name}]]";
         openIndex=layer.open({
             title:title,
             type: 2,
@@ -164,7 +162,7 @@
             shift: 2,
             shadeClose: true, //开启遮罩关闭
             area: ['800px', '700px'],
-            content: baseurl+'[[${permissionMap.bill_select_url}]]?billId='+id
+            content: baseurl+'[[${permissionMap.order_select_url}]]?orderId='+id
         });
     }
 

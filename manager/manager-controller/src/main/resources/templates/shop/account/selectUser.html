@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="/common/baseFile :: commonHeader('')"></head>
+
+<body class="bg-gray" style="height:296px;overflow:hidden;">
+
+<div class="bg-white main-div" valign="top">
+    <div>
+        <label>用户昵称：</label>
+        <!--<input type="text" th:id="messageTitle" th:name="messageTitle" th:class="normal-input" th:value="${messagePost.messageTitle }"/>-->
+        <span th:text="${user.user.userNickname}"></span>
+        <label>用户账号：</label>
+        <span th:text="${user.user.userAccountCode}"></span>
+        <label>手机号：</label>
+        <span th:text="${user.user.bindPhone}"></span>
+    </div>
+    <div>
+        <label>是否为合伙人</label>
+        <span th:if="${user.user.isPartner==0}" th:text="不是"></span>
+        <span th:if="${user.user.isPartner==1}" th:text="是"></span>
+        <label>真实姓名</label>
+        <span th:text="${user.user.userRealName}"></span>
+        <label>用户身份证号</label>
+        <span th:text="${user.user.userIdCode}"></span>
+    </div>
+
+</div>
+<div class="button-div">
+    <button th:onclick="cancelSave()" style="margin-left:10px;" class="btn btn-default">取消</button>
+</div>
+<script type="text/javascript">
+
+    function cancelSave() {
+        parent.cancelSave();
+    }
+</script>
+</body>
+</html>

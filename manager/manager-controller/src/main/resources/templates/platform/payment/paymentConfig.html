@@ -4,7 +4,6 @@
 
 <head th:include="/common/baseFile :: commonHeader('')"></head>
 <link th:href="@{/css/plugins/bootstrap-table/bootstrap-table.min.css}" rel="stylesheet">
-
 <style>
     th,td{
         text-align:center;
@@ -13,23 +12,21 @@
 <body>
 <div class="ibox-content" style="padding:10px">
     <div style="padding:10px;">
-        <span>账单号：<input id="billCode" class="normal-input"></span>
-        <span>账单标题：<input id="billTitle" class="normal-input"></span>
-        <button onclick="searchRole();" style="margin-left:30px" type="button" class="btn btn-primary">搜索</button>
-        <shiro:hasPermission name="user:bill_select"></shiro:hasPermission>
+        <shiro:hasPermission name="user:paymentConfig_add">
+            <button onclick="addUpData(0);" style="margin-left:30px" type="button" class="btn btn-primary" th:text="${permissionMap.paymentConfig_add_name}"></button>
+        </shiro:hasPermission>
     </div>
     <table id="data-table"></table>
 </div>
 <script th:src="@{/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
 <script th:src="@{/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
-
 <script>
     $(document).ready(function () {
         initTable();
     });
 
     function initTable(){
-        var url = baseurl+"order/getBillList.htm";
+        var url = baseurl+"platform/getPaymentConfigList.htm";
         $('#data-table').bootstrapTable({
             method:'GET',
             dataType:'json',
@@ -52,64 +49,44 @@
                 {
                     field: 'index',
                     title: '序号',
-                },{
-                    field : 'billCode',
-                    title : '账单号',
-                    align : 'center',
-                    valign : 'middle'
                 },
                 {
-                    field : 'billTitle',
-                    title : '账单标题',
-                    align : 'center',
-                    valign : 'middle'
-                }, {
-                    field : 'inOrOut',
-                    title : '消息简洁',
+                    field : 'userType',
+                    title : '消息标题',
                     align : 'center',
                     valign : 'middle',
                     formatter : function (value, row, index){
-                        if ([[row.inOrOut]]==1){
-                            return "收入";
-                        }else {
-                            return "支出";
+                        if ([[row.userType]]==1){
+                            return "用户端和商户端";
+                        }else{
+                            return "平台端";
                         }
                     }
                 }, {
-                    field : 'billType',
-                    title : '账单类型',
-                    align : 'center',
-                    valign : 'middle'
-                }, {
-                    field : 'billAMT',
-                    title : '账单金额',
-                    align : 'center',
-                    valign : 'middle'
-                }, {
-                    field : 'addTime',
-                    title : '交易时间',
-                    align : 'center',
-                    valign : 'middle'
-                },{
-                    field : 'dealState',
-                    title : '交易状态',
+                    field : 'appType',
+                    title : '程序类型',
                     align : 'center',
                     valign : 'middle',
                     formatter : function (value, row, index){
-                        if ([[row.dealState]]==1){
-                            return "交易成功";
-                        }else if([[row.dealState]]==2){
-                            return "交易失败";
+                        if ([[row.appType]]==1){
+                            return "app";
+                        }else{
+                            return "小程序";
                         }
                     }
                 }, {
-                    field : 'paymentMode',
-                    title : '付款方式',
+                    field : 'paymentConfigData',
+                    title : '付款配置数据',
                     align : 'center',
                     valign : 'middle'
                 }, {
-                    field : 'paymentType',
-                    title : '付款类型',
+                    field : 'remark',
+                    title : '备注',
+                    align : 'center',
+                    valign : 'middle'
+                }, {
+                    field : 'toDayWithdrawAMT',
+                    title : '限额',
                     align : 'center',
                     valign : 'middle'
                 },{
@@ -118,7 +95,7 @@
                     align : 'center',
                     valign : 'middle',
                     formatter : function (value, row, index){
-                        return "<shiro:hasPermission name='user:bill_select'><a href='javascript:;' onclick='select("+row.billId+")'>[[${permissionMap.bill_select_name}]]</a>&nbsp;</shiro:hasPermission>";
+                        return "<shiro:hasPermission name='user:paymentConfig_update'><a href='javascript:;' onclick='addUpData("+row.paymentConfigId+")'>[[${permissionMap.paymentConifg_update_name}]]</a>&nbsp;</shiro:hasPermission>";
                     }
                 }]
         });
@@ -130,8 +107,7 @@
             offset : this.offset, // 页码
             page : this.pageNumber,
             rows : this.pageSize,
-            billTitle:$("#billTitle").val(),
-            billCode:$("#billCode").val()
+            messageTitle:$("#messageTitle").val()
         }
         return param;
     }
@@ -155,8 +131,9 @@
         $('#data-table').bootstrapTable('refresh');    //刷新表格
     }
     var openIndex;
-    function select(id){
-        var title ="[[${permissionMap.bill_select_name}]]";
+    //修改
+    function addUpData(id){
+        var title =id?"[[${permissionMap.paymentConfig_add_name}]]":"[[${permissionMap.paymentConfig_update_name}]]";
         openIndex=layer.open({
             title:title,
             type: 2,
@@ -164,9 +141,10 @@
             shift: 2,
             shadeClose: true, //开启遮罩关闭
             area: ['800px', '700px'],
-            content: baseurl+'[[${permissionMap.bill_select_url}]]?billId='+id
+            content: baseurl+'[[${permissionMap.paymentConfig_update_url}]]?paymentConfigId='+id
         });
     }
+
 
     function cancelSave(){
         layer.close(openIndex);

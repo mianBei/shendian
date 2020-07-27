@@ -6,6 +6,7 @@ import com.example.managerDao.jurisdiction.entity.PlatformRole;
 import com.example.managerService.jurisdiction.IPlatformAccountService;
 import com.example.managerService.jurisdiction.IPlatformRoleRuleService;
 import com.example.managerService.jurisdiction.IPlatformRoleService;
+import com.example.managerService.platform.IPlatformMessageSystemService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -30,6 +31,8 @@ public class MainController {
     IPlatformAccountService platformAccountService;
     @Autowired
     IPlatformRoleRuleService platformRoleRuleService;
+    @Autowired
+    IPlatformMessageSystemService messageSystemService;
     /**
      * 跳转登录页面
      * @return
@@ -66,6 +69,7 @@ public class MainController {
         }
         int roleId = accountInfo.getRoleId();
         List<HashMap<String,Object>>  ruleList = platformRoleRuleService.getRoleMenuRules(roleId);
+        model.addAttribute("systemCount",messageSystemService.getMessageSystemCount());
         model.addAttribute("ruleList", ruleList);
         model.addAttribute("userSession", userBean);
         mv.setViewName("base/main");

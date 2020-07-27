@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="/common/baseFile :: commonHeader('')"></head>
+<link th:href="@{/css/uploadImg.css}" rel="stylesheet">
+<body class="bg-gray" style="height:296px;overflow:hidden;">
+<div class="bg-white main-div" valign="top">
+    <div>
+        <label>订单号：</label>
+        <span th:text="${order.order.orderCode }"></span>
+        <label>订单类型：</label>
+        <span th:if="${order.order.orderPaymentType==1}" th:text="线下"></span>
+        <span th:if="${order.order.orderPaymentType==2}" th:text="线上"></span>
+        <span th:if="${order.order.orderPaymentType==2.1}" th:text="抢购活动"></span>
+        <span th:if="${order.order.orderPaymentType==2.2}" th:text="助力免单"></span>
+        <label>订单状态：</label>
+        <span th:text="${order.order.orderState}"></span>
+    </div>
+    <div>
+        <label>是否已取货</label>
+        <span th:if="${order.order.isGetCargo==1}" th:text="已取货"></span>
+        <span th:if="${order.order.isGetCargo==0}" th:text="未取货"></span>
+        <label>微信订单号</label>
+        <span th:text="${order.order.wxOrderCode}"></span>
+        <label>下单时间</label>
+        <span th:text="${order.time.orderTime}" ></span>
+    </div>
+
+    <div th:if="${order.snapUpEvent!=null}">
+        <label>抢购活动名称：</label>
+        <span th:text="${order.snapUpEvent.snapUpEventName}" ></span>
+        <label>抢购金额：</label>
+        <span th:text="${order.snapUpEvent.snapUpAMT}" ></span>
+        <label>活动状态：</label>
+        <span th:if="${order.snapUpEvent.eventState==1}" th:text="未开始"></span>
+        <span th:if="${order.snapUpEvent.eventState==2}" th:text="已开始"></span>
+        <span th:if="${order.snapUpEvent.eventState==3}" th:text="已抢完"></span>
+        <span th:if="${order.snapUpEvent.eventState==4}" th:text="已过期"></span>
+    </div>
+    <div th:if="${order.helpGratisEvent!=null}">
+        <label>免单名称：</label>
+        <span th:text="${order.helpGratisEvent.helpGratisEventName}" ></span>
+        <label>免单价格：</label>
+        <span th:text="${order.helpGratisEvent.gratisAMT}" ></span>
+        <label>活动状态：</label>
+        <span th:text="未开始" th:if="${order.helpGratisEvent.eventState==1}" ></span>
+        <span th:text="已开始" th:if="${order.helpGratisEvent.eventState==2}" ></span>
+        <span th:text="已过期" th:if="${order.helpGratisEvent.eventState==3}" ></span>
+    </div>
+    <!--<div th:if="${order.userHelpGratisEvent!=null}">
+        <label>：</label>
+        <span th:text="${bill.inOrOut}" ></span>
+        <label>付款方式：</label>
+        <span th:text="${bill.paymentMode}" ></span>
+        <label>付款类型：</label>
+        <span th:text="${bill.paymentType}" ></span>
+    </div>-->
+    <div>
+        <label>订单金额：</label>
+        <span th:text="${order.order.orderAMT}" ></span>
+        <label>订单优惠金额：</label>
+        <span th:text="${order.order.discountsAMT}" ></span>
+        <label>实付金额：</label>
+        <span th:text="${order.order.realityAMT}"></span>
+    </div>
+    <div th:if="${order.order.isMDD==1}">
+        <label>使用md豆数量：</label>
+        <span th:text="${order.order.useMDDNum}" ></span>
+        <label>抵扣金额：</label>
+        <span th:text="${order.order.MDDAMT}"></span>
+    </div>
+    <div th:if="${order.order.isMDB==1}">
+        <label>使用md币数量：</label>
+        <span th:text="${order.order.useMDBNum}" ></span>
+        <label>抵扣金额：</label>
+        <span th:text="${order.order.MDBAMT}"></span>
+    </div>
+    <div th:if="${order.order.isQueue==1}">
+        <label>进入排队时间：</label>
+        <span th:text="${order.time.inQueueTime}" th:if="${order.time.inQueueTime!=null}"></span>
+        <label>完成时间：</label>
+        <span th:text="${order.time.QueueSucceedTime}" ></span>
+        <label>使用快反卷时间：</label>
+        <span th:text="${order.time.quickRefundsTime}"></span>
+    </div>
+    <div th:if="${order.order.isJustCollect==1}">
+        <label>已收集排队退返金额：</label>
+        <span th:text="${order.order.collectAMT}" ></span>
+        <label>还差多少金额完成排队退返：</label>
+        <span th:text="${order.order.shortCollectAMT}" ></span>
+        <label>订单排队退返名次：</label>
+        <span th:text="${order.order.queueRank}"></span>
+        <label>排队成功名次：</label>
+        <span th:text="${order.order.queueSucceedRank}"></span>
+    </div>
+    <div>
+        <label>用户是否删除：</label>
+        <span th:text="${order.order.isDel}" ></span>
+        <label>备注：</label>
+        <span th:text="${order.order.remark}" ></span>
+    </div>
+</div>
+<div class="button-div">
+    <button th:onclick="cancelSave()" style="margin-left:10px;" class="btn btn-default">取消</button>
+</div>
+<script th:src="@{/js/uploadImg.js}"></script>
+<script type="text/javascript">
+
+    function cancelSave() {
+        parent.cancelSave();
+    }
+</script>
+</body>
+</html>

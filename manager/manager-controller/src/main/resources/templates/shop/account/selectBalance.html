@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="/common/baseFile :: commonHeader('')"></head>
+
+<body class="bg-gray" style="height:296px;overflow:hidden;">
+
+<div class="bg-white main-div" valign="top">
+    <div>
+        <label>累计入款笔数：</label>
+        <!--<input type="text" th:id="messageTitle" th:name="messageTitle" th:class="normal-input" th:value="${messagePost.messageTitle }"/>-->
+        <span th:text="${balance.balance.cashAccountTotalNum}"></span>
+        <label>累计入账现金账户：</label>
+        <span th:text="${balance.balance.cashAccountTotalAMT}"></span>
+        <label>已提现现金金额：</label>
+        <span th:text="${balance.balance.cashAccountWithdrawAMT}"></span>
+    </div>
+    <div>
+        <label>现金账户余额</label>
+        <span th:text="${balance.balance.cashAccountBalanceAMT}"></span>
+        <label>已排队退款金额</label>
+        <span th:text="${balance.balance.queueRefundAMT}"></span>
+        <label>已排队退款笔数</label>
+        <span th:text="${balance.balance.queueRefundNum}"></span>
+
+    </div>
+    <div>
+        <label>代理累计收益金额</label>
+        <span th:text="${balance.balance.agentTotalAMT}"></span>
+        <label>排队返现数组对象</label>
+        <span th:text="${balance.balance.shopQueueOrder}"></span>
+
+    </div>
+
+</div>
+<div class="button-div">
+    <button th:onclick="cancelSave()" style="margin-left:10px;" class="btn btn-default">取消</button>
+</div>
+<script type="text/javascript">
+
+    function cancelSave() {
+        parent.cancelSave();
+    }
+</script>
+</body>
+</html>

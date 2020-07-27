@@ -4,7 +4,6 @@
 
 <head th:include="/common/baseFile :: commonHeader('')"></head>
 <link th:href="@{/css/plugins/bootstrap-table/bootstrap-table.min.css}" rel="stylesheet">
-
 <style>
     th,td{
         text-align:center;
@@ -13,23 +12,24 @@
 <body>
 <div class="ibox-content" style="padding:10px">
     <div style="padding:10px;">
-        <span>账单号：<input id="billCode" class="normal-input"></span>
-        <span>账单标题：<input id="billTitle" class="normal-input"></span>
+        <span>任务名称：<input id="taskName" class="normal-input"></span>
         <button onclick="searchRole();" style="margin-left:30px" type="button" class="btn btn-primary">搜索</button>
-        <shiro:hasPermission name="user:bill_select"></shiro:hasPermission>
+        <shiro:hasPermission name="user:task_add">
+            <button onclick="addUpData(0);" style="margin-left:30px" type="button" class="btn btn-primary" th:text="${permissionMap.task_add_name}"></button>
+        </shiro:hasPermission>
     </div>
     <table id="data-table"></table>
 </div>
 <script th:src="@{/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
 <script th:src="@{/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
-
+<script th:src="@{/js/jquery-confirm.js}"></script>
 <script>
     $(document).ready(function () {
         initTable();
     });
 
     function initTable(){
-        var url = baseurl+"order/getBillList.htm";
+        var url = baseurl+"platform/getTaskList.htm";
         $('#data-table').bootstrapTable({
             method:'GET',
             dataType:'json',
@@ -52,73 +52,45 @@
                 {
                     field: 'index',
                     title: '序号',
-                },{
-                    field : 'billCode',
-                    title : '账单号',
-                    align : 'center',
-                    valign : 'middle'
                 },
                 {
-                    field : 'billTitle',
-                    title : '账单标题',
+                    field : 'taskName',
+                    title : '任务标题',
                     align : 'center',
                     valign : 'middle'
                 }, {
-                    field : 'inOrOut',
-                    title : '消息简洁',
+                    field : 'taskType',
+                    title : '任务类型',
                     align : 'center',
                     valign : 'middle',
                     formatter : function (value, row, index){
-                        if ([[row.inOrOut]]==1){
-                            return "收入";
-                        }else {
-                            return "支出";
+                        if ([[row.taskType]]==1){
+                            return "单次";
+                        }else{
+                            return "周期";
                         }
                     }
                 }, {
-                    field : 'billType',
-                    title : '账单类型',
-                    align : 'center',
-                    valign : 'middle'
-                }, {
-                    field : 'billAMT',
-                    title : '账单金额',
-                    align : 'center',
-                    valign : 'middle'
-                }, {
-                    field : 'addTime',
-                    title : '交易时间',
-                    align : 'center',
-                    valign : 'middle'
-                },{
-                    field : 'dealState',
-                    title : '交易状态',
+                    field : 'taskIcon',
+                    title : '图标',
                     align : 'center',
                     valign : 'middle',
                     formatter : function (value, row, index){
-                        if ([[row.dealState]]==1){
-                            return "交易成功";
-                        }else if([[row.dealState]]==2){
-                            return "交易失败";
-                        }
+                        return "<img style='width: 50px;height: 50px;' src="+[[row.taskIcon]]+"/>";
                     }
                 }, {
-                    field : 'paymentMode',
-                    title : '付款方式',
+                    field : 'taskIndate',
+                    title : '有效期',
                     align : 'center',
                     valign : 'middle'
                 }, {
-                    field : 'paymentType',
-                    title : '付款类型',
-                    align : 'center',
-                    valign : 'middle'
-                },{
                     field : '',
                     title : '操作',
                     align : 'center',
                     valign : 'middle',
                     formatter : function (value, row, index){
-                        return "<shiro:hasPermission name='user:bill_select'><a href='javascript:;' onclick='select("+row.billId+")'>[[${permissionMap.bill_select_name}]]</a>&nbsp;</shiro:hasPermission>";
+                        return "<shiro:hasPermission name='user:task_update'><a href='javascript:;' onclick='addUpData("+row.taskId+")'>[[${permissionMap.task_update_name}]]</a>&nbsp;</shiro:hasPermission>" +
+                            "<shiro:hasPermission name='user:task_del'><a href='javascript:;' onclick='del("+row.taskId+")'>[[${permissionMap.task_del_name}]]</a>&nbsp;</shiro:hasPermission>";
                     }
                 }]
         });
@@ -130,8 +102,7 @@
             offset : this.offset, // 页码
             page : this.pageNumber,
             rows : this.pageSize,
-            billTitle:$("#billTitle").val(),
-            billCode:$("#billCode").val()
+            taskName:$("#taskName").val()
         }
         return param;
     }
@@ -155,8 +126,9 @@
         $('#data-table').bootstrapTable('refresh');    //刷新表格
     }
     var openIndex;
-    function select(id){
-        var title ="[[${permissionMap.bill_select_name}]]";
+    //修改
+    function addUpData(id){
+        var title =id?"[[${permissionMap.task_add_name}]]":"[[${permissionMap.task_update_name}]]";
         openIndex=layer.open({
             title:title,
             type: 2,
@@ -164,10 +136,51 @@
             shift: 2,
             shadeClose: true, //开启遮罩关闭
             area: ['800px', '700px'],
-            content: baseurl+'[[${permissionMap.bill_select_url}]]?billId='+id
+            content: baseurl+'[[${permissionMap.task_add_url}]]?taskId='+id
         });
     }
+    //修改医生状态
+    function del(id) {
+        $.confirm(
+            {
+                title: '删除',
+                content: "确认删除",
+                type: 'green',
+                icon: 'glyphicon glyphicon-question-sign',
+                buttons: {
+                    confirm: {
+                        text: "确认",
+                        btnClass: 'btn-primary',
+                        keys: ['enter'],
+                        action: function () {
+                            var param={
+                                taskId:id
+                            };
+                            $.post(baseurl+"[[${permissionMap.task_del_url}]]",param,function(data){
+                                if(data.status>=1){
+                                    layer.alert(data.info,{icon: 6},function(){
+                                        location.href=location.href;
+                                    });
+                                }else{
+                                    layer.alert(data.info, {
+                                        icon : 5
+                                    });
+                                }
+                            });
+                        }
+                    },
+                    cancel: {
+                        text: "取消",
+                        btnClass: 'btn-default',
+                        keys: ['esc'],
+                        action: function () {
+                        }
+                    }
+                }
+            }
+        );
 
+    }
     function cancelSave(){
         layer.close(openIndex);
     }

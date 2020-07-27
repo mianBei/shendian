@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="/common/baseFile :: commonHeader('')"></head>
+<body class="bg-gray" style="height:296px;overflow:hidden;">
+<input type="hidden" id="paymentConfigId" th:value="${paymentConfig.paymentConfigId}">
+<div class="bg-white main-div" valign="top">
+    <div>
+        <label>使用者类型：</label>
+        <select th:id="userType" th:name="userType">
+            <option th:if="${paymentConfig.userType==1}" th:value="1">用户端和商家端</option>
+            <option th:if="${paymentConfig.userType==3}" th:value="3">平台端</option>
+        </select>
+    </div>
+    <div>
+        <label>程序类型：</label>
+        <select th:id="appType" th:name="appType">
+            <option th:if="${paymentConfig.appType==1}" th:value="1">app</option>
+            <option th:if="${paymentConfig.appType==2}" th:value="2">小程序</option>
+        </select>
+    </div>
+    <div>
+        <label>付款配置数据：</label>
+        <input th:id="paymentConfigData" th:name="paymentConfigData" th:value="${paymentConfig.paymentConfigData}"/>
+    </div>
+    <div>
+        <label>备注：</label>
+        <input th:id="remark" th:name="remark" th:value="${paymentConfig.remark}"/>
+    </div>
+    <div>
+        <label>限额：</label>
+        <input th:id="toDayWithdrawAMT" th:name="toDayWithdrawAMT" th:value="${paymentConfig.toDayWithdrawAMT}"/>
+    </div>
+
+</div>
+<div class="button-div">
+    <button th:onclick="saveData()" class="btn btn-info">保存</button>
+    <button th:onclick="cancelSave()" style="margin-left:10px;" class="btn btn-default">取消</button>
+</div>
+<script type="text/javascript">
+    function cancelSave() {
+        parent.cancelSave();
+    }
+    function saveData() {
+        var param = {
+            paymentConfigId: $("#paymentConfigId").val(),
+            userType: $("select[name='userType']").find('option:selected').val(),
+            appType: $("select[name='appType']").find('option:selected').val(),
+            paymentConfigData: $("#paymentConfigData").val(),
+            remark: $("#remark").val()
+            toDayWithdrawAMT: $("#toDayWithdrawAMT").val()
+        };
+        if (param["userType"] == "") {
+            layer.tips('请选择使用者类型', '#userType');
+            return false;
+        }
+        if (param["appType"] == "") {
+            layer.tips('请选择程序类型', '#appType');
+            return false;
+        }
+        if (param["paymentConfigData"] == "") {
+            layer.tips('请输入配置数据', '#paymentConfigData');
+            return false;
+        }
+        if (param["toDayWithdrawAMT"] == "") {
+            layer.tips('请输入限额', '#toDayWithdrawAMT');
+            return false;
+        }
+        $.post(baseurl + "platform/savePaymentConfig.htm", param, function (data) {
+            parent.saveCallBack(data);
+        });
+    }
+</script>
+</body>
+</html>

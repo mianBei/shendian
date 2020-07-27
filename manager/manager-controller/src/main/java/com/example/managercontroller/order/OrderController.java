@@ -4,6 +4,7 @@ import com.example.common.superCon.SuperController;
 import com.example.common.util.Util;
 import com.example.managerDao.order.entity.PlatformBill;
 import com.example.managerService.order.IPlatformBillService;
+import com.example.managerService.order.IPlatformOrderService;
 import org.apache.shiro.crypto.hash.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,8 @@ import java.util.HashMap;
 public class OrderController extends SuperController {
     @Autowired
     IPlatformBillService billService;
+    @Autowired
+    IPlatformOrderService orderService;
     /**
      * 跳转账单列表
      * @return
@@ -56,5 +59,42 @@ public class OrderController extends SuperController {
         request.setAttribute("shop",bill.get("shop"));
         request.setAttribute("user",bill.get("user"));
         return "order/bill/selectBill";
+    }
+
+    /**
+     * 跳转订单列表
+     * @return
+     */
+    @RequestMapping(value = "/order.htm",method = RequestMethod.GET)
+    public String order(){
+        return "order/order/order";
+    }
+
+    /**
+     * 订单列表
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/getOrderList.htm",method = RequestMethod.GET)
+    public void getOrderList(HttpServletRequest request, HttpServletResponse response){
+        try {
+            HashMap<String,Object> hm = Util.genHmParam(request);
+            HashMap<String,Object> resultMap =orderService.getOrderList(hm);
+            outJsonForMap(resultMap,response);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 跳转订单列表
+     * @return
+     */
+    @RequestMapping(value = "/selectOrder.htm",method = RequestMethod.GET)
+    public String selectOrder(HttpServletRequest request){
+        HashMap<String,Object> hm = Util.genHmParam(request);
+        HashMap<String,Object> orderMap = orderService.getOrderById(hm);
+        request.setAttribute("order",orderMap);
+        return "order/order/selectOrder";
     }
 }

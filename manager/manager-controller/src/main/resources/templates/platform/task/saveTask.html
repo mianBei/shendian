@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="/common/baseFile :: commonHeader('')"></head>
+<link th:href="@{/css/uploadImg.css}" rel="stylesheet">
+<body class="bg-gray" style="height:296px;overflow:hidden;">
+<input type="hidden" id="taskId" th:value="${task.task.taskId}">
+<div class="bg-white main-div" valign="top">
+    <div>
+        <label>任务名称：</label>
+        <input type="text" th:id="taskName" th:name="taskName" th:class="normal-input" th:value="${task.task.taskName }"/>
+        <label>任务类型：</label>
+        <select th:id="taskType" th:class="normal-input" th:name="taskType" th:onchange="taskType()">
+            <option th:selected="${task.task.taskType==1}" th:value="1">单次</option>
+            <option th:selected="${task.task.taskType==2}" th:value="2">周期</option>
+        </select>
+    </div>
+    <div th:id="cycle">
+        <label>任务有效期：</label>
+        <input type="text" th:id="taskIndate" th:name="taskIndate" th:class="normal-input" th:value="${task.task.taskIndate }"/>
+        <label>任务目标值：</label>
+        <input type="text" th:id="taskTarget" th:name="taskTarget" th:class="normal-input" th:value="${task.task.taskTarget }"/>
+    </div>
+
+    <div>
+        <label>任务图标：</label>
+
+        <div class="picDiv">
+            <div class='imageDiv' th:attr="nm=${task.picName}" th:if="${task.picName!=''&&task.picName!=null }" >
+                <img th:id="${task.picName }" th:src="${task.task.taskIcon }"
+                     style="display: block;width: 160px;height: 130px;"/>
+                <div class='cover'><i class='delbtn'>删除</i></div>
+                <input type="hidden" class="picName" th:value="${task.task.taskIcon }"/>
+            </div>
+            <div class="addImages">
+                <input type="file" class="file" id="uploadFilexxx" multiple="multiple"
+                       accept="image/png, image/jpeg, image/gif, image/jpg">
+                <div class="text-detail">
+                    <span>+</span>
+                    <p>点击上传</p>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="pictures" name="pictures" th:value="${task.picName}"/>
+    </div>
+</div>
+<div class="button-div">
+    <button th:onclick="saveData()" class="btn btn-info">保存</button>
+    <button th:onclick="cancelSave()" style="margin-left:10px;" class="btn btn-default">取消</button>
+</div>
+<script th:src="@{/js/uploadImg.js}"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var taskType="[[${task.task.taskType}]]"
+        if (taskType=="2"){
+            $("#cycle").show();
+        }else{
+            $("#cycle").hide();
+        }
+
+    });
+    function cancelSave() {
+        parent.cancelSave();
+    }
+
+    function taskType(){
+        var taskType = $("select[name='taskType']").find('option:selected').val();
+        if (taskType!=1){
+            $("#cycle").show();
+        }
+    }
+    function saveData() {
+        var param = {
+            taskType: $("select[name='taskType']").find('option:selected').val(),
+            taskId: $("#taskId").val(),
+            taskName: $("#taskName").val(),
+            taskIcon: $("#pictures").val(),
+            taskIndate: $("#taskIndate").val(),
+            taskTarget: $("#taskTarget").val()
+        };
+        if (param["taskType"] == "") {
+            layer.tips('请选择任务类型', '#taskType');
+            return false;
+        }
+        if (param["taskName"] == "") {
+            layer.tips('请输入任务名称', '#taskName');
+            return false;
+        }
+        $.post(baseurl + "platform/saveTask.htm", param, function (data) {
+            parent.saveCallBack(data);
+        });
+    }
+</script>
+</body>
+</html>
