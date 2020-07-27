@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="/common/baseFile :: commonHeader('')"></head>
+<body class="bg-gray"  style="height:296px;overflow:hidden;" >
+<input type="hidden" id="ruleId" th:value="${ruleMap.ruleId }">
+<div class="bg-white main-div" valign="top">
+    <div>
+        <label>权限名称：</label>
+        <input type="text" id="name" name="name" class="normal-input" th:value="${ruleMap.name }"/>
+    </div>
+    <div>
+        <label>权限路径：</label>
+        <input type="text" id="url" name="url" class="normal-input" th:value="${ruleMap.url }"/>
+    </div>
+    <div>
+        <label>父菜单：</label>
+        <select class="normal-input" name="parentId" id="parentId">
+
+                <option th:each="val:${menuList}" th:value="${val.ruleId}" th:selected="${val.ruleId==ruleMap.parentId}" th:text="${val.name}"></option>
+
+        </select>
+    </div>
+    <div>
+        <label>是否为菜单：</label>
+        <select class="normal-input" name="isMenu" id="isMenu">
+            <option value="1" th:selected="${ruleMap.isMenu==1}">是</option>
+            <option value="0" th:selected="${ruleMap.isMenu==0}">否</option>
+        </select>
+    </div>
+    <div>
+        <label>排序：</label>
+        <input id="orderValue" type="text" name="orderValue" class="normal-input" th:value="${ruleMap.orderValue}"/>
+    </div>
+        <div th:if="${ruleMap.isMenu==0}">
+            <label>菜单图标样式：</label>
+            <input id="className" type="text" name="className" class="normal-input" th:value="${ruleMap.className}"/>
+        </div>
+    <div>
+        <label>链接参数：</label>
+        <input id="parameter" type="text" name="parameter" class="normal-input" th:value="${ruleMap.parameter}"/>
+    </div>
+    <div>
+        <label>功能参数：</label>
+        <input id="functionName" type="text" name="functionName" class="normal-input" th:value="${ruleMap.functionName}"/>
+    </div>
+</div>
+<div class="button-div">
+    <button onclick="saveData();" class="btn btn-info">保存</button>
+    <button onclick="cancelSave();" style="margin-left:10px;" class="btn btn-default">取消</button>
+</div>
+<script type="text/javascript">
+    function cancelSave(){
+        parent.cancelSave();
+    }
+    function saveData(){
+        var param={
+            ruleId:$("#ruleId").val(),
+            name:$("#name").val(),
+            url:$("#url").val(),
+            parentId:$("#parentId").val(),
+            isMenu:$("#isMenu").val(),
+            orderValue:$("#orderValue").val(),
+            className:$("#className").val(),
+            parameter:$("#parameter").val(),
+            functionName:$("#functionName").val()
+        };
+        if (param["name"]== "") {
+            layer.tips('请输入权限名称', '#name');
+            return false;
+        }
+        if (param["url"]== "") {
+            layer.tips('请输入权限链接', '#url');
+            return false;
+        }
+        if (param["parentId"]== "") {
+            layer.tips('请输入父类地址', '#parentId');
+            return false;
+        }
+        if (param["isMenu"]== "") {
+            layer.tips('请选择菜单属性', '#isMenu');
+            return false;
+        }
+        if (param["orderValue"]== "") {
+            layer.tips('请输入排序', '#orderValue');
+            return false;
+        }
+        $.post(baseurl+"rule/upRule.htm",param,function(data){
+            parent.saveCallBack(data);
+        });
+    }
+</script>
+</body>
+</html>
