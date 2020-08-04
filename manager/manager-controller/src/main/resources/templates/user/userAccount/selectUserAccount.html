@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="/common/baseFile :: commonHeader('')"></head>
+<link th:href="@{/css/uploadImg.css}" rel="stylesheet">
+<body class="bg-gray" style="height:296px;overflow:hidden;">
+<div class="bg-white main-div" valign="top">
+    <div>
+        <label>用户昵称：</label>
+        <span th:text="${userAccount.userAccount.userNickname}"></span>
+        <label>用户账号：</label>
+        <span th:text="${userAccount.userAccount.userAccountCode}"></span>
+        <label>账号密码：</label>
+        <span th:text="${userAccount.userAccount.userAccountPassword}">全平台</span>
+    </div>
+    <div>
+        <label>手机号</label>
+        <span th:text="${userAccount.userAccount.bindPhone}"></span>
+        <label>是否开通会员</label>
+        <span th:text="未开通" th:if="${userAccount.userAccount.isVip==0 }"></span>
+        <span th:text="已开通" th:if="${userAccount.userAccount.isVip==1 }"></span>
+        <label>用户是否绑定商家</label>
+        <span th:text="未绑定" th:if="${userAccount.userAccount.isBindShop==0 }"></span>
+        <span th:text="已绑定" th:if="${userAccount.userAccount.isBindShop==1 }"></span>
+    </div>
+    <div>
+        <label>是否为代理商</label>
+        <span th:text="不是" th:if="${userAccount.userAccount.isAgent==0}"></span>
+        <span th:text="是" th:if="${userAccount.userAccount.isAgent==1}"></span>
+        <label>是否为合伙人</label>
+        <span th:text="不是" th:if="${userAccount.userAccount.isPartner==0 }"></span>
+        <span th:text="是" th:if="${userAccount.userAccount.isPartner==1 }"></span>
+
+    </div>
+    <div th:if="${userAccount.userAccount.isAgentRecommend==1 }">
+        <label>推荐代理商id</label>
+        <span th:text="${userAccount.userAccount.recommendAgentId}"></span>
+    </div>
+    <div th:if="${userAccount.userAccount.isCertification==1 }">
+        <label>用户真实姓名</label>
+        <span th:text="${userAccount.userAccount.userRealName}"></span>
+        <label>用户身份证号</label>
+        <span th:text="${userAccount.userAccount.userIdCode}"></span>
+    </div>
+    <div th:if="${userAccount.userAccount.isPartnerRecommend==1 }">
+        <label>推荐合伙人id</label>
+        <span th:text="${userAccount.userAccount.recommendPartnerId}"></span>
+    </div>
+    <div>
+        <label>是否完善资料</label>
+        <span th:text="${userAccount.userAccount.isPerfectData}"></span>
+        <label>是否关注公众号</label>
+        <span th:text="${userAccount.userAccount.isDiyihh}"></span>
+        <label>是否下载APP</label>
+        <span th:text="${userAccount.userAccount.isDownloadApp}"></span>
+    </div>
+    <div>
+        <label>用户MD豆累计获得个数</label>
+        <span th:text="${userAccount.balance.userMDDTotal}"></span>
+        <label>用户MD豆消耗</label>
+        <span th:text="${userAccount.balance.userMDDExpend}"></span>
+        <label>用户MD豆余额</label>
+        <span th:text="${userAccount.balance.userMDDBalance}"></span>
+    </div>
+    <div>
+        <label>用户是否分享了MD豆</label>
+        <span th:if="${userAccount.balance.userIsShareMDB==0}" th:text="未分享"></span>
+        <span th:if="${userAccount.balance.userIsShareMDB==1}" th:text="分享了"></span>
+        <label>用户分享的MD豆是否已结束</label>
+        <span th:if="${userAccount.balance.shareMDBIsEnd==0}" th:text="未结束"></span>
+        <span th:if="${userAccount.balance.shareMDBIsEnd==1}" th:text="已结束"></span>
+        <label>用户佣金总获得</label>
+        <span th:text="${userAccount.balance.userCommissionTotal}"></span>
+    </div>
+    <div>
+        <label>用户分销佣金总获得</label>
+        <span th:text="${userAccount.balance.userDistributionCommissionTotal}"></span>
+        <label>用户提现佣金总获得</label>
+        <span th:text="${userAccount.balance.userWithdrawCommissionTotal}"></span>
+        <label>用户佣金总消耗</label>
+        <span th:text="${userAccount.balance.userCommissionExpend}"></span>
+    </div>
+    <div>
+        <label>用户佣金余额</label>
+        <span th:text="${userAccount.balance.userCommissionBalance}"></span>
+        <label>用户快反卷总获得</label>
+        <span th:text="${userAccount.balance.quickRefundsTotal}"></span>
+        <label>用户快反卷总消耗</label>
+        <span th:text="${userAccount.balance.quickRefundsExpend}"></span>
+    </div>
+    <div>
+        <label>用户快反卷余额</label>
+        <span th:text="${userAccount.balance.quickRefundsBalance}"></span>
+        <label>用户累计消费现金余额</label>
+        <span th:text="${userAccount.balance.userCashExpend}"></span>
+        <label>用户已付款订单总量</label>
+        <span th:text="${userAccount.balance.userPaidOrderNum}"></span>
+    </div>
+    <div>
+        <label>用户优惠券数量</label>
+        <span th:text="${userAccount.balance.userCouponNum}"></span>
+        <label>用户已排队退款总余额</label>
+        <span th:text="${userAccount.balance.userQueueRefundAMT}"></span>
+        <label>用户正在排队中的余额</label>
+        <span th:text="${userAccount.balance.userQueuingAMT}"></span>
+    </div>
+    <div>
+        <label>消息封面图：</label>
+        <div class="picDiv">
+            <div class='imageDiv' th:attr="nm=${picName}" th:if="${picName!=''&&picName!=null }" >
+                <img th:id="${picName }" th:src="${userAccount.userAccount.userHeadImage}" style="display: block;width: 160px;height: 130px;"/>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="button-div">
+    <button th:onclick="cancelSave()" style="margin-left:10px;" class="btn btn-default">取消</button>
+</div>
+<script th:src="@{/js/uploadImg.js}"></script>
+<script type="text/javascript">
+    function cancelSave() {
+        parent.cancelSave();
+    }
+</script>
+</body>
+</html>

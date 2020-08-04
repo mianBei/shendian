@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="/common/baseFile :: commonHeader('')"></head>
+<link th:href="@{/css/uploadImg.css}" rel="stylesheet">
+<body class="bg-gray" style="height:296px;overflow:hidden;">
+<input type="hidden" id="helpGratisEventId" th:value="${helpGratis.helpGratisEvent.helpGratisEventId}">
+<div class="bg-white main-div" valign="top">
+    <div>
+        <label>商品ID</label>
+        <input type="text" id="commodityId" name="commodityId" class="normal-input" th:value="${helpGratis.helpGratisEvent.commodityId }"/>
+    </div>
+    <div>
+        <label>活动名称：</label>
+        <input type="text" id="helpGratisEventName" name="helpGratisEventName" class="normal-input" th:value="${helpGratis.helpGratisEvent.helpGratisEventName }"/>
+        <label>需助力人数：</label>
+        <input type="text" id="needHelpNum" name="needHelpNum" class="normal-input" th:value="${helpGratis.helpGratisEvent.needHelpNum }"/>
+    </div>
+    <div>
+        <label>商品原价：</label>
+        <input id="commodityWorth" type="text" name="commodityWorth" class="normal-input"
+               th:value="${helpGratis.helpGratisEvent.commodityWorth }"/>
+        <label>免单价：</label>
+        <input id="gratisAMT" type="text" name="gratisAMT" class="normal-input"
+               th:value="${helpGratis.helpGratisEvent.gratisAMT }"/>
+    </div>
+
+    <div>
+        <label>活动有效期：</label>
+        <input id="helpGratisEventIndate" type="text" name="helpGratisEventIndate" class="normal-input"
+               th:value="${helpGratis.helpGratisEvent.helpGratisEventIndate}"/>
+        <label>开始时间：</label>
+        <input id="startTime" type="text" name="startTime" class="normal-input"
+               th:value="${helpGratis.helpGratisEvent.startTime}"/>
+    </div>
+    <div>
+        <label>结束时间：</label>
+        <input id="endTime" type="text" name="endTime" class="normal-input"
+               th:value="${helpGratis.helpGratisEvent.endTime}"/>
+        <label>活动状态：</label>
+        <select th:id="eventStateNum" th:name="eventStateNum" class="normal-input">
+            <option th:selected="${helpGratis.helpGratisEvent.eventStateNum==1}" th:text="未开启" th:value="1"></option>
+            <option th:selected="${helpGratis.helpGratisEvent.eventStateNum==2}" th:text="已开启" th:value="2"></option>
+            <option th:selected="${helpGratis.helpGratisEvent.eventStateNum==3}" th:text="已过期" th:value="3"></option>
+        </select>
+    </div>
+
+</div>
+<div class="button-div">
+    <button th:onclick="saveData()" class="btn btn-info">保存</button>
+    <button th:onclick="cancelSave()" style="margin-left:10px;" class="btn btn-default">取消</button>
+</div>
+<script th:src="@{/js/laydate/laydate.js}"></script>
+<script th:src="@{/js/uploadImg.js}"></script>
+<script type="text/javascript">
+    laydate.render({
+        elem: '#startTime',
+        type: 'datetime'
+    });
+    laydate.render({
+        elem: '#endTime',
+        type: 'datetime'
+    });
+    function cancelSave() {
+        parent.cancelSave();
+    }
+
+    function saveData() {
+        var param = {
+            commodityId: $("#commodityId").val(),
+            helpGratisEventId: $("#helpGratisEventId").val(),
+            helpGratisEventName: $("#helpGratisEventName").val(),
+            needHelpNum: $("#needHelpNum").val(),
+            commodityWorth: $("#commodityWorth").val(),
+            gratisAMT: $("#gratisAMT").val(),
+            helpGratisEventIndate: $("#helpGratisEventIndate").val(),
+            startTime: $("#startTime").val(),
+            endTime: $("#endTime").val(),
+            eventStateNum: $("select[name='eventStateNum']").find('option:selected').val()
+        };
+        if (param["helpGratisEventName"] == "") {
+            layer.tips('请输入活动名称', '#helpGratisEventName');
+            return false;
+        }
+        if (param["needHelpNum"] == "") {
+            layer.tips('请输入助力人数', '#needHelpNum');
+            return false;
+        }
+        if (param["commodityWorth"] == "") {
+            layer.tips('请输入商品原价', '#commodityWorth');
+            return false;
+        }
+        if (param["gratisAMT"] == "") {
+            layer.tips('请输入免单价', '#gratisAMT');
+            return false;
+        }
+        if (param["helpGratisEventIndate"] == "") {
+            layer.tips('请输入有效期', '#helpGratisEventIndate');
+            return false;
+        }
+        if (param["startTime"] == "") {
+            layer.tips('请输入开始时间', '#startTime');
+            return false;
+        }
+        if (param["endTime"] == "") {
+            layer.tips('请输入结束时间', '#endTime');
+            return false;
+        }
+        $.post(baseurl + "shop/saveHelpGratis.htm", param, function (data) {
+            parent.saveCallBack(data);
+        });
+    }
+</script>
+</body>
+</html>

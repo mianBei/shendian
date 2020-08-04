@@ -85,5 +85,11 @@ public class ShopAccount implements Serializable {
     @TableField("operatorBindUserId")
     private String operatorBindUserId;
 
+    /**
+     * 关联role
+     */
+    @TableField("roleId")
+    private int roleId;
+
 
 }

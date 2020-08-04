@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head th:include="/common/baseFile :: commonHeader('')"></head>
+<link th:href="@{/css/plugins/bootstrap-table/bootstrap-table.min.css}" rel="stylesheet">
+<style>
+    th,td{
+        text-align:center;
+    }
+</style>
+<body>
+<div class="ibox-content" style="padding:10px">
+    <div style="padding:10px;">
+        <span>联系人名称：<input id="linkName" class="normal-input"></span>
+        <button onclick="searchRole();" style="margin-left:30px" type="button" class="btn btn-primary">搜索</button>
+        <shiro:hasPermission name="user:complaint_update">
+        </shiro:hasPermission>
+    </div>
+    <table id="data-table"></table>
+</div>
+<script th:src="@{/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+<script th:src="@{/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+<script>
+    $(document).ready(function () {
+        initTable();
+    });
+
+    function initTable(){
+        var url = baseurl+"user/getComplaintList.htm";
+        $('#data-table').bootstrapTable({
+            method:'GET',
+            dataType:'json',
+            contentType: "application/x-www-form-urlencoded",
+            cache: false,
+            striped: true,                              //是否显示行间隔色
+            sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+            url:url,
+            height: $(window).height() - 76,
+            width:$(window).width(),
+            showColumns:false,
+            pagination:true,
+            queryParams : queryParams,
+            pageNumber:1,                       //初始化加载第一页，默认第一页
+            pageSize: 10,                       //每页的记录行数（*）
+            pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+            uniqueId: "id",                     //每一行的唯一标识，一般为主键列
+            responseHandler: responseHandler,
+            columns: [
+                {
+                    field: 'index',
+                    title: '序号',
+                },
+                {
+                    field : 'complainType',
+                    title : '投诉类型',
+                    align : 'center',
+                    valign : 'middle'
+                }, {
+                    field : 'complainContent',
+                    title : '投诉内容',
+                    align : 'center',
+                    valign : 'middle'
+                }, {
+                    field : 'linkName',
+                    title : '联系人姓名',
+                    align : 'center',
+                    valign : 'middle'
+                }, {
+                    field : 'linkTel',
+                    title : '联系人电话',
+                    align : 'center',
+                    valign : 'middle'
+                }, {
+                    field : 'complainTime',
+                    title : '投诉时间',
+                    align : 'center',
+                    valign : 'middle',
+                }{
+                    field : '',
+                    title : '操作',
+                    align : 'center',
+                    valign : 'middle',
+                    formatter : function (value, row, index){
+                        return "<shiro:hasPermission name='user:complaint_update'><a href='javascript:;' onclick='update("+row.complainId+")'>[[${permissionMap.complaint_update_name}]]</a>&nbsp;</shiro:hasPermission>";
+                    }
+                }]
+        });
+    }
+
+    function queryParams(params) {
+        var param = {
+            limit : this.limit, // 页面大小
+            offset : this.offset, // 页码
+            page : this.pageNumber,
+            rows : this.pageSize,
+            linkName:$("#linkName").val()
+        }
+        return param;
+    }
+
+    // 用于server 分页，表格数据量太大的话 不想一次查询所有数据，可以使用server分页查询，数据量小的话可以直接把sidePagination: "server"  改为 sidePagination: "client" ，同时去掉responseHandler: responseHandler就可以了，
+    function responseHandler(res) {
+        if (res) {
+            return {
+                "rows" : res.result,
+                "total" : res.totalCount
+            };
+        } else {
+            return {
+                "rows" : [],
+                "total" : 0
+            };
+        }
+    }
+
+    function searchRole(){
+        $('#data-table').bootstrapTable('refresh');    //刷新表格
+    }
+    var openIndex;
+    //修改
+    function update(id){
+        var title =id?"[[${permissionMap.complaint_update_name}]]":"[[${permissionMap.complaint_update_name}]]";
+        openIndex=layer.open({
+            title:title,
+            type: 2,
+            skin: 'layui-layer-demo', //样式类名
+            shift: 2,
+            shadeClose: true, //开启遮罩关闭
+            area: ['800px', '600px'],
+            content: baseurl+'[[${permissionMap.complaint_update_url}]]?complainId='+id
+        });
+    }
+    function cancelSave(){
+        layer.close(openIndex);
+    }
+    function saveCallBack(data){
+        if (data.status == 1) {
+            layer.close(openIndex);
+            $('#data-table').bootstrapTable('refresh');    //刷新表格
+            layer.alert(data.info, {
+                icon : 6
+            });
+        } else {
+            layer.alert(data.info, {
+                icon : 5
+            });
+        }
+    }
+</script>
+
+</body>
+
+</html>

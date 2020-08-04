@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="/common/baseFile :: commonHeader('')"></head>
+
+<body class="bg-gray" style="height:296px;overflow:hidden;">
+<div class="bg-white main-div" valign="top">
+    <div>
+        <label>交易记录标题：</label>
+        <span th:text="${cashLog.cashLog.dealLogTitle}" ></span>
+        <label>收入支出：</label>
+        <span th:if="${cashLog.cashLog.inOrOut==1}" th:text="收入" ></span>
+        <span th:if="${cashLog.cashLog.inOrOut==2}" th:text="支出" ></span>
+        <label>交易类型：</label>
+        <span th:text="${cashLog.cashLog.dealType}" ></span>
+    </div>
+    <div>
+        <label>交易金额：</label>
+        <span th:text="${cashLog.cashLog.dealAMT}" ></span>
+        <label>交易时间：</label>
+        <span th:text="${cashLog.cashLog.addTime}" ></span>
+    </div>
+    <div th:if="${cashLog.cashLog.dealTypeNum==-1}">
+        <label>提现百分比：</label>
+        <span th:text="${cashLog.cashLog.withdrawPercentum}" ></span>
+        <label>提现现金：</label>
+        <span th:text="${cashLog.cashLog.withdrawMoney}" ></span>
+    </div>
+    <div th:if="${cashLog.cashLog.dealTypeNum==1 || cashLog.cashLog.dealTypeNum==2}">
+        <label>用户实付金额：</label>
+        <span th:text="${cashLog.cashLog.userRealityAMT}" ></span>
+        <label>店铺让利金额：</label>
+        <span th:text="${cashLog.cashLog.shopDiscountsAMT}" ></span>
+        <label>店铺选择折扣：</label>
+        <span th:text="${cashLog.cashLog.shopSelectDiscounts}" ></span>
+        <label>平台收益金额：</label>
+        <span th:text="${cashLog.cashLog.platfromAMT}" ></span>
+        <label>代理收益金额：</label>
+        <span th:text="${cashLog.cashLog.agentAMT}" ></span>
+    </div>
+    <div th:if="${cashLog.cashLog.dealTypeNum==2}">
+        <label>分销佣金金额：</label>
+        <span th:text="${cashLog.cashLog.distributionCommissionAMT}" ></span>
+    </div>
+    <div>
+        <label>备注：</label>
+        <span th:text="${cashLog.cashLog.remark}" ></span>
+    </div>
+
+</div>
+<div class="button-div">
+    <button th:onclick="cancelSave()" style="margin-left:10px;" class="btn btn-default">取消</button>
+</div>
+
+<script type="text/javascript">
+
+    function cancelSave() {
+        parent.cancelSave();
+    }
+</script>
+</body>
+</html>

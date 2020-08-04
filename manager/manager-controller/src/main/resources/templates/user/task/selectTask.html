@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="/common/baseFile :: commonHeader('')"></head>
+<link th:href="@{/css/uploadImg.css}" rel="stylesheet">
+<body class="bg-gray" style="height:296px;overflow:hidden;">
+<div class="bg-white main-div" valign="top">
+    <div>
+        <label>任务名称：</label>
+        <span th:text="${task.platformTask.task.taskName}"></span>
+        <label>用户类型：</label>
+        <span th:if="${task.platformTask.task.taskType==1}" th:text="单次"></span>
+        <span th:if="${task.platformTask.task.taskType==2}" th:text="周期"></span>
+        <label>领取时间：</label>
+        <span th:text="${task.task.addTime}"></span>
+    </div>
+    <div>
+        <label>结束时间</label>
+        <span th:text="${task.task.endTime}"></span>
+        <label>任务目标</label>
+        <span th:text="${task.task.taskTarget}"></span>
+        <label>已完成目标</label>
+        <span th:text="${task.task.alreadyTarget }"></span>
+    </div>
+    <div>
+        <label>剩余目标</label>
+        <span th:if="${userAccount.userAccount.stillNeedTarget}"></span>
+        <label>任务状态</label>
+        <span th:text="未完成" th:if="${task.task.taskState==1 }"></span>
+        <span th:text="已完成未领取" th:if="${task.task.taskState==2 }"></span>
+        <span th:text="已完成已领取" th:if="${task.task.taskState==3 }"></span>
+        <span th:text="已过期" th:if="${task.task.taskState==4 }"></span>
+    </div>
+
+    <div>
+        <label>消息封面图：</label>
+        <div class="picDiv">
+            <div class='imageDiv' th:attr="nm=${task.platfromTask.picName}" th:if="${task.platfromTask.picName!=''&&task.platfromTask.picName!=null }" >
+                <img th:id="${task.platfromTask.picName }" th:src="${task.platfromTask.task.taskIcon}" style="display: block;width: 160px;height: 130px;"/>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="button-div">
+    <button th:onclick="cancelSave()" style="margin-left:10px;" class="btn btn-default">取消</button>
+</div>
+<script th:src="@{/js/uploadImg.js}"></script>
+<script type="text/javascript">
+    function cancelSave() {
+        parent.cancelSave();
+    }
+</script>
+</body>
+</html>

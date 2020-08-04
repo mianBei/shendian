@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="/common/baseFile :: commonHeader('')"></head>
+
+<body class="bg-gray" style="height:296px;overflow:hidden;">
+<input type="hidden" id="SMSId" th:value="${sms.sms.SMSId }">
+<div class="bg-white main-div" valign="top">
+    <div>
+        <label>appId：</label>
+        <input type="text" th:id="SMSSDKAppId" th:name="SMSSDKAppId" th:class="normal-input" th:value="${sms.sms.SMSSDKAppId }"/>
+        <label>appKey：</label>
+        <input type="text" th:id="SMSAppKey" th:name="SMSAppKey" th:class="normal-input" th:value="${sms.sms.SMSAppKey }"/>
+    </div>
+    <div>
+        <label>短信模板Id：</label>
+        <input type="text" th:id="SMSTemplateId" th:name="SMSTemplateId" th:class="normal-input" th:value="${sms.sms.SMSTemplateId }"/>
+        <label>短信签名：</label>
+        <input type="text" th:id="SMSSign" th:name="SMSSign" th:class="normal-input" th:value="${sms.sms.SMSTemplateId }"/>
+    </div>
+    <div>
+        <label>短信正文：</label>
+        <input type="text" th:id="SMSContent" th:name="SMSContent" th:class="normal-input" th:value="${sms.sms.SMSContent }"/>
+    </div>
+
+</div>
+<div class="button-div">
+    <button th:onclick="saveData()" class="btn btn-info">保存</button>
+    <button th:onclick="cancelSave()" style="margin-left:10px;" class="btn btn-default">取消</button>
+</div>
+<script type="text/javascript">
+
+    function cancelSave() {
+        parent.cancelSave();
+    }
+    function saveData() {
+        var param = {
+            SMSSDKAppId: $("#SMSSDKAppId").val(),
+            SMSId: $("#SMSId").val(),
+            SMSAppKey: $("#SMSAppKey").val(),
+            SMSTemplateId: $("#SMSTemplateId").val(),
+            SMSSign: $("#SMSSign").val(),
+            SMSContent: $("#SMSContent").val()
+        };
+        if (param["SMSSDKAppId"] == "") {
+            layer.tips('请输入短信appId', '#SMSSDKAppId');
+            return false;
+        }
+        if (param["SMSAppKey"] == "") {
+            layer.tips('请输入短信appKey', '#SMSAppKey');
+            return false;
+        }
+        if (param["SMSTemplateId"] == "") {
+            layer.tips('请输入短信模板Id', '#SMSTemplateId');
+            return false;
+        }
+        if (param["SMSSign"] == "") {
+            layer.tips('请输入短信签名', '#SMSSign');
+            return false;
+        }
+        if (param["SMSContent"] == "") {
+            layer.tips('请输入短信正文', '#SMSContent');
+            return false;
+        }
+        $.post(baseurl + "platform/saveSms.htm", param, function (data) {
+            parent.saveCallBack(data);
+        });
+    }
+</script>
+</body>
+</html>

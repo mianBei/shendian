@@ -45,7 +45,7 @@ public class ShopAccountServiceImpl extends ServiceImpl<ShopAccountMapper, ShopA
         IPage<Map<String, Object>> pageN = new Page<>(page, rows);
         String accountCode = map.get("shopAccountCode").toString();
         IPage<Map<String,Object>> basicInfoList = accountMapper.selectMapsPage(pageN,new LambdaQueryWrapper<ShopAccount>()
-                .eq(org.apache.commons.lang3.StringUtils.isNotEmpty(accountCode),ShopAccount::getShopAccountCode,accountCode)
+                .eq(org.apache.commons.lang.StringUtils.isNotBlank(accountCode),ShopAccount::getShopAccountCode,accountCode)
                 .orderByDesc(ShopAccount::getAddTime)
         );
         List<Map<String,Object>> recordList = basicInfoList.getRecords();
@@ -65,10 +65,22 @@ public class ShopAccountServiceImpl extends ServiceImpl<ShopAccountMapper, ShopA
      */
     @Override
     public HashMap<String, Object> getAccountUserById(HashMap<String, Object> map) {
-        int userId = Integer.parseInt(map.get("userId").toString());
+        String userId = map.get("userId").toString();
         UserAccountInfo accountInfo = accountInfoService.getUserById(userId);
         HashMap<String,Object> resultMap = new HashMap<>();
         resultMap.put("user",accountInfo);
         return resultMap;
+    }
+
+    /**
+     * 根据账号查询商家用户
+     * @return
+     */
+    @Override
+    public ShopAccount getAccountByCode(String code) {
+
+        return accountMapper.selectOne(new LambdaQueryWrapper<ShopAccount>()
+                .eq(ShopAccount::getShopAccountCode,code)
+        );
     }
 }

@@ -193,5 +193,11 @@ public class UserAccountInfo implements Serializable {
     @TableField("searchArr")
     private String searchArr;
 
+    /**
+     * 添加时间戳
+     */
+    @TableField("addTime")
+    private String addTime;
+
 
 }

@@ -8,6 +8,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="common" />
+        <module name="config" />
+        <module name="demo" />
+        <module name="manager-api" />
         <module name="manager-controller" />
         <module name="manager-dao" />
         <module name="manager-service" />
@@ -15,11 +18,15 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="common" target="1.8" />
+      <module name="config" target="1.8" />
+      <module name="demo" target="1.8" />
       <module name="exemptionManager" target="1.8" />
       <module name="manager" target="1.8" />
+      <module name="manager-api" target="1.8" />
       <module name="manager-controller" target="1.8" />
       <module name="manager-dao" target="1.8" />
       <module name="manager-service" target="1.8" />
+      <module name="manager-wx" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

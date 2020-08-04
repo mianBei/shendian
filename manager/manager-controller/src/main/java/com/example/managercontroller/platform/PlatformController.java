@@ -34,6 +34,8 @@ public class PlatformController extends SuperController{
     IPlatformPaymentConfigService paymentConfigService;
     @Autowired
     IPlatformTaskService taskService;
+    @Autowired
+    ISmsTemplateService smsTemplateService;
     /**
      * 跳转平台信息管理
      * @return
@@ -324,6 +326,60 @@ public class PlatformController extends SuperController{
         try{
             HashMap<String,Object> hm = Util.genHmParam(request);
             int result = taskService.delTask(hm);
+            resultMap.put("status",result);
+            resultMap.put("info", Constants.RESULT_SUCCESS_CON);
+        }catch (Exception e){
+            e.printStackTrace();
+            resultMap.put("status",Constants.RESULT_ERROR);
+            resultMap.put("info", Constants.RESULT_ERROR_CON);
+        }
+        outJsonForMap(resultMap,response);
+    }
+
+    /**
+     * 跳转短信模板列表
+     * @return
+     */
+    @RequestMapping(value = "/sms.htm" ,method = RequestMethod.GET)
+    public String sms(){
+        return "platform/sms/sms";
+    }
+
+    /**
+     * 短信列表
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/getSmsList.htm",method = RequestMethod.GET)
+    public void getSmsList(HttpServletRequest request, HttpServletResponse response){
+        try {
+            HashMap<String,Object> hm = Util.genHmParam(request);
+            HashMap<String,Object> resultMap = smsTemplateService.getSmsList(hm);
+            outJsonForMap(resultMap,response);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 根据id查询短信模板
+     * @return
+     */
+    @RequestMapping(value = "/goSaveSms.htm" ,method = RequestMethod.GET)
+    public String goSaveSms(HttpServletRequest request){
+        request.setAttribute("sms",smsTemplateService.getSmsById(Util.genHmParam(request)));
+        return "platform/sms/saveSms";
+    }
+
+    /**
+     * 修改短信模板
+     */
+    @RequestMapping(value = "saveSms.htm",method = RequestMethod.POST)
+    public void saveSms(HttpServletRequest request,HttpServletResponse response){
+        HashMap<String,Object> resultMap = new HashMap<>();
+        try{
+            HashMap<String,Object> hm = Util.genHmParam(request);
+            int result = smsTemplateService.saveSms(hm);
             resultMap.put("status",result);
             resultMap.put("info", Constants.RESULT_SUCCESS_CON);
         }catch (Exception e){

@@ -121,6 +121,9 @@ public class ShopHelpGratisEvent implements Serializable {
      */
     @TableField("eventStateNum")
     private Integer eventStateNum;
-
-
+    /**
+     * 商家ID
+     */
+    @TableField("commodityId")
+    private int commodityId;
 }

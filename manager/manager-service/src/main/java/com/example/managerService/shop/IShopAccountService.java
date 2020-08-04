@@ -28,4 +28,11 @@ public interface IShopAccountService extends IService<ShopAccount> {
      * @return
      */
     HashMap<String,Object> getAccountUserById(HashMap<String,Object> map);
+
+    /**
+     * 根据账号查询
+     * @param code
+     * @return
+     */
+    ShopAccount getAccountByCode(String code);
 }

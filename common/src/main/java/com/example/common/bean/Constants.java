@@ -82,4 +82,6 @@ public interface Constants {
     int ISDEL  = 1;
 
     int ISDELYES=0;
+
+    int PROVINCE=0;
 }

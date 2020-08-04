@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="/common/baseFile :: commonHeader('')"></head>
+<link th:href="@{/css/uploadImg.css}" rel="stylesheet">
+<body class="bg-gray" style="height:296px;overflow:hidden;">
+<input type="hidden" id="commodityId" th:value="${commodity.commodity.commodityId}">
+<div class="bg-white main-div" valign="top">
+    <div>
+        <label>商品名称：</label>
+        <input type="text" id="commodityName" name="commodityName" class="normal-input" th:value="${commodity.commodity.commodityName }"/>
+        <label>商品价格：</label>
+        <input type="text" id="commodityAMT" name="commodityAMT" class="normal-input" th:value="${commodity.commodity.commodityAMT }"/>
+    </div>
+    <div>
+        <label>商品原价：</label>
+        <input id="commodityWorth" type="text" name="commodityWorth" class="normal-input"
+               th:value="${commodity.commodity.commodityWorth }"/>
+        <label>商品星级：</label>
+        <input id="commodityStar" type="text" name="commodityStar" class="normal-input"
+               th:value="${commodity.commodity.commodityStar }"/>
+    </div>
+
+    <div>
+        <label>是否删除：</label>
+        <select th:id="isDel" th:name="isDel" class="normal-input">
+            <option th:selected="${commodity.commodity.isDel==1}" th:value="1" th:text="未删除"></option>
+            <option th:selected="${commodity.commodity.isDel==0}" th:value="0" th:text="已删除"></option>
+        </select>
+    </div>
+    <div>
+        <label>平台LOGO：</label>
+        <!--<input type="text" id="logo" name="logo" class="normal-input" th:value="${basicInfo.platformLogo }"/>-->
+        <div class="picDiv">
+            <div class='imageDiv' th:if="${commodity.commodity.commoditySubImage!=null}" th:attr="nm=${picName}" >
+                <img th:id="${commodity.picName }" th:src="${commodity.commodity.commoditySubImage}"
+                     style="display: block;width: 160px;height: 130px;"/>
+                <div class='cover'><i class='delbtn'>删除</i></div>
+                <input type="hidden" class="picName" th:value="${commodity.commodity.commoditySubImage }"/>
+            </div>
+            <div class="addImages">
+                <input type="file" class="file" id="uploadFilexxx" multiple="multiple"
+                       accept="image/png, image/jpeg, image/gif, image/jpg">
+                <div class="text-detail">
+                    <span>+</span>
+                    <p>点击上传</p>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="pictures" name="pictures" th:value="${commodity.picName }"/>
+        <p><span style="color: red">注：每张照片大写不可超过4M，且最多可以传十张</span></p>
+    </div>
+</div>
+<div class="button-div">
+    <button th:onclick="saveData()" class="btn btn-info">保存</button>
+    <button th:onclick="cancelSave()" style="margin-left:10px;" class="btn btn-default">取消</button>
+</div>
+<script th:src="@{/js/uploadImg.js}"></script>
+<script type="text/javascript">
+    function cancelSave() {
+        parent.cancelSave();
+    }
+
+    function saveData() {
+        var param = {
+            commodityId: $("#commodityId").val(),
+            commoditySubImage: $("#pictures").val(),
+            commodityName: $("#commodityName").val(),
+            commodityAMT: $("#commodityAMT").val(),
+            commodityWorth: $("#commodityWorth").val(),
+            commodityStar: $("#commodityStar").val(),
+            isDel: $("select[name='isDel']").find('option:selected').val()
+        };
+        if (param["commodityName"] == "") {
+            layer.tips('请输入商品名称', '#commodityName');
+            return false;
+        }
+        if (param["commodityAMT"] == "") {
+            layer.tips('请输入商品价格', '#commodityAMT');
+            return false;
+        }
+        if (param["commodityWorth"] == "") {
+            layer.tips('请输入商品原价', '#commodityWorth');
+            return false;
+        }
+        if (param["commodityStar"] == "") {
+            layer.tips('请输入商品星级', '#commodityStar');
+            return false;
+        }
+        $.post(baseurl + "shop/saveCommodity.htm", param, function (data) {
+            parent.saveCallBack(data);
+        });
+    }
+</script>
+</body>
+</html>

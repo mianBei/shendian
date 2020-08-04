@@ -20,5 +20,19 @@ public interface IUserAccountInfoService extends IService<UserAccountInfo> {
      * @param userId
      * @return
      */
-    UserAccountInfo getUserById(int userId);
+    UserAccountInfo getUserById(String userId);
+
+    /**
+     * 用户列表
+     * @param map
+     * @return
+     */
+    HashMap<String,Object> getUserAccountList(HashMap<String,Object> map);
+
+    /**
+     * 根据id查询返回map类型
+     * @param map
+     * @return
+     */
+    HashMap<String,Object> getMapUserById(HashMap<String,Object> map);
 }

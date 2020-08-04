@@ -3,10 +3,12 @@ package com.example.managercontroller.login;
 import com.example.common.util.StringUtils;
 import com.example.managerDao.jurisdiction.entity.PlatformAccount;
 import com.example.managerDao.jurisdiction.entity.PlatformRole;
+import com.example.managerDao.shop.entity.ShopAccount;
 import com.example.managerService.jurisdiction.IPlatformAccountService;
 import com.example.managerService.jurisdiction.IPlatformRoleRuleService;
 import com.example.managerService.jurisdiction.IPlatformRoleService;
 import com.example.managerService.platform.IPlatformMessageSystemService;
+import com.example.managerService.shop.IShopAccountService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -33,6 +35,8 @@ public class MainController {
     IPlatformRoleRuleService platformRoleRuleService;
     @Autowired
     IPlatformMessageSystemService messageSystemService;
+    @Autowired
+    IShopAccountService shopAccountService;
     /**
      * 跳转登录页面
      * @return
@@ -61,13 +65,20 @@ public class MainController {
     @RequestMapping(value = "/main.htm",method = RequestMethod.GET)
     public ModelAndView main(HttpServletRequest request, Model model){
         ModelAndView mv = new ModelAndView();
-        HashMap<String,PlatformAccount> userBean=(HashMap)request.getSession().getAttribute("userSession");
-        PlatformAccount accountInfo = userBean.get("accountInfo");
-        if(accountInfo==null){
+        HashMap userBean=(HashMap)request.getSession().getAttribute("userSession");
+        String isType = userBean.get("isType").toString();
+        int roleId = 0;
+        if ("platform".equals(isType)){
+            PlatformAccount accountInfo = (PlatformAccount) userBean.get("accountInfo");
+            roleId = accountInfo.getRoleId();
+        }else{
+            ShopAccount accountInfo = (ShopAccount) userBean.get("accountInfo");
+            roleId = accountInfo.getRoleId();
+        }
+        /*if(accountInfo==null){
             mv.setViewName("base/login");
             return mv;
-        }
-        int roleId = accountInfo.getRoleId();
+        }*/
         List<HashMap<String,Object>>  ruleList = platformRoleRuleService.getRoleMenuRules(roleId);
         model.addAttribute("systemCount",messageSystemService.getMessageSystemCount());
         model.addAttribute("ruleList", ruleList);
@@ -94,14 +105,23 @@ public class MainController {
             UsernamePasswordToken token = new UsernamePasswordToken(username, password);
             try {
                 subject.login(token);
+                int roleId=0;
                 PlatformAccount platformAccount = platformAccountService.getAccountByCode(username);
+                HashMap<String,Object> userMap = new HashMap<>();
+                if (platformAccount==null){
+                    ShopAccount shopAccount = shopAccountService.getAccountByCode(username);
+                    roleId=shopAccount.getRoleId();
+                    userMap.put("accountInfo", shopAccount);
+                    userMap.put("isType","shop");
+                }else{
+                    roleId = platformAccount.getRoleId();
+                    userMap.put("accountInfo", platformAccount);
+                    userMap.put("isType","platform");
+                }
                 PlatformRole platformRole=new PlatformRole();
-                int roleId = platformAccount.getRoleId();
                 if(roleId!=0){
                     platformRole=platformRoleService.getRoleById(roleId);
                 }
-                HashMap<String,Object> userMap = new HashMap<>();
-                userMap.put("accountInfo", platformAccount );
                 userMap.put("platformRole", platformRole);
                 request.getSession().setAttribute("userSession", userMap);
                 resultMap.put("status",1);

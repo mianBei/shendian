@@ -125,7 +125,7 @@ public class ShopBasicInfo implements Serializable {
      * 店铺入驻时间  时间戳
      */
     @TableField("shopEnterTime")
-    private Long shopEnterTime;
+    private String shopEnterTime;
 
     /**
      * 店铺是否通过申请后是否配置店铺  0：没有；1：配置了
@@ -137,7 +137,7 @@ public class ShopBasicInfo implements Serializable {
      * 店铺配置时间  时间戳
      */
     @TableField("configTime")
-    private Long configTime;
+    private String configTime;
 
     /**
      * 店铺轮播图数组  json字符串

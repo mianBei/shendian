@@ -5,6 +5,9 @@ import com.example.common.util.Util;
 import com.example.managerDao.order.entity.PlatformBill;
 import com.example.managerService.order.IPlatformBillService;
 import com.example.managerService.order.IPlatformOrderService;
+import com.example.managerService.shop.IShopBillService;
+import com.example.managerService.shop.IShopDealLogCashAccountService;
+import com.example.managerService.user.IUserBillService;
 import org.apache.shiro.crypto.hash.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +25,12 @@ public class OrderController extends SuperController {
     IPlatformBillService billService;
     @Autowired
     IPlatformOrderService orderService;
+    @Autowired
+    IShopBillService shopBillService;
+    @Autowired
+    IShopDealLogCashAccountService dealLogCashAccountService;
+    @Autowired
+    IUserBillService userBillService;
     /**
      * 跳转账单列表
      * @return
@@ -96,5 +105,113 @@ public class OrderController extends SuperController {
         HashMap<String,Object> orderMap = orderService.getOrderById(hm);
         request.setAttribute("order",orderMap);
         return "order/order/selectOrder";
+    }
+
+    /**
+     * 跳转商家订单
+     * @return
+     */
+    @RequestMapping(value = "shopBill.htm",method = RequestMethod.GET)
+    public String shopBill(){
+        return "order/shop/bill";
+    }
+
+    /**
+     * 商家订单列表
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/getShopBillList.htm",method = RequestMethod.GET)
+    public void getShopBillList(HttpServletRequest request, HttpServletResponse response){
+        try {
+            HashMap<String,Object> hm = Util.genHmParam(request);
+            HashMap<String,Object> resultMap =shopBillService.getShopBillList(hm);
+            outJsonForMap(resultMap,response);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 跳转商品订单详情
+     * @return
+     */
+    @RequestMapping(value = "/selectShopBill.htm",method = RequestMethod.GET)
+    public String selectShopBill(HttpServletRequest request){
+        HashMap<String,Object> hm = Util.genHmParam(request);
+        HashMap<String,Object> shopMap = shopBillService.getShopBillById(hm);
+        request.setAttribute("shop",shopMap);
+        return "order/shop/selectShopBill";
+    }
+    /**
+     * 跳转商家交易记录
+     * @return
+     */
+    @RequestMapping(value = "cashLog.htm",method = RequestMethod.GET)
+    public String cashLog(){
+        return "order/cashLog/cashLog";
+    }
+
+    /**
+     * 商家交易记录列表
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/getCashLogList.htm",method = RequestMethod.GET)
+    public void getCashLogList(HttpServletRequest request, HttpServletResponse response){
+        try {
+            HashMap<String,Object> hm = Util.genHmParam(request);
+            HashMap<String,Object> resultMap =dealLogCashAccountService.getCashLogList(hm);
+            outJsonForMap(resultMap,response);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    /**
+     * 跳转商品交易记录详情
+     * @return
+     */
+    @RequestMapping(value = "/selectCashLog.htm",method = RequestMethod.GET)
+    public String selectCashLog(HttpServletRequest request){
+        HashMap<String,Object> hm = Util.genHmParam(request);
+        HashMap<String,Object> cashLogMap = dealLogCashAccountService.getCashLogById(hm);
+        request.setAttribute("cashLog",cashLogMap);
+        return "order/cashLog/selectCashLog";
+    }
+
+    /**
+     * 跳转用户列表
+     * @return
+     */
+    @RequestMapping(value = "/userBill.htm",method = RequestMethod.GET)
+    public String userBill(){
+        return "order/user/bill";
+    }
+
+    /**
+     * 用户账单列表
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/getUserBillList.htm",method = RequestMethod.GET)
+    public void getUserBillList(HttpServletRequest request, HttpServletResponse response){
+        try {
+            HashMap<String,Object> hm = Util.genHmParam(request);
+            HashMap<String,Object> resultMap =userBillService.getUserBillList(hm);
+            outJsonForMap(resultMap,response);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 跳转用户账单详情
+     * @return
+     */
+    @RequestMapping(value = "/selectUser.htm",method = RequestMethod.GET)
+    public String selectUser(HttpServletRequest request){
+        HashMap<String,Object> hm = Util.genHmParam(request);
+        request.setAttribute("bill",userBillService.getUserBillById(hm));
+        return "order/user/selectUserBill";
     }
 }

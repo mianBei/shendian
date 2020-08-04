@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="/common/baseFile :: commonHeader('')"></head>
+<link th:href="@{/css/uploadImg.css}" rel="stylesheet">
+<body class="bg-gray" style="height:296px;overflow:hidden;">
+<input type="hidden" id="shopId" th:value="${basicInfo.basicInfo.shopId }">
+<div class="bg-white main-div" valign="top">
+    <div>
+        <label>店铺名称：</label>
+        <span id="shopName" name="shopName" th:text="${basicInfo.basicInfo.shopName }"></span>
+        <label>店铺问候语：</label>
+        <span id="shopGreeting" name="shopGreeting" th:text="${basicInfo.basicInfo.shopGreeting }"></span>
+    </div>
+    <div>
+        <label>店铺简介：</label>
+        <span id="shopInfo" name="shopInfo"
+              th:text="${basicInfo.basicInfo.shopInfo }"></span>
+        <label>所属省：</label>
+        <span id="shopBelongProvince" name="shopBelongProvince"
+              th:text="${basicInfo.basicInfo.shopBelongProvince}"></span>
+    </div>
+
+    <div>
+        <label>所属市：</label>
+        <span id="shopBelongCity" name="shopBelongCity"
+              th:text="${basicInfo.basicInfo.shopBelongCity}"></span>
+        <label>所属区：</label>
+        <span id="shopBelongArea" name="shopBelongArea"
+              th:text="${basicInfo.basicInfo.shopBelongArea }"></span>
+    </div>
+    <div>
+        <label>详细地址：</label>
+        <span id="shopDetailAddress" name="shopDetailAddress"
+              th:text="${basicInfo.basicInfo.shopDetailAddress }"></span>
+        <label>店铺营业时间：</label>
+        <span id="shopBusinessTime" name="shopBusinessTime"
+              th:text="${basicInfo.basicInfo.shopBusinessTime }"></span>
+    </div>
+    <div>
+        <label>所属行业：</label>
+        <span id="tradeId" name="tradeId"
+               th:text="${basicInfo.basicInfo.shopBelongTrade}"></span>
+        <label>入驻时间：</label>
+        <span id="shopEnterTime" name="shopEnterTime"
+              th:text="${basicInfo.basicInfo.shopEnterTime }"></span>
+    </div>
+    <div>
+        <label>是否配置店铺：</label>
+        <span th:if="${basicInfo.basicInfo.isConfig==0 }" id="isConfig" name="isConfig"
+              th:text="未配置"></span>
+        <span th:if="${basicInfo.basicInfo.isConfig==1 }" id="isConfig" name="isConfig"
+              th:text="已配置"></span>
+        <div th:if="${basicInfo.basicInfo.isConfig==1 }">
+            <label>店铺配置时间：</label>
+            <span id="configTime" name="configTime"
+                  th:text="${basicInfo.basicInfo.configTime }"></span>
+        </div>
+    </div>
+    <div>
+        <label>店铺轮播图：</label>
+        <div class="picDiv">
+            <div class='imageDiv' th:each="pic,userStart:${basicInfo.banner}" >
+                <img th:src="${pic}"
+                     style="display: block;width: 160px;height: 130px;"/>
+                <div class='cover'><i class='delbtn'>删除</i></div>
+                <!--<input type="hidden" class="picName" th:value="${basicInfo.shopLogo}"/>-->
+            </div>
+        </div>
+        <label>开启通兑服务：</label>
+        <span id="ismdd" name="ismdd"
+              th:if="${basicInfo.basicInfo.ismdd==0}" th:text="关闭"></span>
+        <span id="ismdd" name="ismdd"
+              th:if="${basicInfo.basicInfo.ismdd==1}" th:text="开启"></span>
+    </div>
+    <div>
+        <label>是否有代理商：</label>
+        <span id="isAgent" name="isAgent"
+              th:if="${basicInfo.basicInfo.isAgent==0}" th:text="没有"></span>
+        <span id="isAgent" name="isAgent"
+               th:if="${basicInfo.basicInfo.isAgent==1}" th:text="有"></span>
+        <label>店铺选择折扣：</label>
+        <span id="shopSelectDiscounts" name="shopSelectDiscounts"
+              th:text="${basicInfo.basicInfo.shopSelectDiscounts}"></span>
+    </div>
+    <div>
+        <label>店铺优惠百分比：</label>
+        <span id="shopDiscountsPercentum" name="shopDiscountsPercentum"
+              th:value="${basicInfo.basicInfo.shopDiscountsPercentum }"></span>
+        <label>是否显示：</label>
+        <span id="isShow" name="isShow"
+              th:if="${basicInfo.basicInfo.isShow==0}" th:text="未显示"></span>
+        <span id="isShow" name="isShow"
+              th:if="${basicInfo.basicInfo.isShow==1}" th:text="已显示"></span>
+    </div>
+    <div>
+        <label>店铺星级：</label>
+        <span id="shopStar" name="shopStar"
+              th:text="${basicInfo.basicInfo.shopStar }"></span>
+        <label>店铺累计入款笔数：</label>
+        <span id="cashAccountTotalNum" name="cashAccountTotalNum"
+              th:text="${basicInfo.basicInfo.cashAccountTotalNum}"></span>
+    </div>
+    <div>
+        <label>是否有助力免单：</label>
+        <span id="isHelpGratisEvent" name="isHelpGratisEvent"
+              th:if="${basicInfo.basicInfo.isHelpGratisEvent==0 }" th:text="没有"></span>
+        <span id="isHelpGratisEvent" name="isHelpGratisEvent"
+              th:if="${basicInfo.basicInfo.isHelpGratisEvent==1 }" th:text="有"></span>
+        <label>抢购活动：</label>
+        <span id="isSnapUpEvent" name="isSnapUpEvent"
+              th:if="${basicInfo.basicInfo.isSnapUpEvent==0 }" th:text="没有"></span>
+        <span id="isSnapUpEvent" name="isSnapUpEvent"
+              th:if="${basicInfo.basicInfo.isSnapUpEvent==1 }" th:text="有"></span>
+    </div>
+    <div>
+        <label>是否平台推荐：</label>
+        <span id="isRecommend" name="isRecommend"
+              th:if="${basicInfo.basicInfo.isRecommend==0 }" th:text="否"></span>
+        <span id="isRecommend" name="isRecommend"
+              th:if="${basicInfo.basicInfo.isRecommend==1 }" th:text="是"></span>
+        <label>是否有展示商品：</label>
+        <span id="isCommodity" name="isCommodity"
+              th:if="${basicInfo.basicInfo.isCommodity==0 }" th:text="否"></span>
+        <span id="isCommodity" name="isCommodity"
+              th:if="${basicInfo.basicInfo.isCommodity==1 }" th:text="是"></span>
+    </div>
+    <div>
+        <label>排队退款笔数：</label>
+        <span id="queueRefundNum" name="queueRefundNum"
+              th:text="${basicInfo.basicInfo.queueRefundNum}"></span>
+        <label>被投诉数量：</label>
+        <span id="complainNum" name="complainNum"
+              th:text="${basicInfo.basicInfo.complainNum}"></span>
+    </div>
+    <div>
+        <label>平台LOGO：</label>
+        <!--<input type="text" id="logo" name="logo" class="normal-input" th:value="${basicInfo.platformLogo }"/>-->
+        <div class="picDiv">
+            <div class='imageDiv'>
+                <img th:src="${basicInfo.basicInfo.shopLogo}"
+                     style="display: block;width: 160px;height: 130px;"/>
+                <div class='cover'><i class='delbtn'>删除</i></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="button-div">
+    <button th:onclick="saveData()" class="btn btn-info">保存</button>
+    <button th:onclick="cancelSave()" style="margin-left:10px;" class="btn btn-default">取消</button>
+</div>
+<script th:src="@{/js/uploadImg.js}"></script>
+<script type="text/javascript">
+    function cancelSave() {
+        parent.cancelSave();
+    }
+</script>
+</body>
+</html>

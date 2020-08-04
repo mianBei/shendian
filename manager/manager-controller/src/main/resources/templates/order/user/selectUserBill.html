@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="/common/baseFile :: commonHeader('')"></head>
+<body class="bg-gray" style="height:296px;overflow:hidden;">
+<div class="bg-white main-div" valign="top">
+    <div th:if="${shop.shop!=null}">
+        <label>店铺名称：</label>
+        <span th:text="${bill.shop.basicInfo.shopName }"></span>
+        <label>店铺所属行业：</label>
+        <span th:text="${bill.shop.basicInfo.shopBelongTrade}"></span>
+        <label>店铺位置：</label>
+        <span th:text="${bill.shop.basicInfo.shopDetailAddress }"></span>
+    </div>
+
+    <div>
+        <label>账单号：</label>
+        <span th:text="${bill.bill.billCode}" ></span>
+        <label>账单标题：</label>
+        <span th:text="${bill.bill.billTitle}" ></span>
+        <label>账单类型：</label>
+        <span th:text="${bill.bill.billType}" ></span>
+
+    </div>
+    <div>
+        <label>账单金额：</label>
+        <span th:text="${bill.bill.billAMT}" ></span>
+        <label>交易时间：</label>
+        <span th:text="${bill.bill.addTime}" ></span>
+        <label>交易状态：</label>
+        <span th:text="交易成功" th:if="${bill.bill.dealState==1}" ></span>
+        <span th:text="交易失败" th:if="${bill.bill.dealState==2}" ></span>
+    </div>
+    <div>
+        <label>收入/支出：</label>
+        <span th:text="${bill.bill.inOrOut}" ></span>
+        <label>付款方式：</label>
+        <span th:text="${bill.bill.paymentMode}" ></span>
+        <label>付款类型：</label>
+        <span th:text="${bill.bill.paymentType}" ></span>
+    </div>
+</div>
+<div class="button-div">
+    <button th:onclick="cancelSave()" style="margin-left:10px;" class="btn btn-default">取消</button>
+</div>
+
+<script type="text/javascript">
+
+    function cancelSave() {
+        parent.cancelSave();
+    }
+</script>
+</body>
+</html>

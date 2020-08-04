@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="/common/baseFile :: commonHeader('')"></head>
+<link th:href="@{/css/uploadImg.css}" rel="stylesheet">
+<body class="bg-gray" style="height:296px;overflow:hidden;">
+<input type="hidden" id="complainId" th:value="${complaint.complaint.complainId}">
+<div class="bg-white main-div" valign="top">
+    <div>
+        <label>投诉类型：</label>
+        <input type="text" readonly class="normal-input" th:value="${complaint.complaint.complainType }"/>
+        <label>投诉内容：</label>
+        <input type="text" readonly class="normal-input" th:value="${complaint.complaint.complainContent}"/>
+    </div>
+    <div>
+        <label>联系人姓名：</label>
+        <input type="text" readonly class="normal-input"
+               th:value="${complaint.complaint.linkName }"/>
+        <label>联系人电话：</label>
+        <input type="text" readonly class="normal-input"
+               th:value="${complaint.complaint.linkTel}"/>
+    </div>
+
+    <div>
+        <label>投诉时间：</label>
+        <input type="text" readonly class="normal-input"
+               th:value="${complaint.complaint.complainTime}"/>
+        <label>是否已处理：</label>
+        <select th:id="isDispose" th:name="isDispose" class="normal-input">
+            <option th:selected="${complaint.complaint.isDispose==0}" th:value="未处理"></option>
+            <option th:selected="${complaint.complaint.isDispose==1}" th:value="已处理"></option>
+        </select>
+    </div>
+    <div>
+        <label>是否删除（撤销）：</label>
+        <select th:id="isDel" th:name="isDel" class="normal-input">
+            <option th:selected="${complaint.complaint.isDel==0}" th:value="已删除"></option>
+            <option th:selected="${complaint.complaint.isDel==1}" th:value="未删除"></option>
+        </select>
+        <label>处理结果：</label>
+        <input type="text" th:id="disposeResult" th:name="disposeResult" class="normal-input"
+               th:value="${complaint.complaint.disposeResult}"/>
+    </div>
+    <div>
+        <label>是否删除（撤销）：</label>
+        <select th:id="delType" th:name="delType" class="normal-input">
+            <option th:selected="${complaint.complaint.delType==1}" th:value="平台撤诉"></option>
+            <option th:selected="${complaint.complaint.delType==2}" th:value="用户撤诉"></option>
+        </select>
+        <label>撤诉原因：</label>
+        <input type="text" th:id="delCause" th:name="delCause" class="normal-input"
+               th:value="${complaint.complaint.delCause}"/>
+    </div>
+    <div th:if="${complaint.complaint.isImage==1}">
+        <label>图片：</label>
+        <!--<input type="text" id="logo" name="logo" class="normal-input" th:value="${basicInfo.platformLogo }"/>-->
+        <div class="picDiv">
+            <div class='imageDiv' th:each="imgs,start:${complaint.complaint.imageArr}">
+                <img th:id="${complaint.picName }" th:src="${imgs}"
+                     style="display: block;width: 160px;height: 130px;"/>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="button-div">
+    <button th:onclick="saveData()" class="btn btn-info">保存</button>
+    <button th:onclick="cancelSave()" style="margin-left:10px;" class="btn btn-default">取消</button>
+</div>
+<script th:src="@{/js/uploadImg.js}"></script>
+<script type="text/javascript">
+    function cancelSave() {
+        parent.cancelSave();
+    }
+
+    function saveData() {
+        var param = {
+            complainId: $("#complainId").val(),
+            isDispose: $("#isDispose").val(),
+            isDel: $("#isDel").val(),
+            disposeResult: $("#disposeResult").val(),
+            delCause: $("#delCause").val(),
+            delType: $("#delType").val()
+        };
+        $.post(baseurl + "user/saveComplaint.htm", param, function (data) {
+            parent.saveCallBack(data);
+        });
+    }
+</script>
+</body>
+</html>

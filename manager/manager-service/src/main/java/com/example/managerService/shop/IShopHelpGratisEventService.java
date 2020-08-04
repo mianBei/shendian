@@ -21,4 +21,18 @@ public interface IShopHelpGratisEventService extends IService<ShopHelpGratisEven
      * @return
      */
     HashMap<String,Object> getHelpGratisEventById(HashMap<String,Object> map);
+
+    /**
+     * 查询助力秒单列表
+     * @param map
+     * @return
+     */
+    HashMap<String,Object> getHelpGratisList(HashMap<String,Object> map);
+
+    /**
+     * 修改助力免单
+     * @param map
+     * @return
+     */
+    int saveHelpGratis(HashMap<String,Object> map);
 }

@@ -14,9 +14,7 @@
     <div style="padding:10px;">
         <span>店铺账号：<input id="shopAccountCode" class="normal-input"></span>
         <button onclick="searchRole();" style="margin-left:30px" type="button" class="btn btn-primary">搜索</button>
-        <!--<shiro:hasPermission name="user:baseInfo_add">
-            <button onclick="addUpData(0);" style="margin-left:30px" type="button" class="btn btn-primary" th:text="${permissionMap.baseInfo_add_name}"></button>
-        </shiro:hasPermission>-->
+        <shiro:hasPermission name="user:account_add"></shiro:hasPermission>
     </div>
     <table id="data-table"></table>
 </div>
@@ -95,7 +93,7 @@
                     align : 'center',
                     valign : 'middle',
                     formatter : function (value, row, index){
-                        return "<shiro:hasPermission name='user:account_select_user'><a href='javascript:;' onclick='select_user("+row.bindUserId+")'>[[${permissionMap.account_select_user_name}]]</a>&nbsp;</shiro:hasPermission>" +
+                        return "<shiro:hasPermission name='user:account_select_user'><a href='javascript:;' onclick='select_user(&quot;"+row.bindUserId+"&quot;)'>[[${permissionMap.account_select_user_name}]]</a>&nbsp;</shiro:hasPermission>" +
                             "<shiro:hasPermission name='user:account_select_balance'><a href='javascript:;' onclick='select_balance("+row.shopId+")'>[[${permissionMap.account_select_balance_name}]]</a>&nbsp;</shiro:hasPermission>";
                     }
                 }]
@@ -107,7 +105,8 @@
             limit : this.limit, // 页面大小
             offset : this.offset, // 页码
             page : this.pageNumber,
-            rows : this.pageSize
+            rows : this.pageSize,
+            shopAccountCode:$("#shopAccountCode").val()
         }
         return param;
     }
